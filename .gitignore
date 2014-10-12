@@ -1,0 +1,9 @@
+\#*
+.*
+*.*~
+
+*.elc
+*.dat
+places
+elpa/
+url/
