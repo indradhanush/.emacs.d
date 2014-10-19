@@ -15,6 +15,13 @@ inhibit-startup-echo-area-message t)
 ;; Bugfix for Kill a line on OSX; Comment out on Linux.
 (setq save-interprogram-paste-before-kill nil)
 
+;; Remapping Command to behave as Meta and Option as Super.
+(setq mac-option-key-is-meta nil
+      mac-command-key-is-meta t
+      mac-command-modifier 'meta
+      mac-option-modifier 'super
+      )
+
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
                          ("melpa" . "http://melpa.milkbox.net/packages/")))
@@ -204,3 +211,5 @@ inhibit-startup-echo-area-message t)
 ;; Ansi colors for shell-mode
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 (add-to-list 'comint-output-filter-functions 'ansi-color-process-output)
+
+(global-auto-revert-mode 1)
