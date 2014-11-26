@@ -48,6 +48,7 @@ inhibit-startup-echo-area-message t)
 (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "C-c i") 'go-goto-imports)))
 (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "C-c C-f") 'gofmt)))
 (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "C-c C-k") 'godoc)))
+(add-hook 'go-mode-hook (lambda () (local-set-key (kbd "C-.") 'godef-jump)))
 
 (put 'narrow-to-region 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
@@ -101,6 +102,7 @@ inhibit-startup-echo-area-message t)
 
 ;; Color Theme Twilight
 (load-file "~/.emacs.d/themes/color-theme-twilight.el")
+(set-face-attribute 'region nil :background "snow4")
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -108,7 +110,7 @@ inhibit-startup-echo-area-message t)
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes (quote ("f220c05492910a305f5d26414ad82bf25a321c35aa05b1565be12f253579dec6" "c7359bd375132044fe993562dfa736ae79efc620f68bab36bd686430c980df1c" "61d1a82d5eaafffbdd3cab1ac843da873304d1f05f66ab5a981f833a3aec3fc0" "dc46381844ec8fcf9607a319aa6b442244d8c7a734a2625dac6a1f63e34bc4a6" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default)))
- '(safe-local-variable-values (quote ((test-case-name . flumotion\.test\.test_component) (whitespace-line-column . 80) (lexical-binding . t)))))
+ '(safe-local-variable-values (quote ((project-venv-name . "imojo") (test-case-name . flumotion\.test\.test_component) (whitespace-line-column . 80) (lexical-binding . t)))))
 
 ;; (custom-set-faces
 ;;  ;; custom-set-faces was added by Custom.
@@ -200,7 +202,7 @@ inhibit-startup-echo-area-message t)
 ;; Fill Column Indicator
 (require 'fill-column-indicator)
 (setq fci-rule-color "gray15")
-(setq fci-rule-column 80)
+(setq fci-rule-column 100)
 (define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode 1)))
 (global-fci-mode 1)
 
@@ -213,3 +215,49 @@ inhibit-startup-echo-area-message t)
 (add-to-list 'comint-output-filter-functions 'ansi-color-process-output)
 
 (global-auto-revert-mode 1)
+(global-hl-line-mode)
+(set-face-background hl-line-face "gray15")
+(set-cursor-color "#ffffff")
+
+;; Python Configuration
+
+;; Virtualenvwrapper
+(require 'virtualenvwrapper)
+(venv-initialize-interactive-shells)
+(venv-initialize-eshell)
+(setq venv-location "/venv/")
+;; (setq-default mode-line-format (cons '(:exec venv-current-name) mode-line-format)) ;; Display venv name in mode-line.
+(setq eshell-prompt-function
+    (lambda ()
+      (concat venv-current-name " $ ")))
+
+(add-hook 'python-mode-hook (lambda ()
+                              (hack-local-variables)
+                              (venv-workon project-venv-name)))
+
+;; jedi config
+(add-hook 'python-mode-hook 'jedi:setup)
+(setq jedi:complete-on-dot t)
+
+;; redefine jedi's C-. (jedi:goto-definition)
+;; to remember position, and set C-, to jump back
+(add-hook 'python-mode-hook
+          '(lambda ()
+             (local-set-key (kbd "C-.") 'jedi:goto-definition)
+             (local-set-key (kbd "C-,") 'jedi:goto-definition-pop-marker)
+             (local-set-key (kbd "C-c d") 'jedi:show-doc)
+             (local-set-key (kbd "C-<tab>") 'jedi:complete)))
+
+(global-set-key (kbd "C-x n") 'next-buffer)
+(global-set-key (kbd "C-x p") 'previous-buffer)
+
+;; Disable auto-wrap in html mode
+(defun custom-html-mode-hook ()
+  (auto-fill-mode -1))
+
+(add-hook 'html-mode-hook 'custom-html-mode-hook)
+
+;; Custom key-bindings for switching between frames to match MacOSX
+;; shortut of switching between windows of the same application.
+(global-set-key (kbd "M-`") 'ns-next-frame)
+(global-set-key (kbd "M-~") 'ns-prev-frame)
