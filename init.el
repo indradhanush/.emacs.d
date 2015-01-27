@@ -24,7 +24,9 @@ inhibit-startup-echo-area-message t)
 
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
-                         ("melpa" . "http://melpa.milkbox.net/packages/")))
+                         ("melpa" . "http://melpa.milkbox.net/packages/")
+                         ("ELPA" . "http://tromey.com/elpa/")
+                         ("SC"  . "http://joseito.republika.pl/sunrise-commander/")))
 
 ;; MELPA Configuration
 (when (>= emacs-major-version 24)
@@ -261,3 +263,5 @@ inhibit-startup-echo-area-message t)
 ;; shortut of switching between windows of the same application.
 (global-set-key (kbd "M-`") 'ns-next-frame)
 (global-set-key (kbd "M-~") 'ns-prev-frame)
+
+(put 'set-goal-column 'disabled nil)
