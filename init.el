@@ -287,3 +287,6 @@ inhibit-startup-echo-area-message t)
 (global-set-key (kbd "M-~") 'ns-prev-frame)
 
 (put 'set-goal-column 'disabled nil)
+
+;; Initialize register
+(set-register ?i "import ipdb; ipdb.set_trace()")
