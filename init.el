@@ -106,6 +106,8 @@ inhibit-startup-echo-area-message t)
 (load-file "~/.emacs.d/themes/color-theme-twilight.el")
 (set-face-attribute 'region nil :background "snow4")
 
+(load-file "~/.emacs.d/themes/color-theme-tomorrow.el")
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
