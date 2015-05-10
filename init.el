@@ -230,7 +230,8 @@ inhibit-startup-echo-area-message t)
 ;; Fill Column Indicator
 (require 'fill-column-indicator)
 (setq fci-rule-color "gray15")
-(setq fci-rule-column 100)
+;; (setq fci-rule-column 100)
+(setq fci-rule-column 80)
 (define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode 1)))
 (global-fci-mode 1)
 
