@@ -4,6 +4,11 @@
 
 *.elc
 *.dat
+
 places
+bookmarks
+
 elpa/
 url/
+eshell/
+semanticdb/
