@@ -277,6 +277,7 @@ inhibit-startup-echo-area-message t)
              (local-set-key (kbd "C-c d") 'jedi:show-doc)
              (local-set-key (kbd "C-<tab>") 'jedi:complete)))
 
+;; Buffer navigation.
 (global-set-key (kbd "C-x n") 'next-buffer)
 (global-set-key (kbd "C-x p") 'previous-buffer)
 
@@ -295,3 +296,15 @@ inhibit-startup-echo-area-message t)
 
 ;; Initialize register
 (set-register ?i "import ipdb; ipdb.set_trace()")
+
+;; recentf-mode
+(recentf-mode 1)
+(global-set-key (kbd "<f7>") 'recentf-open-files)
+(put 'scroll-left 'disabled nil)
+
+;; disable color-theme across frames
+(set-variable 'color-theme-is-global nil)
+
+(global-set-key (kbd "C-x c") 'comment-or-uncomment-region)
+(global-set-key (kbd "M-s-a") 'beginning-of-defun)
+(global-set-key (kbd "M-s-e") 'end-of-defun)
