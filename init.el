@@ -183,6 +183,8 @@ inhibit-startup-echo-area-message t)
 (global-set-key (kbd "s-n") `windmove-down)
 (global-set-key (kbd "s-f") `windmove-right)
 (global-set-key (kbd "s-b") `windmove-left)
+;; This makes sense because s-' is bound to next-multiframe-window
+(global-set-key (kbd "s-;") `previous-multiframe-window)
 
 ;; Multiple Line Edit mode.
 (require 'multiple-line-edit)
