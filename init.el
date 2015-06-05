@@ -12,6 +12,8 @@ inhibit-startup-echo-area-message t)
 (setq column-number-mode t)
 (blink-cursor-mode 0)
 (savehist-mode 1)
+(cua-selection-mode 1)
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
 (add-to-list 'load-path' "/Users/dhanush/.emacs.d/lisp")
 
 ;; Bugfix for Kill a line on OSX; Comment out on Linux.
@@ -135,7 +137,7 @@ inhibit-startup-echo-area-message t)
  '(magit-diff-use-overlays nil)
  '(pos-tip-background-color "#eee8d5")
  '(pos-tip-foreground-color "#586e75")
- '(safe-local-variable-values (quote ((project-venv-name . "u1db_zmqtp") (project-venv-name . "imojo") (test-case-name . flumotion\.test\.test_component) (whitespace-line-column . 80) (lexical-binding . t))))
+ '(safe-local-variable-values (quote ((project-venv-name . "soledad") (project-venv-name . "u1db_zmqtp") (project-venv-name . "imojo") (test-case-name . flumotion\.test\.test_component) (whitespace-line-column . 80) (lexical-binding . t))))
  '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#eee8d5" 0.2))
  '(term-default-bg-color "#fdf6e3")
  '(term-default-fg-color "#657b83")
@@ -328,3 +330,11 @@ inhibit-startup-echo-area-message t)
 (global-set-key (kbd "C-x c") 'comment-or-uncomment-region)
 (global-set-key (kbd "M-s-a") 'beginning-of-defun)
 (global-set-key (kbd "M-s-e") 'end-of-defun)
+
+;; multiple-cursors-mode
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+
+;; smartparens
+(global-set-key (kbd "M-s-f") 'sp-forward-sexp)
+(global-set-key (kbd "M-s-b") 'sp-backward-sexp)
