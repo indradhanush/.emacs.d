@@ -240,7 +240,7 @@ inhibit-startup-echo-area-message t)
 (require 'fill-column-indicator)
 (setq fci-rule-color "gray15")
 ;; (setq fci-rule-column 100)
-(setq fci-rule-column 80)
+(setq fci-rule-column 120)
 (define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode 1)))
 (global-fci-mode 1)
 
@@ -337,5 +337,6 @@ inhibit-startup-echo-area-message t)
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 
 ;; smartparens
+(require 'smartparens)
 (global-set-key (kbd "M-s-f") 'sp-forward-sexp)
 (global-set-key (kbd "M-s-b") 'sp-backward-sexp)
