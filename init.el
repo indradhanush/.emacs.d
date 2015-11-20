@@ -110,18 +110,9 @@ inhibit-startup-echo-area-message t)
 (global-set-key (kbd "C-h") 'delete-backward-char)
 (global-set-key (kbd "M-h") 'backward-kill-word)
 
+;; Color-theme darktooth
+(load-theme 'darktooth)
 
-;; Color Theme Dark Laptop
-;;(require 'color-theme)
-;;(setq color-theme-is-global t)
-;;(color-theme-initialize)
-;; (color-theme-dark-laptop)
-
-;; Color Theme Twilight
-(load-file "~/.emacs.d/themes/color-theme-twilight.el")
-(set-face-attribute 'region nil :background "snow4")
-
-(load-file "~/.emacs.d/themes/color-theme-tomorrow.el")
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
