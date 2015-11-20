@@ -1,4 +1,8 @@
-;; General settings
+;;; emacs --- My emacs configuration
+
+;;; Commentary:
+
+;;; Code:
 (server-start)
 (ido-mode 1)
 (setq ido-enable-flex-matching t)
@@ -414,3 +418,6 @@ inhibit-startup-echo-area-message t)
     ;; minor-mode-alist  ;; list of minor modes
     "%-" ;; fill with '-'
     ))
+
+(provide 'init)
+;;; init.el ends here
