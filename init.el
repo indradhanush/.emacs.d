@@ -340,3 +340,12 @@ inhibit-startup-echo-area-message t)
 (require 'smartparens)
 (global-set-key (kbd "M-s-f") 'sp-forward-sexp)
 (global-set-key (kbd "M-s-b") 'sp-backward-sexp)
+
+(global-set-key (kbd "C-x f") 'find-file-in-repository)
+
+;; yafolding-mode
+(yafolding-mode 1)
+(global-set-key (kbd "C-c h") 'yafolding-hide-element)
+(global-set-key (kbd "C-c s") 'yafolding-show-element)
+(global-set-key (kbd "C-c M-h") 'yafolding-hide-all)
+(global-set-key (kbd "C-c M-s") 'yafolding-show-all)
