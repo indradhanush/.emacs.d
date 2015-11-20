@@ -14,6 +14,8 @@ inhibit-startup-echo-area-message t)
 (savehist-mode 1)
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 (add-to-list 'load-path' "/Users/dhanush/.emacs.d/lisp")
+(set-language-environment "UTF-8")
+(set-default-coding-systems 'utf-8)
 
 ;; Bugfix for Kill a line on OSX; Comment out on Linux.
 (setq save-interprogram-paste-before-kill nil)
