@@ -17,6 +17,9 @@ inhibit-startup-echo-area-message t)
 (set-language-environment "UTF-8")
 (set-default-coding-systems 'utf-8)
 
+;; Bind M-x to smex
+(global-set-key (kbd "M-x") 'smex)
+
 ;; Bugfix for Kill a line on OSX; Comment out on Linux.
 (setq save-interprogram-paste-before-kill nil)
 
