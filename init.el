@@ -63,6 +63,10 @@ inhibit-startup-echo-area-message t)
 (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "C-c C-k") 'godoc)))
 (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "C-.") 'godef-jump)))
 
+;; golint
+(add-to-list 'load-path (concat (getenv "GOPATH")  "/src/github.com/golang/lint/misc/emacs"))
+(require 'golint)
+
 (put 'narrow-to-region 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
 
