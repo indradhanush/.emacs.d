@@ -12,7 +12,6 @@ inhibit-startup-echo-area-message t)
 (setq column-number-mode t)
 (blink-cursor-mode 0)
 (savehist-mode 1)
-(cua-selection-mode 1)
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 (add-to-list 'load-path' "/Users/dhanush/.emacs.d/lisp")
 
