@@ -47,6 +47,8 @@ inhibit-startup-echo-area-message t)
   (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
   )
 
+(package-initialize)
+
 ;;auto completion
 (require 'auto-complete-config)
 (add-to-list 'ac-dictionary-directories "/Users/dhanush/.emacs.d/ac-dict")
@@ -114,8 +116,6 @@ inhibit-startup-echo-area-message t)
 (global-set-key (kbd "C-h") 'delete-backward-char)
 (global-set-key (kbd "M-h") 'backward-kill-word)
 
-;; Color-theme darktooth
-(load-theme 'darktooth)
 
 
 (custom-set-variables
@@ -152,18 +152,6 @@ inhibit-startup-echo-area-message t)
  '(vc-annotate-very-old-color nil)
  '(weechat-color-list (quote (unspecified "#fdf6e3" "#eee8d5" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#657b83" "#839496"))))
 
-;; (custom-set-faces
-;;  ;; custom-set-faces was added by Custom.
-;;  ;; If you edit it by hand, you could mess it up, so be careful.
-;;  ;; Your init file should contain only one such instance.
-;;  ;; If there is more than one, they won't work right.
-;;  )
-
-(put 'upcase-region 'disabled nil)
-(put 'downcase-region 'disabled nil)
-
-;; Multi Scratch mode
-(require 'multi-scratch)
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -171,7 +159,22 @@ inhibit-startup-echo-area-message t)
  ;; If there is more than one, they won't work right.
  '(mode-line ((t (:background "#504945" :foreground "#A89984" :box nil))))
  '(mode-line-inactive ((t (:inherit mode-line :background "#1D2021" :foreground "#EBDBB2" :box nil :weight light))))
- '(which-func ((t (:foreground "sienna3")))))
+ '(which-func ((t (:foreground "sienna3"))) t))
+
+
+;; Color-theme darktooth
+;; This must always come after custom-set-variables so that emacs
+;; doesnt keep asking if variables are safe to apply everytime we
+;; launch it.
+;; See: http://emacs.stackexchange.com/questions/10246/emacs-always-ask-to-trust-colour-theme-at-startup?newreg=dadffa256ee5497cb715b10e6778d859
+(load-theme 'darktooth)
+
+
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
+
+;; Multi Scratch mode
+(require 'multi-scratch)
 
 ;; Desktop Mode
 ;; (desktop-save-mode 1)
