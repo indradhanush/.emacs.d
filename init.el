@@ -3,16 +3,13 @@
 ;;; Commentary:
 
 ;;; Code:
+(package-initialize)
 (server-start)
-(ido-mode 1)
-(setq ido-enable-flex-matching t)
-(setq ido-everywhere t)
 (setq inhibit-startup-message t
 inhibit-startup-echo-area-message t)
 (define-key global-map (kbd "RET") 'newline-and-indent)
 (setq next-line-add-newlines t)
 (setq-default c-basic-offset 4)
-(global-linum-mode t)
 (setq column-number-mode t)
 (blink-cursor-mode 0)
 (savehist-mode 1)
