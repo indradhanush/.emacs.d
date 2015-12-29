@@ -288,6 +288,141 @@ inhibit-startup-echo-area-message t)
 ;; Protobuf-mode
 (require 'protobuf-mode)
 
+
+;; Projectile
+(projectile-global-mode)
+(setq projectile-completion-system 'helm)
+(helm-projectile-on)
+
+;; helm-mode configs
+;; This config must always appear before the part where I am setting
+;; the key binding for comment-or-uncomment-region to C-x c, because
+;; that is the default for helm-mode.
+;;
+;; Config from http://tuhdo.github.io/helm-intro.html
+;; I have some personaltweaks here.
+(require 'helm)
+(require 'helm-config)
+
+(global-set-key (kbd "C-c m") 'helm-command-prefix)
+(global-unset-key (kbd "C-x c"))
+
+(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
+(define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
+(define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
+
+(when (executable-find "curl")
+  (setq helm-google-suggest-use-curl-p t))
+
+(setq helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
+      helm-move-to-line-cycle-in-source   nil ; do not move to end or beginning of source when reaching top or bottom of source.
+      helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
+      helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
+      helm-ff-file-name-history-use-recentf t)
+
+(helm-autoresize-mode t)
+
+(defun pl/helm-alive-p ()
+  (if (boundp 'helm-alive-p)
+      (symbol-value 'helm-alive-p)))
+
+;; (add-to-list 'golden-ratio-inhibit-functions 'pl/helm-alive-p)
+
+(global-set-key (kbd "M-x") 'helm-M-x)
+
+(setq helm-M-x-fuzzy-match t) ;; optional fuzzy matching for helm-M-x
+
+(global-set-key (kbd "M-y") 'helm-show-kill-ring)
+
+(global-set-key (kbd "C-x b") 'helm-mini)
+
+(setq helm-buffers-fuzzy-matching t
+      helm-recentf-fuzzy-match    t)
+
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
+
+(when (executable-find "ack")
+  (setq helm-grep-default-command "ack -Hn --no-group --no-color %e %p %f"
+        helm-grep-default-recurse-command "ack -H --no-group --no-color %e %p %f"))
+
+(setq helm-semantic-fuzzy-match t
+      helm-imenu-fuzzy-match    t)
+
+(setq helm-locate-fuzzy-match t)
+
+(global-set-key (kbd "C-c m o") 'helm-occur)
+
+(setq helm-apropos-fuzzy-match t)
+
+(setq helm-lisp-fuzzy-completion t)
+
+(global-set-key (kbd "C-c SPC") 'helm-all-mark-rings)
+
+(global-set-key (kbd "C-c f") 'helm-flycheck)
+
+;; Make helm-find-files behave like ido-find-file
+;; https://github.com/hatschipuh/ido2helm#file-navigation
+(defun dwim-helm-find-files-up-one-level-maybe ()
+  (interactive)
+  (if (looking-back "/" 1)
+      (call-interactively 'helm-find-files-up-one-level)
+    (delete-backward-char 1)))
+
+(define-key helm-read-file-map (kbd "<backsqpace>") 'dwim-helm-find-files-up-one-level-maybe)
+(define-key helm-read-file-map (kbd "DEL") 'dwim-helm-find-files-up-one-level-maybe)
+(define-key helm-find-files-map (kbd "<backspace>") 'dwim-helm-find-files-up-one-level-maybe)
+(define-key helm-find-files-map (kbd "DEL") 'dwim-helm-find-files-up-one-level-maybe)
+
+(defun dwim-helm-find-files-navigate-forward (orig-fun &rest args)
+  "Adjust how helm-execute-persistent actions behaves, depending on context"
+  (if (file-directory-p (helm-get-selection))
+      (apply orig-fun args)
+    (helm-maybe-exit-minibuffer)))
+
+(define-key helm-map (kbd "<return>") 'helm-maybe-exit-minibuffer)
+(define-key helm-map (kbd "RET") 'helm-maybe-exit-minibuffer)
+(define-key helm-find-files-map (kbd "<return>") 'helm-execute-persistent-action)
+(define-key helm-read-file-map (kbd "<return>") 'helm-execute-persistent-action)
+(define-key helm-find-files-map (kbd "RET") 'helm-execute-persistent-action)
+(define-key helm-read-file-map (kbd "RET") 'helm-execute-persistent-action)
+
+(advice-add 'helm-execute-persistent-action :around #'dwim-helm-find-files-navigate-forward)
+
+(helm-mode 1)
+
+;; helm-swoop configuration
+(require 'helm-swoop)
+
+;; Save buffer when helm-multi-swoop-edit complete
+(setq helm-multi-swoop-edit-save t)
+
+;; If this value is t, split window inside the current window
+(setq helm-swoop-split-with-multiple-windows t)
+
+;; If nil, you can slightly boost invoke speed in exchange for text color
+(setq helm-swoop-speed-or-color nil)
+
+;; Go to the opposite side of line from the end or beginning of line
+(setq helm-swoop-move-to-line-cycle t)
+
+;; disable pre-input
+(setq helm-swoop-pre-input-function
+      (lambda () ""))
+
+;; match only for symbol
+;; (setq helm-swoop-pre-input-function
+;;       (lambda () (format "\\_<%s\\_> " (thing-at-point 'symbol))))
+
+;; If there is no symbol at the cursor, use the last used words instead.
+;; (setq helm-swoop-pre-input-function
+;;       (lambda ()
+;;         (let (($pre-input (thing-at-point 'symbol)))
+;;           (if (eq (length $pre-input) 0)
+;;               helm-swoop-pattern ;; this variable keeps the last used words
+;;             $pre-input))))
+
+(global-set-key (kbd "M-I") 'helm-swoop-back-to-last-point)
+
 ;; Increment number by 1
 (defun increment-number-at-point ()
       (interactive)
