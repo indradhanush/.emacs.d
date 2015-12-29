@@ -18,6 +18,7 @@ inhibit-startup-echo-area-message t)
 (set-language-environment "UTF-8")
 (set-default-coding-systems 'utf-8)
 
+(echo-bell-mode t)
 ;; Bind M-x to smex
 (global-set-key (kbd "M-x") 'smex)
 
