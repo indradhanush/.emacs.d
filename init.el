@@ -56,7 +56,6 @@ inhibit-startup-echo-area-message t)
 ;; go-mode
 
 (require 'go-mode-load)
-(require 'go-flymake)
 ;; (load "$GOPATH/src/github.com/dougm/goflymake/go-flycheck.el")
 (require 'go-flycheck)
 (require 'go-autocomplete)
