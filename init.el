@@ -498,19 +498,24 @@ inhibit-startup-echo-area-message t)
                               (hack-local-variables)
                               (venv-workon project-venv-name)))
 
+;; autopep8 on save
+(require 'py-autopep8)
+(add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
+(setq py-autopep8-options '("--max-line-length=120"))
+
 ;; Flymake for Python.
 ;; Needs Pyflakes - http://pypi.python.org/pypi/pyflakes
-(when (load "flymake" t)
-  (defun flymake-pyflakes-init ()
-    (let* ((temp-file (flymake-init-create-temp-buffer-copy
-                       'flymake-create-temp-inplace))
-           (local-file (file-relative-name
-                        temp-file
-                        (file-name-directory buffer-file-name))))
-      (list "pyflakes" (list local-file))))
-  (add-to-list 'flymake-allowed-file-name-masks
-               '("\\.py\\'" flymake-pyflakes-init)))
-(add-hook 'python-mode-hook 'flymake-mode)
+;; (when (load "flymake" t)
+;;   (defun flymake-pyflakes-init ()
+;;     (let* ((temp-file (flymake-init-create-temp-buffer-copy
+;;                        'flymake-create-temp-inplace))
+;;            (local-file (file-relative-name
+;;                         temp-file
+;;                         (file-name-directory buffer-file-name))))
+;;       (list "pyflakes" (list local-file))))
+;;   (add-to-list 'flymake-allowed-file-name-masks
+;;                '("\\.py\\'" flymake-pyflakes-init)))
+;; (add-hook 'python-mode-hook 'flymake-mode)
 
 ;; jedi config
 (add-hook 'python-mode-hook 'jedi:setup)
@@ -524,6 +529,16 @@ inhibit-startup-echo-area-message t)
              (local-set-key (kbd "C-,") 'jedi:goto-definition-pop-marker)
              (local-set-key (kbd "C-c d") 'jedi:show-doc)
              (local-set-key (kbd "C-<tab>") 'jedi:complete)))
+
+;;; Indentation for python
+
+;; Ignoring electric indentation
+(defun electric-indent-ignore-python (char)
+  "Ignore electric indentation for python-mode"
+  (if (equal major-mode 'python-mode)
+      'no-indent
+    nil))
+(add-hook 'electric-indent-functions 'electric-indent-ignore-python)
 
 ;; Buffer navigation.
 (global-set-key (kbd "C-x n") 'next-buffer)
