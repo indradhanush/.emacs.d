@@ -113,50 +113,112 @@ inhibit-startup-echo-area-message t)
 (global-set-key (kbd "C-h") 'delete-backward-char)
 (global-set-key (kbd "M-h") 'backward-kill-word)
 
-
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector ["#eee8d5" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#839496"])
+ '(ansi-color-names-vector
+   ["#eee8d5" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#839496"])
  '(compilation-message-face (quote default))
  '(cua-global-mark-cursor-color "#2aa198")
  '(cua-normal-cursor-color "#657b83")
  '(cua-overwrite-cursor-color "#b58900")
  '(cua-read-only-cursor-color "#859900")
- '(custom-safe-themes (quote ("272e45b301d3a8ffaad475191f9a406361e70b1fb60acb42354184cf290e04f5" "a041a61c0387c57bb65150f002862ebcfe41135a3e3425268de24200b82d6ec9" "86e74c4c42677b593d1fab0a548606e7ef740433529b40232774fbb6bc22c048" "013e87003e1e965d8ad78ee5b8927e743f940c7679959149bbee9a15bd286689" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d6348b760e6610995d228a907cf6e2cf31987dd336f5348b13107a025bbcaace" "f220c05492910a305f5d26414ad82bf25a321c35aa05b1565be12f253579dec6" "c7359bd375132044fe993562dfa736ae79efc620f68bab36bd686430c980df1c" "61d1a82d5eaafffbdd3cab1ac843da873304d1f05f66ab5a981f833a3aec3fc0" "dc46381844ec8fcf9607a319aa6b442244d8c7a734a2625dac6a1f63e34bc4a6" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default)))
+ '(custom-safe-themes
+   (quote
+    ("272e45b301d3a8ffaad475191f9a406361e70b1fb60acb42354184cf290e04f5" "a041a61c0387c57bb65150f002862ebcfe41135a3e3425268de24200b82d6ec9" "86e74c4c42677b593d1fab0a548606e7ef740433529b40232774fbb6bc22c048" "013e87003e1e965d8ad78ee5b8927e743f940c7679959149bbee9a15bd286689" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d6348b760e6610995d228a907cf6e2cf31987dd336f5348b13107a025bbcaace" "f220c05492910a305f5d26414ad82bf25a321c35aa05b1565be12f253579dec6" "c7359bd375132044fe993562dfa736ae79efc620f68bab36bd686430c980df1c" "61d1a82d5eaafffbdd3cab1ac843da873304d1f05f66ab5a981f833a3aec3fc0" "dc46381844ec8fcf9607a319aa6b442244d8c7a734a2625dac6a1f63e34bc4a6" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default)))
+ '(echo-bell-background "gray20")
  '(fci-rule-color "gray20")
  '(flycheck-flake8-maximum-line-length 120)
  '(global-flycheck-mode t)
- '(grep-find-ignored-directories (quote ("venv" "migrations" "SCCS" "RCS" "CVS" "MCVS" ".svn" ".git" ".hg" ".bzr" "_MTN" "_darcs" "{arch}")))
+ '(grep-find-ignored-directories
+   (quote
+    ("venv" "migrations" "SCCS" "RCS" "CVS" "MCVS" ".svn" ".git" ".hg" ".bzr" "_MTN" "_darcs" "{arch}")))
+ '(helm-findutils-skip-boring-files t)
  '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
- '(highlight-symbol-colors (--map (solarized-color-blend it "#fdf6e3" 0.25) (quote ("#b58900" "#2aa198" "#dc322f" "#6c71c4" "#859900" "#cb4b16" "#268bd2"))))
+ '(highlight-symbol-colors
+   (--map
+    (solarized-color-blend it "#fdf6e3" 0.25)
+    (quote
+     ("#b58900" "#2aa198" "#dc322f" "#6c71c4" "#859900" "#cb4b16" "#268bd2"))))
  '(highlight-symbol-foreground-color "#586e75")
- '(highlight-tail-colors (quote (("#eee8d5" . 0) ("#B4C342" . 20) ("#69CABF" . 30) ("#69B7F0" . 50) ("#DEB542" . 60) ("#F2804F" . 70) ("#F771AC" . 85) ("#eee8d5" . 100))))
- '(hl-bg-colors (quote ("#DEB542" "#F2804F" "#FF6E64" "#F771AC" "#9EA0E5" "#69B7F0" "#69CABF" "#B4C342")))
- '(hl-fg-colors (quote ("#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3")))
+ '(highlight-tail-colors
+   (quote
+    (("#eee8d5" . 0)
+     ("#B4C342" . 20)
+     ("#69CABF" . 30)
+     ("#69B7F0" . 50)
+     ("#DEB542" . 60)
+     ("#F2804F" . 70)
+     ("#F771AC" . 85)
+     ("#eee8d5" . 100))))
+ '(hl-bg-colors
+   (quote
+    ("#DEB542" "#F2804F" "#FF6E64" "#F771AC" "#9EA0E5" "#69B7F0" "#69CABF" "#B4C342")))
+ '(hl-fg-colors
+   (quote
+    ("#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3")))
  '(magit-diff-use-overlays nil)
+ '(magit-use-overlays nil)
+ '(org-agenda-files
+   (quote
+    ("~/org/organizer.org" "~/org/work.org" "~/org/home.org")))
  '(pos-tip-background-color "#eee8d5")
  '(pos-tip-foreground-color "#586e75")
- '(safe-local-variable-values (quote ((project-venv-name . "soledad") (project-venv-name . "u1db_zmqtp") (project-venv-name . "imojo") (test-case-name . flumotion\.test\.test_component) (whitespace-line-column . 80) (lexical-binding . t))))
+ '(safe-local-variable-values
+   (quote
+    ((project-venv-name . "soledad")
+     (project-venv-name . "u1db_zmqtp")
+     (project-venv-name . "imojo")
+     (test-case-name . flumotion\.test\.test_component)
+     (whitespace-line-column . 80)
+     (lexical-binding . t))))
+ '(show-paren-mode t)
+ '(show-paren-ring-bell-on-mismatch t)
  '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#eee8d5" 0.2))
  '(term-default-bg-color "#fdf6e3")
  '(term-default-fg-color "#657b83")
  '(vc-annotate-background nil)
- '(vc-annotate-color-map (quote ((20 . "#dc322f") (40 . "#c85d17") (60 . "#be730b") (80 . "#b58900") (100 . "#a58e00") (120 . "#9d9100") (140 . "#959300") (160 . "#8d9600") (180 . "#859900") (200 . "#669b32") (220 . "#579d4c") (240 . "#489e65") (260 . "#399f7e") (280 . "#2aa198") (300 . "#2898af") (320 . "#2793ba") (340 . "#268fc6") (360 . "#268bd2"))))
+ '(vc-annotate-color-map
+   (quote
+    ((20 . "#dc322f")
+     (40 . "#c85d17")
+     (60 . "#be730b")
+     (80 . "#b58900")
+     (100 . "#a58e00")
+     (120 . "#9d9100")
+     (140 . "#959300")
+     (160 . "#8d9600")
+     (180 . "#859900")
+     (200 . "#669b32")
+     (220 . "#579d4c")
+     (240 . "#489e65")
+     (260 . "#399f7e")
+     (280 . "#2aa198")
+     (300 . "#2898af")
+     (320 . "#2793ba")
+     (340 . "#268fc6")
+     (360 . "#268bd2"))))
  '(vc-annotate-very-old-color nil)
- '(weechat-color-list (quote (unspecified "#fdf6e3" "#eee8d5" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#657b83" "#839496"))))
+ '(weechat-color-list
+   (quote
+    (unspecified "#fdf6e3" "#eee8d5" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#657b83" "#839496"))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(helm-swoop-target-line-block-face ((t (:background "olive drab" :foreground "#222222"))))
+ '(helm-swoop-target-line-face ((t (:background "steel blue" :foreground "#222222"))))
+ '(helm-swoop-target-word-face ((t (:background "gray38" :foreground "#222222"))))
+ '(hl-line ((t (:background "gray15"))))
+ '(magit-diff-add ((t (:foreground "#008b00"))))
  '(mode-line ((t (:background "#504945" :foreground "#A89984" :box nil))))
  '(mode-line-inactive ((t (:inherit mode-line :background "#1D2021" :foreground "#EBDBB2" :box nil :weight light))))
- '(which-func ((t (:foreground "sienna3"))) t))
+ '(org-date ((t (:foreground "#008b8b" :underline t))))
+ '(which-func ((t (:foreground "sienna3")))))
 
 
 ;; Color-theme darktooth
