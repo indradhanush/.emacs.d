@@ -662,5 +662,10 @@ inhibit-startup-echo-area-message t)
       jit-lock-chunk-size 1000
       jit-lock-defer-time 0.05)
 
+;; spotify keybindings
+(global-set-key (kbd "s-,") 'spotify-previous)
+(global-set-key (kbd "s-.") 'spotify-next)
+(global-set-key (kbd "s-/") 'spotify-playpause)
+
 (provide 'init)
 ;;; init.el ends here
