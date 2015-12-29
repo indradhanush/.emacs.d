@@ -667,5 +667,14 @@ inhibit-startup-echo-area-message t)
 (global-set-key (kbd "s-.") 'spotify-next)
 (global-set-key (kbd "s-/") 'spotify-playpause)
 
+;; magit keybindings
+(global-set-key (kbd "C-c g s") 'magit-status)
+(global-set-key (kbd "C-c g c") 'magit-checkout)
+(global-set-key (kbd "C-c g f") 'magit-fetch)
+(global-set-key (kbd "C-c g b") 'magit-branch-manager)
+(global-set-key (kbd "C-c g p") 'magit-push)
+(global-set-key (kbd "C-c g m") 'magit-merge)
+(global-set-key (kbd "C-c g l") 'magit-log)
+
 (provide 'init)
 ;;; init.el ends here
