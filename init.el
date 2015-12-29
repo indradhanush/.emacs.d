@@ -654,5 +654,13 @@ inhibit-startup-echo-area-message t)
     "%-" ;; fill with '-'
     ))
 
+;; Some tweaking for large files that kovrik shared with me on #emacs
+;; 100 mb
+(setq gc-cons-threshold (* 100 1024 1024))
+;; Allow font-lock-mode to do background parsing
+(setq jit-lock-stealth-time 1
+      jit-lock-chunk-size 1000
+      jit-lock-defer-time 0.05)
+
 (provide 'init)
 ;;; init.el ends here
