@@ -646,6 +646,8 @@ inhibit-startup-echo-area-message t)
               'help-echo
               (concat (format-time-string "%c; ")
                       (emacs-uptime "Uptime:%hh"))))
+    '(vc-mode vc-mode)
+
     " --"
     ;; i don't want to see minor-modes; but if you want, uncomment this:
     ;; minor-mode-alist  ;; list of minor modes
