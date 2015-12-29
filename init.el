@@ -231,7 +231,6 @@ inhibit-startup-echo-area-message t)
 ;; See: http://emacs.stackexchange.com/questions/10246/emacs-always-ask-to-trust-colour-theme-at-startup?newreg=dadffa256ee5497cb715b10e6778d859
 (load-theme 'darktooth)
 
-
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 
@@ -422,6 +421,21 @@ inhibit-startup-echo-area-message t)
 ;;             $pre-input))))
 
 (global-set-key (kbd "M-I") 'helm-swoop-back-to-last-point)
+
+;; (global-set-key (kbd "C-s") 'helm-swoop)
+(global-set-key (kbd "C-s") 'swiper)
+
+(global-set-key (kbd "C-x g") 'counsel-git-grep)
+
+;; ivy mode
+;; (ivy-mode 1)
+(setq ivy-use-virtual-buffers t)
+(setq magit-completing-read-function 'ivy-completing-read)
+
+;; perspective mode for project management
+(require 'perspective)
+(persp-mode)
+(require 'persp-projectile)
 
 ;; Increment number by 1
 (defun increment-number-at-point ()
