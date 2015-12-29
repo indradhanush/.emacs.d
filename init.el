@@ -18,6 +18,9 @@ inhibit-startup-echo-area-message t)
 (set-language-environment "UTF-8")
 (set-default-coding-systems 'utf-8)
 
+(setq tab-always-indent 'complete)
+(add-to-list 'completion-styles 'initials t)
+
 (echo-bell-mode t)
 ;; Bind M-x to smex
 (global-set-key (kbd "M-x") 'smex)
@@ -231,6 +234,10 @@ inhibit-startup-echo-area-message t)
 
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
+
+(setq show-paren-style 'expression) ; highlight entire expression
+(setq show-paren-style 'mixed) ; highlight brackets if visible, else entire expression
+(show-paren-mode 1)
 
 ;; Multi Scratch mode
 (require 'multi-scratch)
