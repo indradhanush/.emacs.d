@@ -662,11 +662,6 @@ inhibit-startup-echo-area-message t)
       jit-lock-chunk-size 1000
       jit-lock-defer-time 0.05)
 
-;; spotify keybindings
-(global-set-key (kbd "s-,") 'spotify-previous)
-(global-set-key (kbd "s-.") 'spotify-next)
-(global-set-key (kbd "s-/") 'spotify-playpause)
-
 ;; magit keybindings
 (global-set-key (kbd "C-c g s") 'magit-status)
 (global-set-key (kbd "C-c g c") 'magit-checkout)
