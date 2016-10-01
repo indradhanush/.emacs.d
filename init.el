@@ -5,11 +5,16 @@
 ;;; Code:
 (package-initialize)
 (server-start)
+(echo-bell-mode nil)
+;; (ido-mode 1)
+;; (setq ido-enable-flex-matching t)
+;; (setq ido-everywhere t)
 (setq inhibit-startup-message t
 inhibit-startup-echo-area-message t)
 (define-key global-map (kbd "RET") 'newline-and-indent)
 (setq next-line-add-newlines t)
 (setq-default c-basic-offset 4)
+;; (global-linum-mode t)
 (setq column-number-mode t)
 (blink-cursor-mode 0)
 (savehist-mode 1)
@@ -20,8 +25,45 @@ inhibit-startup-echo-area-message t)
 
 (setq tab-always-indent 'complete)
 (add-to-list 'completion-styles 'initials t)
+(setq-default indent-tabs-mode nil)
 
-(echo-bell-mode t)
+(defun load-directory (directory)
+  "Load recursively all `.el' files in DIRECTORY."
+  (dolist (element (directory-files-and-attributes directory nil nil nil))
+    (let* ((path (car element))
+           (fullpath (concat directory "/" path))
+           (isdir (car (cdr element)))
+           (ignore-dir (or (string= path ".") (string= path ".."))))
+      (cond
+       ((and (eq isdir t) (not ignore-dir))
+        (load-directory fullpath))
+       ((and (eq isdir nil) (string= (substring path -3) ".el"))
+        (load (file-name-sans-extension fullpath)))))))
+
+(load-directory "~/.emacs.d/config")
+
+;; ;; Play sounds on OSX
+;; ;; https://github.com/leoliu/play-sound-osx
+;; (unless (and (fboundp 'play-sound-internal)
+;;              (subrp (symbol-function 'play-sound-internal)))
+;;   (require 'play-sound))
+
+;; ;; Code from tali713 on #emacs to play sounds on C-g
+;; (defvar apple-alert-directory "/System/Library/Sounds/" "System alerts")
+;; (defvar apple-alerts nil "alist of alert sounds")
+
+;; (setq apple-alerts
+;;       (mapcar (lambda (s)
+;;                 `(,(intern (format ":%s"
+;;                                    (downcase (first (split-string s "\\.")))))
+;;                   . ,(concat apple-alert-directory s)))
+;;               (directory-files apple-alert-directory
+;; 			       nil directory-files-no-dot-files-regexp)))
+
+;; (setf ring-bell-function (lambda () (play-sound (list 'sound ':file (assoc-default :pop apple-alerts)))))
+;; (echo-bell-mode t)
+
+
 ;; Bind M-x to smex
 (global-set-key (kbd "M-x") 'smex)
 
@@ -37,9 +79,8 @@ inhibit-startup-echo-area-message t)
 
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
-                         ("melpa" . "http://melpa.milkbox.net/packages/")
-                         ("ELPA" . "http://tromey.com/elpa/")
-                         ("SC"  . "http://joseito.republika.pl/sunrise-commander/")))
+			 ("melpa" . "https://melpa.org/packages/")))
+
 
 ;; MELPA Configuration
 (when (>= emacs-major-version 24)
@@ -57,8 +98,12 @@ inhibit-startup-echo-area-message t)
 (setq ac-disable-faces nil)
 
 ;; go-mode
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize)
+  (exec-path-from-shell-copy-env "GOPATH"))
 
 (require 'go-mode-load)
+;; (require 'go-flymake)
 ;; (load "$GOPATH/src/github.com/dougm/goflymake/go-flycheck.el")
 (require 'go-flycheck)
 (require 'go-autocomplete)
@@ -131,14 +176,26 @@ inhibit-startup-echo-area-message t)
  '(custom-safe-themes
    (quote
     ("272e45b301d3a8ffaad475191f9a406361e70b1fb60acb42354184cf290e04f5" "a041a61c0387c57bb65150f002862ebcfe41135a3e3425268de24200b82d6ec9" "86e74c4c42677b593d1fab0a548606e7ef740433529b40232774fbb6bc22c048" "013e87003e1e965d8ad78ee5b8927e743f940c7679959149bbee9a15bd286689" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d6348b760e6610995d228a907cf6e2cf31987dd336f5348b13107a025bbcaace" "f220c05492910a305f5d26414ad82bf25a321c35aa05b1565be12f253579dec6" "c7359bd375132044fe993562dfa736ae79efc620f68bab36bd686430c980df1c" "61d1a82d5eaafffbdd3cab1ac843da873304d1f05f66ab5a981f833a3aec3fc0" "dc46381844ec8fcf9607a319aa6b442244d8c7a734a2625dac6a1f63e34bc4a6" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default)))
- '(echo-bell-background "gray20")
+ '(echo-bell-background "gray16")
+ '(echo-bell-delay 0)
+ '(echo-bell-string "")
  '(fci-rule-color "gray20")
  '(flycheck-flake8-maximum-line-length 120)
  '(global-flycheck-mode t)
  '(grep-find-ignored-directories
    (quote
     ("venv" "migrations" "SCCS" "RCS" "CVS" "MCVS" ".svn" ".git" ".hg" ".bzr" "_MTN" "_darcs" "{arch}")))
+ '(helm-ack-base-command "ack")
+ '(helm-ack-thing-at-point (quote symbol))
+ '(helm-ag-base-command "ag")
+ '(helm-ag-fuzzy-match t)
+ '(helm-ag-insert-at-point (quote symbol))
+ '(helm-boring-file-regexp-list
+   (quote
+    ("\\.o$" "~$" "\\.bin$" "\\.lbin$" "\\.so$" "\\.a$" "\\.ln$" "\\.blg$" "\\.bbl$" "\\.elc$" "\\.lof$" "\\.glo$" "\\.idx$" "\\.lot$" "\\.svn$" "\\.hg$" "\\.git$" "\\.bzr$" "CVS$" "_darcs$" "_MTN$" "\\.fmt$" "\\.tfm$" "\\.class$" "\\.fas$" "\\.lib$" "\\.mem$" "\\.x86f$" "\\.sparcf$" "\\.dfsl$" "\\.pfsl$" "\\.d64fsl$" "\\.p64fsl$" "\\.lx64fsl$" "\\.lx32fsl$" "\\.dx64fsl$" "\\.dx32fsl$" "\\.fx64fsl$" "\\.fx32fsl$" "\\.sx64fsl$" "\\.sx32fsl$" "\\.wx64fsl$" "\\.wx32fsl$" "\\.fasl$" "\\.ufsl$" "\\.fsl$" "\\.dxl$" "\\.lo$" "\\.la$" "\\.gmo$" "\\.mo$" "\\.toc$" "\\.aux$" "\\.cp$" "\\.fn$" "\\.ky$" "\\.pg$" "\\.tp$" "\\.vr$" "\\.cps$" "\\.fns$" "\\.kys$" "\\.pgs$" "\\.tps$" "\\.vrs$" "\\.pyc$" "\\.pyo$" "\\#*.*\\#$")))
+ '(helm-ff-skip-boring-files t)
  '(helm-findutils-skip-boring-files t)
+ '(helm-mode t)
  '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
  '(highlight-symbol-colors
    (--map
@@ -163,10 +220,16 @@ inhibit-startup-echo-area-message t)
    (quote
     ("#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3")))
  '(magit-diff-use-overlays nil)
+ '(magit-set-upstream-on-push (quote dontask))
  '(magit-use-overlays nil)
  '(org-agenda-files
    (quote
     ("~/org/organizer.org" "~/org/work.org" "~/org/home.org")))
+ '(org-startup-indented t)
+ '(org-tags-column 130)
+ '(package-selected-packages
+   (quote
+    (jedi-direx helm-aws helm-ag-r helm-ag highlight-symbol paren-face yas-jit yaml-mode yafolding web-mode waher-theme w3 vlf virtualenvwrapper typing twittering-mode twitter terraform-mode syslog-mode symon swoop swiper-helm sticky ssh-tunnels ssh-config-mode sr-speedbar sql-indent spotify splitjoin smartparens slime-theme scratches rw-ispell rtags restclient-helm restart-emacs request relative-buffers rect-mark railscasts-theme pyvirtualenv python-pylint python-mode pymacs pylint pyimpsort pyimport pyfmt pyflakes pydoc pycoverage py-autopep8 pretty-lambdada powerline pip-requirements php-mode persp-projectile paredit org nlinum nginx-mode names multiple-cursors modeline-posn markdown-mode+ magit lorem-ipsum keyfreq ipython imenu+ idomenu ido-ubiquitous ido-hacks ido-complete-space-or-hyphen ido-at-point idle-highlight-mode icicles httpcode highlight hideshow-org helm-swoop helm-spotify helm-smex helm-pydoc helm-projectile helm-project-persist helm-gtags helm-go-package helm-fuzzy-find helm-flymake helm-flycheck helm-ack hackernews gtags grunt grr grep-o-matic grep-a-lot gradle-mode grab-mac-link govet gotest gorepl-mode gore-mode golint golden-ratio go-stacktracer go-snippets go-scratch go-projectile go-play go-dlv go-direx go-autocomplete frame-fns foreman-mode flymake-python-pyflakes flymake-jslint flymake-go flycheck-pyflakes flx fixme-mode find-file-in-repository fill-column-indicator fic-mode exec-path-from-shell emoji-cheat-sheet-plus elpy echo-bell dockerfile-mode django-manage darktooth-theme darkroom csv-mode csharp-mode counsel color-theme clojure-mode chess caps-lock avy autopair atom-one-dark-theme ascii-art-to-unicode ampc ag)))
  '(pos-tip-background-color "#eee8d5")
  '(pos-tip-foreground-color "#586e75")
  '(safe-local-variable-values
@@ -182,6 +245,7 @@ inhibit-startup-echo-area-message t)
  '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#eee8d5" 0.2))
  '(term-default-bg-color "#fdf6e3")
  '(term-default-fg-color "#657b83")
+ '(terraform-indent-level 4)
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
    (quote
@@ -206,7 +270,8 @@ inhibit-startup-echo-area-message t)
  '(vc-annotate-very-old-color nil)
  '(weechat-color-list
    (quote
-    (unspecified "#fdf6e3" "#eee8d5" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#657b83" "#839496"))))
+    (unspecified "#fdf6e3" "#eee8d5" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#657b83" "#839496")))
+ '(which-function-mode t))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -488,7 +553,7 @@ inhibit-startup-echo-area-message t)
 (require 'virtualenvwrapper)
 (venv-initialize-interactive-shells)
 (venv-initialize-eshell)
-(setq venv-location "/venv/")
+(setq venv-location "~/.venv/")
 ;; (setq-default mode-line-format (cons '(:exec venv-current-name) mode-line-format)) ;; Display venv name in mode-line.
 (setq eshell-prompt-function
     (lambda ()
@@ -500,7 +565,7 @@ inhibit-startup-echo-area-message t)
 
 ;; autopep8 on save
 (require 'py-autopep8)
-(add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
+;; (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
 (setq py-autopep8-options '("--max-line-length=120"))
 
 ;; Flymake for Python.
@@ -670,6 +735,26 @@ inhibit-startup-echo-area-message t)
 (global-set-key (kbd "C-c g p") 'magit-push)
 (global-set-key (kbd "C-c g m") 'magit-merge)
 (global-set-key (kbd "C-c g l") 'magit-log)
+
+;; remember-mode
+(require 'remember)
+;; (setq org-remember-templates
+;;    '(("Tasks" ?t "* TODO %?\n  %i\n  %a" "~/organizer.org")
+;;      ("Appointments" ?a "* Appointment: %?\n%^T\n%i\n  %a" "~/organizer.org")))
+;; ;; (setq remember-annotation-functions '(org-remember-annotation))
+;; ;; (setq remember-handler-functions '(org-remember-handler))
+;; (eval-after-load 'remember
+;;   '(add-hook 'remember-mode-hook 'org-remember-apply-template))
+(global-set-key (kbd "C-c r") 'remember)
+
+(setq fixme-mode 1)
+
+(require 'keyfreq)
+(keyfreq-mode 1)
+(keyfreq-autosave-mode 1)
+
+(add-to-list 'auto-mode-alist
+`(,(rx "requirements.in") . pip-requirements-mode))
 
 (provide 'init)
 ;;; init.el ends here
