@@ -32,6 +32,9 @@
 ;; Note to self: I want to solve this problem by sending a PR.
 (require 'emacs-modular-configuration)
 
+;; Enable commands that are disabled by default
+(put 'set-goal-column 'disabled nil)
+
 (load "~/.emacs.d/config")
 
 (provide 'init)

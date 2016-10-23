@@ -44,6 +44,8 @@
   (setq helm-split-window-in-side-p t
         helm-ff-file-name-history-use-recentf t
 
+        helm-ff-skip-boring-files t
+
         helm-scroll-amount 8
         helm-autoresize-max-height 25
         helm-autoresize-min-height 1)
@@ -86,6 +88,16 @@
   :bind ("C-c f" . helm-flycheck)
   :config
   (global-flycheck-mode t))
+
+;; helm-swoop
+(use-package helm-swoop
+  :ensure t
+  :bind ("C-s" . helm-swoop)
+  :config
+  (setq helm-swoop-split-with-multiple-windows t
+        helm-swoop-use-fuzzy-match t)
+  )
+
 
 (provide 'helm)
 ;;; helm.el ends here

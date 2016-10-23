@@ -50,6 +50,9 @@
 (global-set-key (kbd "C-c e") 'mulled/edit-trailing-edges)
 (global-set-key (kbd "C-c a") 'mulled/edit-leading-edges)
 
+(use-package find-file-in-repository
+  :ensure t
+  :bind ("C-x f" . find-file-in-repository))
 
 (provide 'navigation)
 ;;; navigation.el ends here

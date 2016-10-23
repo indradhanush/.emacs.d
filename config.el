@@ -6,29 +6,6 @@
 ;; then run within emacs 'M-x emc-merge-config-files'
 
 ;; ############################################################################
-;; Config file: ~/.emacs.d/config/1_startup.el
-;;; startup --- configuration for emacs startup
-
-;;; Commentary:
-
-;;; Code:
-
-(server-start)
-
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
-
-(setq inhibit-startup-message t
-      inhibit-startup-echo-area-message t)
-
-;; Enable commands that are disabled by default
-(enable-command 'set-goal-column)
-
-(provide 'startup)
-;;; startup.el ends here
-;; ############################################################################
-
-
-;; ############################################################################
 ;; Config file: ~/.emacs.d/config/company.el
 ;;; company --- configuration for autcompletion using company-mode
 
@@ -199,6 +176,8 @@
   (setq helm-split-window-in-side-p t
         helm-ff-file-name-history-use-recentf t
 
+        helm-ff-skip-boring-files t
+
         helm-scroll-amount 8
         helm-autoresize-max-height 25
         helm-autoresize-min-height 1)
@@ -242,8 +221,35 @@
   :config
   (global-flycheck-mode t))
 
+;; helm-swoop
+(use-package helm-swoop
+  :ensure t
+  :bind ("C-s" . helm-swoop)
+  :config
+  (setq helm-swoop-split-with-multiple-windows t
+        helm-swoop-use-fuzzy-match t)
+  )
+
+
 (provide 'helm)
 ;;; helm.el ends here
+;; ############################################################################
+
+
+;; ############################################################################
+;; Config file: ~/.emacs.d/config/misc.el
+;;; navigation --- configuration for navigating in emacs.
+
+;;; Commentary:
+
+;;; Code:
+
+(use-package restart-emacs
+  :ensure t)
+
+
+(provide 'misc)
+;;; misc.el ends here
 ;; ############################################################################
 
 
@@ -380,6 +386,9 @@
 (global-set-key (kbd "C-c e") 'mulled/edit-trailing-edges)
 (global-set-key (kbd "C-c a") 'mulled/edit-leading-edges)
 
+(use-package find-file-in-repository
+  :ensure t
+  :bind ("C-x f" . find-file-in-repository))
 
 (provide 'navigation)
 ;;; navigation.el ends here
@@ -405,6 +414,26 @@
 
 (provide 'osx)
 ;;; osx.el ends here
+;; ############################################################################
+
+
+;; ############################################################################
+;; Config file: ~/.emacs.d/config/startup.el
+;;; startup --- configuration for emacs startup
+
+;;; Commentary:
+
+;;; Code:
+
+(server-start)
+
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+
+(setq inhibit-startup-message t
+      inhibit-startup-echo-area-message t)
+
+(provide 'startup)
+;;; startup.el ends here
 ;; ############################################################################
 
 
