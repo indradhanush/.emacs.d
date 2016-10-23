@@ -1,13 +1,14 @@
 ;;; multiple-line-edit.el --- Edit multiple line at a time.
 
-;; Copyright (C) 2010 K-talo Miyazaki, all rights reserved.
+;; Copyright (C) 2010, 2012 K-talo Miyazaki, all rights reserved.
 
 ;; Author: K-talo Miyazaki <Keitaro dot Miyazaki at gmail dot com>
 ;; Created: 10 Oct 2010 PM 02:44 JST
 ;; Keywords: abbrev convenience emulations wp
-;; Revision: $Id: 16d1fe108a0150265b15e04b909d3922673b1afd $
+;; Revision: $Id$
 ;; URL: http://www.emacswiki.org/emacs/download/multiple-line-edit.el
 ;; GitHub: http://github.com/k-talo/multiple-line-edit.el
+;; Version: 2.0.1
 
 ;; This file is not part of GNU Emacs.
 
@@ -186,6 +187,10 @@
 
 ;;; Change Log:
 
+;;  v2.0.1 Thu Feb  2 17:42:19 2012 JST
+;;   - Fixed an error "Wrong type argument: markerp, nil" after
+;;     out of range operations.
+;;
 ;;  v2.0.0 Mon Dec 27 03:06:00 2010 JST
 ;;   - Changed version numbering rule from x.y to x.y.z.
 ;;   - Display pseudo cursors on each multiple edit lines.
@@ -250,7 +255,7 @@
 
 (provide 'multiple-line-edit)
 
-(defconst multiple-line-edit/version "1.6")
+(defconst multiple-line-edit/version "2.0.1")
 
 (eval-when-compile
   (require 'cl)
@@ -263,7 +268,7 @@
 (defvar mulled/.last-pt nil)
 (make-variable-buffer-local 'mulled/.last-pt)
 
- 
+
 ;;; ===========================================================================
 ;;;
 ;;;  User customizable things.
@@ -321,13 +326,13 @@ Default value is `t'.
     (upcase-region . (lambda (beg end &rest orig-args)
                            (upcase-region beg end))))
   "Alist name of special functions and callback function which have to
-be applied to each line directory instead of mirroring the result of
+be applied to each line directly instead of mirroring the result of
 a function applied at 1st line.
 
 *THIS FEATURE IS EXPERIMENTAL AND MAY BE REMOVED IN THE FUTURE*"
   :group 'multiple-line-edit)
 
- 
+
 ;;; ===========================================================================
 ;;;
 ;;;  Commands and Menus.
@@ -476,7 +481,7 @@ by errors."
 (mulled/install-menu)
 
 
- 
+
 ;;; ===========================================================================
 ;;;
 ;;;  Utility Functions.
@@ -553,7 +558,7 @@ Line break character will be counted as one column."
             (setq col-num (1+ col-num))))))
     col-num))
 
- 
+
 ;;; ===========================================================================
 ;;;
 ;;;  ov-1st-line: Overlay placed on 1st line, to observe user input.
@@ -924,7 +929,9 @@ Line break character will be counted as one column."
                                                      col-end
                                                      col-num-removed)))))))
             (setq mulled/ov-1st-line/.str-to-be-modified "")
-            (mulled/ov-1st-line/update-cursor-pos ov)))))))
+            
+            (when (mulled/ov-1st-line/ov-1st-line-p ov) ;; Overlay is not disposed.
+              (mulled/ov-1st-line/update-cursor-pos ov))))))))
 
 ;; To prevent duplication of edit, in the lines next to 1st line,
 ;; which caused by undo/redo operation, we have to aware if the hook
@@ -937,7 +944,7 @@ Line break character will be counted as one column."
 (ad-activate 'primitive-undo)
 
 
- 
+
 ;;; ===========================================================================
 ;;;
 ;;;  Lines which should be managed for multiple line edit.
@@ -1319,7 +1326,7 @@ accepted by each line of multiple line edit."
                                              (message "[mulled] Error in special function `%s':\n%s"
                                                       fn-name c)))))))
 
- 
+
 ;;; ===========================================================================
 ;;;
 ;;;  beginning-of-line/end-of-line pairs for each lines.
@@ -1366,7 +1373,7 @@ accepted by each line of multiple line edit."
                   (marker-position (cdr pair))))
           be-pair-lst))
 
- 
+
 ;;; ===========================================================================
 ;;;
 ;;; YASnippet support. (* EXPERIMENTAL *)
