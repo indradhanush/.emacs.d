@@ -20,6 +20,9 @@
 (setq inhibit-startup-message t
       inhibit-startup-echo-area-message t)
 
+;; Enable commands that are disabled by default
+(enable-command 'set-goal-column)
+
 (provide 'startup)
 ;;; startup.el ends here
 ;; ############################################################################
@@ -94,10 +97,16 @@
 (menu-bar-mode -1)
 
 ;; Colour theme
-(use-package darktooth-theme
+;; (use-package darktooth-theme
+;;   :ensure t
+;;   :config
+;;   (load-theme 'darktooth))
+
+(use-package material-theme
   :ensure t
   :config
-  (load-theme 'darktooth))
+  (load-theme 'material t))
+
 
 ;; #################################################
 ;; Custom key bindings
@@ -135,10 +144,106 @@
 
 (global-set-key (kbd "C-x C-r") 'rename-file-and-buffer)
 
-(global-set-key (kbd "C-x c") 'comment-or-uncomment-region)
+;; (global-set-key (kbd "C-c c") 'comment-or-uncomment-region)
 
 (provide 'editor)
 ;;; editor.el ends here
+;; ############################################################################
+
+
+;; ############################################################################
+;; Config file: ~/.emacs.d/config/helm.el
+;;; helm --- configuration for navigating in emacs.
+
+;;; Commentary:
+
+;;; Code:
+
+;; Config from http://tuhdo.github.io/helm-intro.html
+;; I have some personaltweaks here.
+(use-package helm
+  :ensure t
+
+  :bind (("M-x" . helm-M-x)
+         ("M-y" . helm-show-kill-ring)
+
+         ("C-c SPC" . helm-all-mark-rings)
+         ("C-x b" . helm-mini)
+
+         ("C-x C-f" . helm-find-files)
+         ("C-c m" . helm-command-prefix)
+
+         :map helm-command-map
+         ("<tab>" . helm-execute-persistent-action)
+         ("C-i" . helm-execute-persistent-action)
+         ("g" . helm-grep-do-git-grep)
+
+         :map helm-read-file-map
+         ("<backspace>" . dwim-helm-find-files-up-one-level-maybe)
+         ("DEL" . dwim-helm-find-files-up-one-level-maybe)
+         ("<return>" . helm-execute-persistent-action)
+         ("RET" . helm-execute-persistent-action)
+
+         :map helm-find-files-map
+         ("<backspace>" . dwim-helm-find-files-up-one-level-maybe)
+         ("DEL" . dwim-helm-find-files-up-one-level-maybe)
+         ("<return>" . helm-execute-persistent-action)
+         ("RET" . helm-execute-persistent-action)
+         :map helm-map
+         ("<return>" . helm-maybe-exit-minibuffer)
+         ("RET" . helm-maybe-exit-minibuffer))
+
+  :config
+  (require 'helm-config)
+  (global-unset-key (kbd "C-x c"))
+  (setq helm-split-window-in-side-p t
+        helm-ff-file-name-history-use-recentf t
+
+        helm-scroll-amount 8
+        helm-autoresize-max-height 25
+        helm-autoresize-min-height 1)
+
+  (helm-autoresize-mode t)
+
+  (setq helm-locate-fuzzy-match t
+        helm-M-x-fuzzy-match t
+        helm-lisp-fuzzy-completion t
+        helm-apropos-fuzzy-match t
+        helm-buffers-fuzzy-matching t
+        helm-recentf-fuzzy-match t
+        helm-semantic-fuzzy-match t
+        helm-imenu-fuzzy-match t)
+
+  ;; Make helm-find-files behave like ido-find-file
+  ;; https://github.com/hatschipuh/ido2helm#file-navigation
+  (defun dwim-helm-find-files-up-one-level-maybe ()
+    (interactive)
+    (if (looking-back "/" 1)
+        (call-interactively 'helm-find-files-up-one-level)
+      (delete-backward-char 1)))
+
+  (defun dwim-helm-find-files-navigate-forward (orig-fun &rest args)
+    "Adjust how helm-execute-persistent actions behaves, depending on context"
+    (if (file-directory-p (helm-get-selection))
+        (apply orig-fun args)
+      (helm-maybe-exit-minibuffer)))
+
+  (advice-add 'helm-execute-persistent-action
+              :around #'dwim-helm-find-files-navigate-forward)
+
+  (semantic-mode 1)
+
+  (helm-mode 1))
+
+;; helm-flycheck
+(use-package helm-flycheck
+  :ensure t
+  :bind ("C-c f" . helm-flycheck)
+  :config
+  (global-flycheck-mode t))
+
+(provide 'helm)
+;;; helm.el ends here
 ;; ############################################################################
 
 

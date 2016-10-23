@@ -47,10 +47,16 @@
 (menu-bar-mode -1)
 
 ;; Colour theme
-(use-package darktooth-theme
+;; (use-package darktooth-theme
+;;   :ensure t
+;;   :config
+;;   (load-theme 'darktooth))
+
+(use-package material-theme
   :ensure t
   :config
-  (load-theme 'darktooth))
+  (load-theme 'material t))
+
 
 ;; #################################################
 ;; Custom key bindings
@@ -88,7 +94,7 @@
 
 (global-set-key (kbd "C-x C-r") 'rename-file-and-buffer)
 
-(global-set-key (kbd "C-x c") 'comment-or-uncomment-region)
+;; (global-set-key (kbd "C-c c") 'comment-or-uncomment-region)
 
 (provide 'editor)
 ;;; editor.el ends here
