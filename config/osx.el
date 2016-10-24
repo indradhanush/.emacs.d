@@ -4,6 +4,12 @@
 
 ;;; Code:
 
+(use-package exec-path-from-shell
+  :ensure t
+  :config
+  (when (memq window-system '(mac ns))
+    (exec-path-from-shell-initialize)))
+
 ;; Bugfix for Kill a line on OSX; Comment out on Linux.
 (setq save-interprogram-paste-before-kill nil)
 

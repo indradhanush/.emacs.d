@@ -11,5 +11,6 @@
 (setq inhibit-startup-message t
       inhibit-startup-echo-area-message t)
 
+
 (provide 'startup)
 ;;; startup.el ends here

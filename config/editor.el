@@ -96,5 +96,7 @@
 
 ;; (global-set-key (kbd "C-c c") 'comment-or-uncomment-region)
 
+(global-auto-revert-mode t)
+
 (provide 'editor)
 ;;; editor.el ends here

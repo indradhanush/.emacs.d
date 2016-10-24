@@ -14,8 +14,8 @@
 (global-set-key (kbd "s-;") `previous-multiframe-window)
 
 ;; Buffer navigation.
-(global-set-key (kbd "C-x n") 'next-buffer)
-(global-set-key (kbd "C-x p") 'previous-buffer)
+(global-set-key (kbd "C-c n") 'next-buffer)
+(global-set-key (kbd "C-c p") 'previous-buffer)
 
 ;; Custom key-bindings for switching between frames to match OSX
 ;; shortcut of switching between windows of the same application.
@@ -50,9 +50,22 @@
 (global-set-key (kbd "C-c e") 'mulled/edit-trailing-edges)
 (global-set-key (kbd "C-c a") 'mulled/edit-leading-edges)
 
+(use-package multiple-cursors
+  :ensure t
+  :bind (("C->" . mc/mark-next-like-this)
+         ("C-<" . mc/mark-previous-like-this)))
+
 (use-package find-file-in-repository
   :ensure t
   :bind ("C-x f" . find-file-in-repository))
+
+(use-package swiper
+  :ensure t
+  :bind ("C-s" . swiper))
+
+(use-package counsel
+  :ensure t
+  :bind ("C-c g" . counsel-git-grep))
 
 (provide 'navigation)
 ;;; navigation.el ends here

@@ -58,7 +58,7 @@
         helm-apropos-fuzzy-match t
         helm-buffers-fuzzy-matching t
         helm-recentf-fuzzy-match t
-        helm-semantic-fuzzy-match t
+        ;; helm-semantic-fuzzy-match t
         helm-imenu-fuzzy-match t)
 
   ;; Make helm-find-files behave like ido-find-file
@@ -78,7 +78,7 @@
   (advice-add 'helm-execute-persistent-action
               :around #'dwim-helm-find-files-navigate-forward)
 
-  (semantic-mode 1)
+  ;; (semantic-mode 1)
 
   (helm-mode 1))
 
@@ -90,13 +90,13 @@
   (global-flycheck-mode t))
 
 ;; helm-swoop
-(use-package helm-swoop
-  :ensure t
-  :bind ("C-s" . helm-swoop)
-  :config
-  (setq helm-swoop-split-with-multiple-windows t
-        helm-swoop-use-fuzzy-match t)
-  )
+;; (use-package helm-swoop
+;;   :ensure t
+;;   :bind ("C-s" . helm-swoop)
+;;   :config
+;;   (setq helm-swoop-split-with-multiple-windows t
+;;         helm-swoop-use-fuzzy-match t)
+;;   )
 
 
 (provide 'helm)

@@ -12,13 +12,13 @@
 ;;; Commentary:
 
 ;;; Code:
-(use-package company
-  :ensure t
-  )
+;; (use-package company
+;;   :ensure t
+;;   )
 
-(add-hook 'after-init-hook 'global-company-mode)
+;; (add-hook 'after-init-hook 'global-company-mode)
 
-(provide 'company)
+;; (provide 'company)
 ;;; company.el ends here
 ;; ############################################################################
 
@@ -123,8 +123,17 @@
 
 ;; (global-set-key (kbd "C-c c") 'comment-or-uncomment-region)
 
+(global-auto-revert-mode t)
+
 (provide 'editor)
 ;;; editor.el ends here
+;; ############################################################################
+
+
+;; ############################################################################
+;; Config file: ~/.emacs.d/config/go.el
+(use-package go-mode
+  :ensure t)
 ;; ############################################################################
 
 
@@ -190,7 +199,7 @@
         helm-apropos-fuzzy-match t
         helm-buffers-fuzzy-matching t
         helm-recentf-fuzzy-match t
-        helm-semantic-fuzzy-match t
+        ;; helm-semantic-fuzzy-match t
         helm-imenu-fuzzy-match t)
 
   ;; Make helm-find-files behave like ido-find-file
@@ -210,7 +219,7 @@
   (advice-add 'helm-execute-persistent-action
               :around #'dwim-helm-find-files-navigate-forward)
 
-  (semantic-mode 1)
+  ;; (semantic-mode 1)
 
   (helm-mode 1))
 
@@ -222,13 +231,13 @@
   (global-flycheck-mode t))
 
 ;; helm-swoop
-(use-package helm-swoop
-  :ensure t
-  :bind ("C-s" . helm-swoop)
-  :config
-  (setq helm-swoop-split-with-multiple-windows t
-        helm-swoop-use-fuzzy-match t)
-  )
+;; (use-package helm-swoop
+;;   :ensure t
+;;   :bind ("C-s" . helm-swoop)
+;;   :config
+;;   (setq helm-swoop-split-with-multiple-windows t
+;;         helm-swoop-use-fuzzy-match t)
+;;   )
 
 
 (provide 'helm)
@@ -245,6 +254,9 @@
 ;;; Code:
 
 (use-package restart-emacs
+  :ensure t)
+
+(use-package ssh-config-mode
   :ensure t)
 
 
@@ -350,8 +362,8 @@
 (global-set-key (kbd "s-;") `previous-multiframe-window)
 
 ;; Buffer navigation.
-(global-set-key (kbd "C-x n") 'next-buffer)
-(global-set-key (kbd "C-x p") 'previous-buffer)
+(global-set-key (kbd "C-c n") 'next-buffer)
+(global-set-key (kbd "C-c p") 'previous-buffer)
 
 ;; Custom key-bindings for switching between frames to match OSX
 ;; shortcut of switching between windows of the same application.
@@ -386,9 +398,22 @@
 (global-set-key (kbd "C-c e") 'mulled/edit-trailing-edges)
 (global-set-key (kbd "C-c a") 'mulled/edit-leading-edges)
 
+(use-package multiple-cursors
+  :ensure t
+  :bind (("C->" . mc/mark-next-like-this)
+         ("C-<" . mc/mark-previous-like-this)))
+
 (use-package find-file-in-repository
   :ensure t
   :bind ("C-x f" . find-file-in-repository))
+
+(use-package swiper
+  :ensure t
+  :bind ("C-s" . swiper))
+
+(use-package counsel
+  :ensure t
+  :bind ("C-c g" . counsel-git-grep))
 
 (provide 'navigation)
 ;;; navigation.el ends here
@@ -403,6 +428,12 @@
 
 ;;; Code:
 
+(use-package exec-path-from-shell
+  :ensure t
+  :config
+  (when (memq window-system '(mac ns))
+    (exec-path-from-shell-initialize)))
+
 ;; Bugfix for Kill a line on OSX; Comment out on Linux.
 (setq save-interprogram-paste-before-kill nil)
 
@@ -414,6 +445,63 @@
 
 (provide 'osx)
 ;;; osx.el ends here
+;; ############################################################################
+
+
+;; ############################################################################
+;; Config file: ~/.emacs.d/config/python.el
+;;; python --- configuration for python
+
+;;; Commentary:
+
+;;; Code:
+
+(use-package python-mode
+  :ensure t
+  :config
+  (require 'python-mode))
+  
+
+
+(use-package virtualenv
+  :ensure t)
+
+(use-package jedi
+  :ensure t
+  :config
+  (add-hook 'python-mode-hook 'jedi:setup)
+  (setq jedi:complete-on-dot t)
+  ;; (jedi:install-server)
+
+  ;; redefine jedi's C-. (jedi:goto-definition)
+  ;; to remember position, and set C-, to jump back
+  (add-hook 'python-mode-hook
+            '(lambda ()
+               (local-set-key (kbd "C-.") 'jedi:goto-definition)
+               (local-set-key (kbd "C-,") 'jedi:goto-definition-pop-marker)
+               (local-set-key (kbd "C-c d") 'jedi:show-doc)
+               (local-set-key (kbd "C-<tab>") 'jedi:complete)))
+  )
+
+
+(use-package virtualenvwrapper
+  :ensure t
+  :config
+  (venv-initialize-interactive-shells)
+  (venv-initialize-eshell)
+  (setq venv-location "~/.venv/")
+  (setq eshell-prompt-function
+        (lambda ()
+          (concat venv-current-name " $ ")))
+
+  (add-hook 'python-mode-hook
+            (lambda () (hack-local-variables)
+              (venv-workon project-venv-name)))
+  )
+
+
+(provide 'python)
+;;; python.el ends here
 ;; ############################################################################
 
 
@@ -431,6 +519,7 @@
 
 (setq inhibit-startup-message t
       inhibit-startup-echo-area-message t)
+
 
 (provide 'startup)
 ;;; startup.el ends here

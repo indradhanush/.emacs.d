@@ -13,7 +13,7 @@
  '(helm-mode t)
  '(package-selected-packages
    (quote
-    (ace-jump-mode helm-swoop find-file-in-repository smex find-file-in-respository helm-flycheck material-theme helm-config helm yafolding smartparens company darktooth-theme smexz smexh darktooth restart-emacs)))
+    (counsel counsel-git-grep ssh-config-mode go-mode swiper virtualenvwrapper multiple-cursors exec-path-from-shell virtualenv jedi python-mode ace-jump-mode helm-swoop find-file-in-repository smex find-file-in-respository helm-flycheck material-theme helm-config helm yafolding smartparens company darktooth-theme smexz smexh darktooth restart-emacs)))
  '(pos-tip-background-color "#36473A")
  '(pos-tip-foreground-color "#FFFFC8")
  '(safe-local-variable-values (quote ((project-venv-name . "imojo"))))

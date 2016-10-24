@@ -3,11 +3,11 @@
 ;;; Commentary:
 
 ;;; Code:
-(use-package company
-  :ensure t
-  )
+;; (use-package company
+;;   :ensure t
+;;   )
 
-(add-hook 'after-init-hook 'global-company-mode)
+;; (add-hook 'after-init-hook 'global-company-mode)
 
-(provide 'company)
+;; (provide 'company)
 ;;; company.el ends here
