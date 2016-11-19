@@ -34,6 +34,11 @@
   (global-set-key (kbd "M-s-f") 'sp-forward-sexp)
   (global-set-key (kbd "M-s-b") 'sp-backward-sexp))
 
+(global-set-key (kbd "M-s-a") 'beginning-of-defun)
+(global-set-key (kbd "M-s-e") 'end-of-defun)
+
+(global-subword-mode 1)
+
 ;; Yafolding
 (use-package yafolding
   :ensure t

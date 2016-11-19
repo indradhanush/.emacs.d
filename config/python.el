@@ -48,5 +48,8 @@
   )
 
 
+(set-register ?i "import ipdb; ipdb.set_trace()")
+
+
 (provide 'python)
 ;;; python.el ends here
