@@ -1,20 +1,19 @@
 My Emacs Config
 ===
 
-This is my emacs config for Mac OS X. Will work also on Linux boxes.
+This is my config for Emacs 25.1.1. Works best on OSX, but should work on Linux as well.
 
 ##Usage:##
 
 ```
 cd ~
-git clone git@github.com:indradhanush/Emacs.git
-mv Emacs/ .emacs.d
+
+# Backup your existing config 
+mv .emacs.d .emacs.d.backup
+
+# Clone the repo
+
+git clone git@github.com:indradhanush/.emacs.d.git .emacs.d
 ```
 
-Search for `/Users/dhanush/` and replace it with your `$HOME`.
-
-Enjoy!
-
-###Note for Linux users:###
-
-You can comment out `(setq save-interprogram-paste-before-kill nil)` as its a bug fix for Mac exclusively.
+The configs use `use-package` and they will be installed on the fly.
