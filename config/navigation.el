@@ -70,6 +70,7 @@
 
 (use-package counsel
   :ensure t
+  :config
   (setq-default ivy-calling "c")
   :bind ("C-c g" . counsel-git-grep))
 
