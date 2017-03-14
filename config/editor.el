@@ -98,5 +98,13 @@
 
 (global-auto-revert-mode t)
 
+(use-package fill-column-indicator
+  :ensure t
+  :config
+  (setq fci-rule-column 120)
+  (turn-on-fci-mode))
+
+(toggle-truncate-lines 1)
+
 (provide 'editor)
 ;;; editor.el ends here

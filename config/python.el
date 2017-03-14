@@ -51,5 +51,10 @@
 (set-register ?i "import ipdb; ipdb.set_trace()")
 
 
+(use-package pip-requirements
+  :ensure t
+  :config
+  (add-hook 'pip-requirements-mode-hook #'pip-requirements-auto-complete-setup))
+
 (provide 'python)
 ;;; python.el ends here

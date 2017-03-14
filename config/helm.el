@@ -99,5 +99,10 @@
 ;;   )
 
 
+(use-package ag
+  :ensure t)
+(use-package helm-ag
+  :ensure t)
+
 (provide 'helm)
 ;;; helm.el ends here
