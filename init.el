@@ -34,5 +34,8 @@
 
 (load "~/.emacs.d/config")
 
+;; Store backup files in a centralized location
+(setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
+
 (provide 'init)
 ;;; init.el ends here
