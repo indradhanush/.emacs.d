@@ -1,4 +1,4 @@
-;;; navigation --- configuration for navigating in emacs.
+;;; misc --- configuration too tiny to deserve its own file. Kitchen sink.
 
 ;;; Commentary:
 
@@ -71,6 +71,7 @@
 
      ;; Common words and phrases used in day to day programming
      ("8hw" "Hello, World!")
+     ("8emacs" "/Users/dhanush/.emacs.d/")
      ("8mojo" "/Users/dhanush/instamojo/")
      ("8godev" "/Users/dhanush/golang/src/github.com/"))))
 
