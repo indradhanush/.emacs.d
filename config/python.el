@@ -8,8 +8,6 @@
   :ensure t
   :config
   (require 'python-mode))
-  
-
 
 (use-package virtualenv
   :ensure t)
@@ -30,7 +28,6 @@
                (local-set-key (kbd "C-c d") 'jedi:show-doc)
                (local-set-key (kbd "C-<tab>") 'jedi:complete)))
   )
-
 
 (use-package virtualenvwrapper
   :ensure t

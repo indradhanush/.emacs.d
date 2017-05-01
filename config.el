@@ -342,8 +342,30 @@
 
 
 ;; ############################################################################
+;; Config file: ~/.emacs.d/config/ledger.el
+;;; ledger --- configuration for ledger-mode.
+
+;;; Commentary:
+
+;;; Code:
+
+;; (autoload 'ledger-mode "ledger-mode" "A major mode for Ledger" t)
+;; (add-to-list 'load-path
+;;              (expand-file-name "/path/to/ledger/source/lisp/"))
+;; (add-to-list 'auto-mode-alist '("\\.ledger$" . ledger-mode))
+
+(use-package ledger-mode
+  :ensure t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.ledger$" . ledger-mode)))
+
+;;; ledger.el ends here
+;; ############################################################################
+
+
+;; ############################################################################
 ;; Config file: ~/.emacs.d/config/misc.el
-;;; navigation --- configuration for navigating in emacs.
+;;; misc --- configuration too tiny to deserve its own file. Kitchen sink.
 
 ;;; Commentary:
 
@@ -416,6 +438,7 @@
 
      ;; Common words and phrases used in day to day programming
      ("8hw" "Hello, World!")
+     ("8emacs" "/Users/dhanush/.emacs.d/")
      ("8mojo" "/Users/dhanush/instamojo/")
      ("8godev" "/Users/dhanush/golang/src/github.com/"))))
 
@@ -626,8 +649,6 @@
   :ensure t
   :config
   (require 'python-mode))
-  
-
 
 (use-package virtualenv
   :ensure t)
@@ -648,7 +669,6 @@
                (local-set-key (kbd "C-c d") 'jedi:show-doc)
                (local-set-key (kbd "C-<tab>") 'jedi:complete)))
   )
-
 
 (use-package virtualenvwrapper
   :ensure t
@@ -709,6 +729,11 @@
 
 ;;; Code:
 
+(use-package terraform-mode
+  :ensure t
+  :config
+  (add-hook 'terraform-mode-hook
+            (lambda () (local-set-key (kbd "C-M-\\") 'terraform-format-buffer))))
 
 ;;; terraform.el ends here
 ;; ############################################################################
