@@ -21,6 +21,8 @@
 
   (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
 
+  (add-to-list 'ac-modes 'terraform-mode)
+
   (setq ac-use-menu-map t)
   (setq ac-menu-height 20)
   (setq ac-auto-show-menu 0.3)
@@ -33,9 +35,6 @@
 
 (provide 'autocomplete)
 ;;; autocomplete.el ends here
-
-
-
 ;; ############################################################################
 
 
@@ -379,11 +378,6 @@
 
 (use-package dockerfile-mode
   :ensure t)
-
-(use-package terraform-mode
-  :ensure t
-  :config
-  (setq-default terraform-indent-level 4))
 
 (setq-default js-indent-level 2)
 
@@ -732,6 +726,7 @@
 (use-package terraform-mode
   :ensure t
   :config
+  (add-hook 'terraform-mode-hook 'terraform-format-on-save-mode)
   (add-hook 'terraform-mode-hook
             (lambda () (local-set-key (kbd "C-M-\\") 'terraform-format-buffer))))
 

@@ -10,6 +10,8 @@
 
   (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
 
+  (add-to-list 'ac-modes 'terraform-mode)
+
   (setq ac-use-menu-map t)
   (setq ac-menu-height 20)
   (setq ac-auto-show-menu 0.3)
@@ -22,6 +24,3 @@
 
 (provide 'autocomplete)
 ;;; autocomplete.el ends here
-
-
-

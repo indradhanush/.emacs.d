@@ -13,11 +13,6 @@
 (use-package dockerfile-mode
   :ensure t)
 
-(use-package terraform-mode
-  :ensure t
-  :config
-  (setq-default terraform-indent-level 4))
-
 (setq-default js-indent-level 2)
 
 (use-package abbrev
