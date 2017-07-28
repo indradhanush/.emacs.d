@@ -37,5 +37,8 @@
 ;; Store backup files in a centralized location
 (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
 
+;; Allow horizontal scrolling
+(put 'scroll-left 'disabled nil)
+
 (provide 'init)
 ;;; init.el ends here

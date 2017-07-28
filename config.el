@@ -172,6 +172,25 @@
 
 
 ;; ############################################################################
+;; Config file: ~/.emacs.d/config/erlang.el
+;;; erlang --- configuration for erlang
+
+;;; Commentary:
+
+;;; Code:
+
+(setq-default erlang-root-dir "/usr/local/bin")
+
+(add-hook 'erlang-mode-hook 'erlang-setup
+          (defun erlang-setup ()
+            'auto-complete-mode 1
+            ))
+
+;;; erlang.el ends here
+;; ############################################################################
+
+
+;; ############################################################################
 ;; Config file: ~/.emacs.d/config/go.el
 ;;; go --- configuration for golang
 
@@ -359,6 +378,23 @@
   (add-to-list 'auto-mode-alist '("\\.ledger$" . ledger-mode)))
 
 ;;; ledger.el ends here
+;; ############################################################################
+
+
+;; ############################################################################
+;; Config file: ~/.emacs.d/config/magit.el
+;;; magit ---- configuratio for magit
+
+;;; Commentary:
+
+;;; Code:
+
+(use-package magit
+  :ensure t
+
+  :bind (("C-c i" . magit-status)))
+
+;;; magit.el ends here
 ;; ############################################################################
 
 
@@ -708,6 +744,8 @@
 (setq inhibit-startup-message t
       inhibit-startup-echo-area-message t)
 
+;; Ensure that windows like magit-status split vertically instead of horizontally
+(setq split-height-threshold nil)
 
 (provide 'startup)
 ;;; startup.el ends here
