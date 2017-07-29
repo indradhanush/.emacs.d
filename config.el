@@ -154,7 +154,7 @@
 
 (global-set-key (kbd "C-x C-r") 'rename-file-and-buffer)
 
-;; (global-set-key (kbd "C-c c") 'comment-or-uncomment-region)
+(global-set-key (kbd "C-c d") 'delete-trailing-whitespace)
 
 (global-auto-revert-mode t)
 
