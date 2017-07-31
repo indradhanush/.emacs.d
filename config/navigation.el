@@ -74,5 +74,8 @@
   (setq-default ivy-calling "c")
   :bind ("C-c g" . counsel-git-grep))
 
+(use-package rotate
+  :ensure t)
+
 (provide 'navigation)
 ;;; navigation.el ends here
