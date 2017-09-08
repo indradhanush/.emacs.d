@@ -25,7 +25,7 @@
             '(lambda ()
                (local-set-key (kbd "C-.") 'jedi:goto-definition)
                (local-set-key (kbd "C-,") 'jedi:goto-definition-pop-marker)
-               (local-set-key (kbd "C-c d") 'jedi:show-doc)
+               ;; (local-set-key (kbd "C-c d") 'jedi:show-doc)
                (local-set-key (kbd "C-<tab>") 'jedi:complete)))
   )
 
