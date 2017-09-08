@@ -56,12 +56,12 @@
                              'help-echo "Buffer is read-only"))))
     "] "
 
-    ;; add the time, with the date and the emacs uptime in the tooltip
-    '(:eval (propertize (format-time-string "%a %d-%b,%Y %H:%M")
-              'help-echo
-              (concat (format-time-string "%c; ")
-                      (emacs-uptime "Uptime:%hh"))))
     '(vc-mode vc-mode)
+    ;; add uptime
+    " "
+    '(:eval (propertize (emacs-uptime "Uptime:%d days")
+             'face 'font-lock-preprocessor-face
+             ))
 
     " --"
     ;; i don't want to see minor-modes; but if you want, uncomment this:
