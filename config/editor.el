@@ -104,6 +104,9 @@
   (setq fci-rule-column 120)
   (turn-on-fci-mode))
 
+(setq visible-bell 'nil)
+(setq ring-bell-function 'ignore)
+
 (toggle-truncate-lines 1)
 
 (provide 'editor)
