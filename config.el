@@ -164,6 +164,9 @@
   (setq fci-rule-column 120)
   (turn-on-fci-mode))
 
+(setq visible-bell 'nil)
+(setq ring-bell-function 'ignore)
+
 (toggle-truncate-lines 1)
 
 (provide 'editor)
@@ -181,12 +184,31 @@
 
 (setq-default erlang-root-dir "/usr/local/bin")
 
+
+(add-hook 'erlang-mode-hook (lambda () (electric-indent-local-mode -1)))
+
 (add-hook 'erlang-mode-hook 'erlang-setup
           (defun erlang-setup ()
             'auto-complete-mode 1
-            ))
+            (setq-default erlang-electric-semicolon-insert-blank-lines 1)
+            (setq-default erlang-argument-indent 4)))
 
 ;;; erlang.el ends here
+;; ############################################################################
+
+
+;; ############################################################################
+;; Config file: ~/.emacs.d/config/floobits.el
+;;; floobits --- configuration for floobits
+
+;;; Commentary:
+
+;;; Code:
+
+(use-package floobits)
+
+
+;;; floobits.el ends here
 ;; ############################################################################
 
 
@@ -392,7 +414,10 @@
 (use-package magit
   :ensure t
 
-  :bind (("C-c i" . magit-status)))
+  :bind (("C-c i" . magit-status))
+  :config
+  (setq magit-diff-refine-hunk t)
+  )
 
 ;;; magit.el ends here
 ;; ############################################################################
@@ -537,12 +562,12 @@
                              'help-echo "Buffer is read-only"))))
     "] "
 
-    ;; add the time, with the date and the emacs uptime in the tooltip
-    '(:eval (propertize (format-time-string "%a %d-%b,%Y %H:%M")
-              'help-echo
-              (concat (format-time-string "%c; ")
-                      (emacs-uptime "Uptime:%hh"))))
     '(vc-mode vc-mode)
+    ;; add uptime
+    " "
+    '(:eval (propertize (emacs-uptime "Uptime:%d days")
+             'face 'font-lock-preprocessor-face
+             ))
 
     " --"
     ;; i don't want to see minor-modes; but if you want, uncomment this:
@@ -699,7 +724,7 @@
             '(lambda ()
                (local-set-key (kbd "C-.") 'jedi:goto-definition)
                (local-set-key (kbd "C-,") 'jedi:goto-definition-pop-marker)
-               (local-set-key (kbd "C-c d") 'jedi:show-doc)
+               ;; (local-set-key (kbd "C-c d") 'jedi:show-doc)
                (local-set-key (kbd "C-<tab>") 'jedi:complete)))
   )
 
