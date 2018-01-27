@@ -1,9 +1,10 @@
-My Emacs Config
+Emacs Config
 ===
 
-This is my config for Emacs 25.1.1. Works best on OSX, but should work on Linux as well.
+This is my config for Emacs 25.1.1. Works best on OSX, but should work
+on Linux as well.
 
-##Usage:##
+**Usage:**
 
 ```
 cd ~
@@ -13,7 +14,8 @@ mv .emacs.d .emacs.d.backup
 
 # Clone the repo
 
-git clone git@github.com:indradhanush/.emacs.d.git .emacs.d
+git clone https://github.com/indradhanush/.emacs.d.git
 ```
 
-The configs use `use-package` and they will be installed on the fly.
+The configs use `use-package` and the packages will be installed on
+the fly.

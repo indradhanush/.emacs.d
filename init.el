@@ -13,6 +13,9 @@
 (setq package-menu-async t)
 
 ;; use-package configuration
+(package-refresh-contents)
+(package-install 'use-package)
+
 (require 'use-package)
 (setq use-package-verbose t)
 
