@@ -16,6 +16,7 @@
 ;; Buffer navigation.
 (global-set-key (kbd "C-c n") 'next-buffer)
 (global-set-key (kbd "C-c p") 'previous-buffer)
+(global-set-key (kbd "s-u") 'revert-buffer)
 
 ;; Custom key-bindings for switching between frames to match OSX
 ;; shortcut of switching between windows of the same application.
