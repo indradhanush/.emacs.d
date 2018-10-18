@@ -656,11 +656,15 @@
   :ensure t
   :bind ("C-s" . swiper))
 
+(use-package ivy-hydra
+  :ensure t)
+
 (use-package counsel
   :ensure t
   :config
   (setq-default ivy-calling "c")
-  :bind ("C-c g" . counsel-git-grep))
+  (setq counsel-git-grep-cmd "rg")
+  :bind ("C-c g" . counsel-rg))
 
 (use-package rotate
   :ensure t)
