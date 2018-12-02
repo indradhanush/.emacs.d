@@ -41,7 +41,7 @@
   :config
   (require 'helm-config)
   (global-unset-key (kbd "C-x c"))
-  (setq helm-split-window-in-side-p t
+  (setq helm-split-window-inside-p t
         helm-ff-file-name-history-use-recentf t
 
         helm-ff-skip-boring-files t
