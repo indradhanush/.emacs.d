@@ -19,8 +19,9 @@
   (setq ac-disable-faces nil)
   )
 
-(use-package ac-dabbrev
-  :ensure t)
+;; Hack. ac-dabbrev.el is placed at lisp/ac-dabbrev.el
+(require 'ac-dabbrev)
+(add-to-list 'ac-sources 'ac-source-dabbrev)
 
 (provide 'autocomplete)
 ;;; autocomplete.el ends here
