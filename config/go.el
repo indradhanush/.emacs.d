@@ -43,7 +43,8 @@
 (use-package go-autocomplete
   :ensure t
   :config
-  (require 'auto-complete-config))
+  (require 'auto-complete-config)
+  (ac-config-default))
 
 (use-package golint
   :ensure t)
