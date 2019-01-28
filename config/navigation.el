@@ -76,8 +76,7 @@
   :ensure t
   :config
   (setq-default ivy-calling "c")
-  (setq counsel-git-grep-cmd "rg")
-  :bind ("C-c g" . counsel-rg))
+  :bind ("C-c g" . counsel-git-grep))
 
 (use-package rotate
   :ensure t)
