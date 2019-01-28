@@ -121,5 +121,9 @@
 
 (global-set-key (kbd "M-;") 'comment-or-uncomment-region-or-line)
 
+(set-face-attribute 'default nil :height 110)
+(set-face-attribute 'default nil :width 'normal)
+(set-face-attribute 'default nil :weight 'normal)
+
 (provide 'editor)
 ;;; editor.el ends here
