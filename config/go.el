@@ -36,7 +36,12 @@
   (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "C-.") 'godef-jump)))
   (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "C-u C-.") 'godef-jump-other-window)))
   (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "C-,") 'xref-pop-marker-stack)))
-  (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "C-c v") 'goimports-fmt))))
+  (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "C-c v") 'goimports-fmt)))
+  (set-register ?e "if err != nil {
+		return err
+	}")
+  (set-fill-column 100)
+  )
 
 (add-hook 'go-mode-hook 'go-mode-setup)
 
