@@ -30,8 +30,9 @@
   (setq ac-disable-faces nil)
   )
 
-(use-package ac-dabbrev
-  :ensure t)
+;; Hack. ac-dabbrev.el is placed at lisp/ac-dabbrev.el
+(require 'ac-dabbrev)
+(add-to-list 'ac-sources 'ac-source-dabbrev)
 
 (provide 'autocomplete)
 ;;; autocomplete.el ends here
@@ -181,6 +182,10 @@
 
 (global-set-key (kbd "M-;") 'comment-or-uncomment-region-or-line)
 
+(set-face-attribute 'default nil :height 110)
+(set-face-attribute 'default nil :width 'normal)
+(set-face-attribute 'default nil :weight 'normal)
+
 (provide 'editor)
 ;;; editor.el ends here
 ;; ############################################################################
@@ -210,11 +215,6 @@
 
 
 ;; ############################################################################
-;; Config file: ~/.emacs.d/config/floobits.el
-;; ############################################################################
-
-
-;; ############################################################################
 ;; Config file: ~/.emacs.d/config/go.el
 ;;; go --- configuration for golang
 
@@ -233,7 +233,7 @@
 (use-package go-mode
   :ensure t
   :config
-  (setq gofmt-command "goimports")
+  (setq gofmt-command "gofmt")
   (add-hook 'before-save-hook 'gofmt-before-save))
 
 (use-package go-eldoc
@@ -241,19 +241,33 @@
   :config
   (go-eldoc-setup))
 
+(defun goimports-fmt ()
+  "Hack to use goimports to auto add/remove unsued imports."
+  (interactive)
+  (setq gofmt-command "goimports")
+  (gofmt)
+  (setq gofmt-command "gofmt"))
+
 (defun go-mode-setup ()
   "Enable configurations for go."
   (add-hook 'before-save-hook 'gofmt-before-save)
   (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "C-.") 'godef-jump)))
   (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "C-u C-.") 'godef-jump-other-window)))
-  (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "C-,") 'xref-pop-marker-stack))))
+  (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "C-,") 'xref-pop-marker-stack)))
+  (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "C-c v") 'goimports-fmt)))
+  (set-register ?e "if err != nil {
+		return err
+	}")
+  (set-fill-column 100)
+  )
 
 (add-hook 'go-mode-hook 'go-mode-setup)
 
 (use-package go-autocomplete
   :ensure t
   :config
-  (require 'auto-complete-config))
+  (require 'auto-complete-config)
+  (ac-config-default))
 
 (use-package golint
   :ensure t)
@@ -315,7 +329,7 @@
   :config
   (require 'helm-config)
   (global-unset-key (kbd "C-x c"))
-  (setq helm-split-window-in-side-p t
+  (setq helm-split-window-inside-p t
         helm-ff-file-name-history-use-recentf t
 
         helm-ff-skip-boring-files t
@@ -663,8 +677,7 @@
   :ensure t
   :config
   (setq-default ivy-calling "c")
-  (setq counsel-git-grep-cmd "rg")
-  :bind ("C-c g" . counsel-rg))
+  :bind ("C-c g" . counsel-git-grep))
 
 (use-package rotate
   :ensure t)
