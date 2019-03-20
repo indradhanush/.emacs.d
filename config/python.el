@@ -6,14 +6,17 @@
 
 (use-package python-mode
   :ensure t
+  :defer t
   :config
   (require 'python-mode))
 
 (use-package virtualenv
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (use-package jedi
   :ensure t
+  :defer t
   :config
   (add-hook 'python-mode-hook 'jedi:setup)
   (setq jedi:complete-on-dot t)
@@ -31,6 +34,8 @@
 
 (use-package virtualenvwrapper
   :ensure t
+  :defer t
+  :defines eshell-prompt-function project-venv-name
   :config
   (venv-initialize-interactive-shells)
   (venv-initialize-eshell)
@@ -50,6 +55,7 @@
 
 (use-package pip-requirements
   :ensure t
+  :defer t
   :config
   (add-hook 'pip-requirements-mode-hook #'pip-requirements-auto-complete-setup))
 

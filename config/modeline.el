@@ -59,9 +59,9 @@
     '(vc-mode vc-mode)
     ;; add uptime
     " "
-    '(:eval (propertize (emacs-uptime "Uptime:%d days")
-             'face 'font-lock-preprocessor-face
-             ))
+    ;; '(:eval (propertize (emacs-uptime "Uptime:%d days")
+    ;;          'face 'font-lock-preprocessor-face
+    ;;          ))
 
     " --"
     ;; i don't want to see minor-modes; but if you want, uncomment this:

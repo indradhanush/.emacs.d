@@ -5,6 +5,7 @@
 ;;; Code:
 (use-package auto-complete
   :ensure t
+  :defer t
   :config
   (ac-config-default)
 

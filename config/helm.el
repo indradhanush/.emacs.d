@@ -8,7 +8,8 @@
 ;; I have some personaltweaks here.
 (use-package helm
   :ensure t
-
+  :defer t
+  :functions helm-autoresize-mode
   :bind (("M-x" . helm-M-x)
          ("M-y" . helm-show-kill-ring)
 
@@ -85,6 +86,7 @@
 ;; helm-flycheck
 (use-package helm-flycheck
   :ensure t
+  :defer t
   :bind ("C-c f" . helm-flycheck)
   :config
   (global-flycheck-mode t))
@@ -100,9 +102,11 @@
 
 
 (use-package ag
-  :ensure t)
+  :ensure t
+  :defer t)
 (use-package helm-ag
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (provide 'helm)
 ;;; helm.el ends here

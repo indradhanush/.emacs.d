@@ -100,6 +100,8 @@
 
 (use-package fill-column-indicator
   :ensure t
+  :functions turn-on-fci-mode
+  :defer t
   :config
   (setq fci-rule-column 120)
   (turn-on-fci-mode))
@@ -121,7 +123,7 @@
 
 (global-set-key (kbd "M-;") 'comment-or-uncomment-region-or-line)
 
-(set-face-attribute 'default nil :height 110)
+(set-face-attribute 'default nil :height 115)
 (set-face-attribute 'default nil :width 'normal)
 (set-face-attribute 'default nil :weight 'normal)
 

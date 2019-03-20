@@ -11,6 +11,7 @@
 
 (use-package ledger-mode
   :ensure t
+  :defer t
   :config
   (add-to-list 'auto-mode-alist '("\\.ledger$" . ledger-mode)))
 

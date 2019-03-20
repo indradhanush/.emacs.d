@@ -16,6 +16,7 @@
 ;;; Code:
 (use-package auto-complete
   :ensure t
+  :defer t
   :config
   (ac-config-default)
 
@@ -161,6 +162,8 @@
 
 (use-package fill-column-indicator
   :ensure t
+  :functions turn-on-fci-mode
+  :defer t
   :config
   (setq fci-rule-column 120)
   (turn-on-fci-mode))
@@ -182,7 +185,7 @@
 
 (global-set-key (kbd "M-;") 'comment-or-uncomment-region-or-line)
 
-(set-face-attribute 'default nil :height 110)
+(set-face-attribute 'default nil :height 115)
 (set-face-attribute 'default nil :width 'normal)
 (set-face-attribute 'default nil :weight 'normal)
 
@@ -224,6 +227,8 @@
 
 (use-package exec-path-from-shell
   :ensure t
+  :defer t
+  :functions exec-path-from-shell-copy-env
   :config
   (when (memq window-system '(mac ns))
     (exec-path-from-shell-copy-env "GOROOT")
@@ -232,51 +237,57 @@
 
 (use-package go-mode
   :ensure t
+  :defer t
+  :mode "\\.go\\'"
   :config
   (setq gofmt-command "gofmt")
-  (add-hook 'before-save-hook 'gofmt-before-save))
+
+  (defun goimports-fmt ()
+    "Hack to use goimports to auto add/remove unsued imports."
+    (interactive)
+    (setq gofmt-command "goimports")
+    (gofmt)
+    (setq gofmt-command "gofmt"))
+
+  (defun go-mode-setup ()
+    "Enable configurations for go."
+    (add-hook 'before-save-hook 'gofmt-before-save)
+    (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "C-.") 'godef-jump)))
+    (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "C-u C-.") 'godef-jump-other-window)))
+    (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "C-,") 'xref-pop-marker-stack)))
+    (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "C-c v") 'goimports-fmt)))
+    (set-register ?e "if err != nil {
+		return err
+	}")
+    (set-fill-column 100))
+
+  (add-hook 'go-mode-hook 'go-mode-setup))
 
 (use-package go-eldoc
   :ensure t
+  :defer t
   :config
   (go-eldoc-setup))
 
-(defun goimports-fmt ()
-  "Hack to use goimports to auto add/remove unsued imports."
-  (interactive)
-  (setq gofmt-command "goimports")
-  (gofmt)
-  (setq gofmt-command "gofmt"))
-
-(defun go-mode-setup ()
-  "Enable configurations for go."
-  (add-hook 'before-save-hook 'gofmt-before-save)
-  (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "C-.") 'godef-jump)))
-  (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "C-u C-.") 'godef-jump-other-window)))
-  (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "C-,") 'xref-pop-marker-stack)))
-  (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "C-c v") 'goimports-fmt)))
-  (set-register ?e "if err != nil {
-		return err
-	}")
-  (set-fill-column 100)
-  )
-
-(add-hook 'go-mode-hook 'go-mode-setup)
 
 (use-package go-autocomplete
   :ensure t
+  :defer t
   :config
   (require 'auto-complete-config)
   (ac-config-default))
 
 (use-package golint
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (use-package go-guru
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (use-package go-playground
-  :ensure t)
+  :ensure t
+  :defer t)
 
 
 (provide 'go)
@@ -296,7 +307,8 @@
 ;; I have some personaltweaks here.
 (use-package helm
   :ensure t
-
+  :defer t
+  :functions helm-autoresize-mode
   :bind (("M-x" . helm-M-x)
          ("M-y" . helm-show-kill-ring)
 
@@ -373,6 +385,7 @@
 ;; helm-flycheck
 (use-package helm-flycheck
   :ensure t
+  :defer t
   :bind ("C-c f" . helm-flycheck)
   :config
   (global-flycheck-mode t))
@@ -388,9 +401,11 @@
 
 
 (use-package ag
-  :ensure t)
+  :ensure t
+  :defer t)
 (use-package helm-ag
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (provide 'helm)
 ;;; helm.el ends here
@@ -412,6 +427,7 @@
 
 (use-package ledger-mode
   :ensure t
+  :defer t
   :config
   (add-to-list 'auto-mode-alist '("\\.ledger$" . ledger-mode)))
 
@@ -429,7 +445,7 @@
 
 (use-package magit
   :ensure t
-
+  :defer t
   :bind (("C-c i" . magit-status))
   :config
   (setq magit-diff-refine-hunk t)
@@ -448,70 +464,73 @@
 ;;; Code:
 
 (use-package restart-emacs
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (use-package ssh-config-mode
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (use-package dockerfile-mode
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (setq-default js-indent-level 2)
 
 (use-package abbrev
- :diminish abbrev-mode
+  :diminish abbrev-mode
+  :defer t
+  :config
+  ;; stop asking whether to save newly added abbrev when quitting emacs
+  (setq save-abbrevs nil)
+  (setq-default abbrev-mode t)
 
- :config
- ;; stop asking whether to save newly added abbrev when quitting emacs
- (setq save-abbrevs nil)
- (setq-default abbrev-mode t)
+  (define-abbrev-table 'global-abbrev-table
+    '(
+      ;; math/unicode symbols
+      ("8N" "ℕ")
+      ("8R" "ℝ")
+      ("8Sig" "Σ")
+      ("8bot" "⟂")
+      ("8gam" "Γ")
+      ("8in" "∈")
+      ("8inf" "∞")
+      ("8inr" "₹")
+      ("8lam" "λ")
+      ("8lar" "←")
+      ("8luv" ":hearts:")
+      ("8meh" "¯\\_(ツ)_/¯")
+      ("8nin" "∉")
+      ("8no" ":x:")
+      ("8ok" "✓")
+      ("8rar" "→")
+      ("8rs" "₹")
+      ("8sig" "σ")
+      ("8smly" ":relaxed:")
+      ("8star" "★")
+      ("8t" "#+TITLE:")
+      ("8tau" "τ")
 
-(define-abbrev-table 'global-abbrev-table
-   '(
-     ;; math/unicode symbols
-     ("8N" "ℕ")
-     ("8R" "ℝ")
-     ("8Sig" "Σ")
-     ("8bot" "⟂")
-     ("8gam" "Γ")
-     ("8in" "∈")
-     ("8inf" "∞")
-     ("8inr" "₹")
-     ("8lam" "λ")
-     ("8lar" "←")
-     ("8luv" ":hearts:")
-     ("8meh" "¯\\_(ツ)_/¯")
-     ("8nin" "∉")
-     ("8no" ":x:")
-     ("8ok" "✓")
-     ("8rar" "→")
-     ("8rs" "₹")
-     ("8sig" "σ")
-     ("8smly" ":relaxed:")
-     ("8star" "★")
-     ("8t" "#+TITLE:")
-     ("8tau" "τ")
+      ;; email
+      ("8me" "indradhanush.gupta@gmail.com")
+      ("8i" "Indradhanush Gupta")
 
-     ;; email
-     ("8me" "indradhanush.gupta@gmail.com")
-     ("8i" "Indradhanush Gupta")
+      ;; normal english words
+      ("8alt" "alternative")
+      ("8char" "character")
+      ("8def" "definition")
+      ("8bg" "background")
+      ("8kb" "keyboard")
+      ("8ex" "example")
+      ("8env" "environment")
+      ("8var" "variable")
+      ("8cp" "computer")
 
-     ;; normal english words
-     ("8alt" "alternative")
-     ("8char" "character")
-     ("8def" "definition")
-     ("8bg" "background")
-     ("8kb" "keyboard")
-     ("8ex" "example")
-     ("8env" "environment")
-     ("8var" "variable")
-     ("8cp" "computer")
-
-     ;; Common words and phrases used in day to day programming
-     ("8hw" "Hello, World!")
-     ("8emacs" "/Users/dhanush/.emacs.d/")
-     ("8mojo" "/Users/dhanush/instamojo/")
-     ("8godev" "/Users/dhanush/golang/src/github.com/"))))
+      ;; Common words and phrases used in day to day programming
+      ("8hw" "Hello, World!")
+      ("8emacs" "/home/dhanush/.emacs.d/")
+      ("8volk" "/home/dhanush/kinvolk/")
+      ("8godev" "/home/dhanush/go/src/github.com/"))))
 
 (provide 'misc)
 ;;; misc.el ends here
@@ -581,9 +600,9 @@
     '(vc-mode vc-mode)
     ;; add uptime
     " "
-    '(:eval (propertize (emacs-uptime "Uptime:%d days")
-             'face 'font-lock-preprocessor-face
-             ))
+    ;; '(:eval (propertize (emacs-uptime "Uptime:%d days")
+    ;;          'face 'font-lock-preprocessor-face
+    ;;          ))
 
     " --"
     ;; i don't want to see minor-modes; but if you want, uncomment this:
@@ -632,6 +651,7 @@
 ;; Smartparens
 (use-package smartparens
   :ensure t
+  :defer t
   :config
   (global-set-key (kbd "M-s-f") 'sp-forward-sexp)
   (global-set-key (kbd "M-s-b") 'sp-backward-sexp))
@@ -644,6 +664,7 @@
 ;; Yafolding
 (use-package yafolding
   :ensure t
+  :defer t
   :config
   (global-set-key (kbd "C-c h") 'yafolding-hide-element)
   (global-set-key (kbd "C-c s") 'yafolding-show-element)
@@ -659,11 +680,13 @@
 
 (use-package multiple-cursors
   :ensure t
+  :defer t
   :bind (("C->" . mc/mark-next-like-this)
          ("C-<" . mc/mark-previous-like-this)))
 
 (use-package find-file-in-repository
   :ensure t
+  :defer t
   :bind ("C-x f" . find-file-in-repository))
 
 (use-package swiper
@@ -671,16 +694,19 @@
   :bind ("C-s" . swiper))
 
 (use-package ivy-hydra
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (use-package counsel
   :ensure t
+  :defer t
   :config
   (setq-default ivy-calling "c")
   :bind ("C-c g" . counsel-git-grep))
 
 (use-package rotate
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (provide 'navigation)
 ;;; navigation.el ends here
@@ -697,18 +723,21 @@
 
 (use-package exec-path-from-shell
   :ensure t
+  :defines mac-option-key-is-meta mac-command-key-is-meta mac-command-modifier mac-option-modifier
+  :functions exec-path-from-shell-copy-env
+  :defer t
   :config
   (when (memq window-system '(mac ns))
-    (exec-path-from-shell-copy-env "PATH")))
+    (exec-path-from-shell-copy-env "PATH")
 
-;; Bugfix for Kill a line on OSX; Comment out on Linux.
-(setq save-interprogram-paste-before-kill nil)
+    ;; Bugfix for Kill a line on OSX; Comment out on Linux.
+    (setq save-interprogram-paste-before-kill nil)
 
-;; Remap command to behave as Meta and Option as Super.
-(setq mac-option-key-is-meta nil)
-(setq mac-command-key-is-meta t)
-(setq mac-command-modifier 'meta)
-(setq mac-option-modifier 'super)
+    ;; Remap command to behave as Meta and Option as Super.
+    (setq mac-option-key-is-meta nil)
+    (setq mac-command-key-is-meta t)
+    (setq mac-command-modifier 'meta)
+    (setq mac-option-modifier 'super)))
 
 (provide 'osx)
 ;;; osx.el ends here
@@ -725,14 +754,17 @@
 
 (use-package python-mode
   :ensure t
+  :defer t
   :config
   (require 'python-mode))
 
 (use-package virtualenv
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (use-package jedi
   :ensure t
+  :defer t
   :config
   (add-hook 'python-mode-hook 'jedi:setup)
   (setq jedi:complete-on-dot t)
@@ -750,6 +782,8 @@
 
 (use-package virtualenvwrapper
   :ensure t
+  :defer t
+  :defines eshell-prompt-function project-venv-name
   :config
   (venv-initialize-interactive-shells)
   (venv-initialize-eshell)
@@ -769,6 +803,7 @@
 
 (use-package pip-requirements
   :ensure t
+  :defer t
   :config
   (add-hook 'pip-requirements-mode-hook #'pip-requirements-auto-complete-setup))
 
@@ -811,6 +846,7 @@
 
 (use-package terraform-mode
   :ensure t
+  :defer t
   :config
   (add-hook 'terraform-mode-hook 'terraform-format-on-save-mode)
   (add-hook 'terraform-mode-hook

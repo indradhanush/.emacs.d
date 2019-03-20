@@ -6,7 +6,7 @@
 
 (use-package magit
   :ensure t
-
+  :defer t
   :bind (("C-c i" . magit-status))
   :config
   (setq magit-diff-refine-hunk t)

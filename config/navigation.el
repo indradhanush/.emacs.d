@@ -31,6 +31,7 @@
 ;; Smartparens
 (use-package smartparens
   :ensure t
+  :defer t
   :config
   (global-set-key (kbd "M-s-f") 'sp-forward-sexp)
   (global-set-key (kbd "M-s-b") 'sp-backward-sexp))
@@ -43,6 +44,7 @@
 ;; Yafolding
 (use-package yafolding
   :ensure t
+  :defer t
   :config
   (global-set-key (kbd "C-c h") 'yafolding-hide-element)
   (global-set-key (kbd "C-c s") 'yafolding-show-element)
@@ -58,11 +60,13 @@
 
 (use-package multiple-cursors
   :ensure t
+  :defer t
   :bind (("C->" . mc/mark-next-like-this)
          ("C-<" . mc/mark-previous-like-this)))
 
 (use-package find-file-in-repository
   :ensure t
+  :defer t
   :bind ("C-x f" . find-file-in-repository))
 
 (use-package swiper
@@ -70,16 +74,19 @@
   :bind ("C-s" . swiper))
 
 (use-package ivy-hydra
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (use-package counsel
   :ensure t
+  :defer t
   :config
   (setq-default ivy-calling "c")
   :bind ("C-c g" . counsel-git-grep))
 
 (use-package rotate
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (provide 'navigation)
 ;;; navigation.el ends here
