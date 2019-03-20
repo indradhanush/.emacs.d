@@ -3,19 +3,20 @@
 ;;; Commentary:
 
 ;;; Code:
-(package-initialize)
 
-(add-to-list 'package-archives
-             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/")	t)
+(package-initialize)
+(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+
+;; Install use-package if it is not already installed.
+;; Found this from http://cachestocaches.com/2015/8/getting-started-use-package/
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
 
 (setq package-menu-async t)
 
 ;; use-package configuration
-(package-refresh-contents)
-(package-install 'use-package)
-
 (require 'use-package)
 (setq use-package-verbose t)
 
