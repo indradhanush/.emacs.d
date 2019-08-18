@@ -15,7 +15,7 @@
  '(helm-mode t)
  '(package-selected-packages
    (quote
-    (use-package fic-mode elpy terraform-mode python-mode multiple-cursors go-playground floobits rotate edts auto-complete-auctex auctex magit ggtags helm-gtags intero llvm-mode ledger-mode flycheck-tip erlang helm-flyspell ac-ispell flyspell-correct keyfreq ivy-hydra nginx-mode vlf yaml-mode auto-highlight-symbol sql-indent php-mode dockerfile-mode pip-requirements ag helm-ag ac-dabbrev go-guru golint go-autocomplete go-eldoc fill-column-indicator fci markdown-mode counsel counsel-git-grep ssh-config-mode go-mode swiper virtualenvwrapper exec-path-from-shell virtualenv jedi ace-jump-mode helm-swoop find-file-in-repository smex find-file-in-respository helm-flycheck material-theme helm-config helm yafolding smartparens company darktooth-theme smexz smexh darktooth restart-emacs)))
+    (fixmee racer racket-mode rust-playground rust-mode flycheck fontawesome use-package fic-mode elpy terraform-mode python-mode multiple-cursors go-playground floobits rotate edts auto-complete-auctex auctex magit ggtags helm-gtags intero llvm-mode ledger-mode flycheck-tip erlang helm-flyspell ac-ispell flyspell-correct keyfreq ivy-hydra nginx-mode vlf yaml-mode auto-highlight-symbol sql-indent php-mode dockerfile-mode pip-requirements ag helm-ag ac-dabbrev go-guru golint go-autocomplete go-eldoc fill-column-indicator fci markdown-mode counsel counsel-git-grep ssh-config-mode go-mode swiper virtualenvwrapper exec-path-from-shell virtualenv jedi ace-jump-mode helm-swoop find-file-in-repository smex find-file-in-respository helm-flycheck material-theme helm-config helm yafolding smartparens company darktooth-theme smexz smexh darktooth restart-emacs)))
  '(pos-tip-background-color "#36473A")
  '(pos-tip-foreground-color "#FFFFC8")
  '(safe-local-variable-values
@@ -33,4 +33,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((t (:inherit nil :stipple nil :background "gray12" :foreground "#ffffff" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "ADBO" :family "Source Code Pro")))))
