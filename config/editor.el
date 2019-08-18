@@ -127,5 +127,17 @@
 (set-face-attribute 'default nil :width 'normal)
 (set-face-attribute 'default nil :weight 'normal)
 
+(defun pairing-mode ()
+  "Customize editor look and feel to make it easy for the person on the other side of the network."
+  (interactive)
+  (set-face-attribute 'default nil :height 200)
+  (global-linum-mode))
+
+(defun unpairing-mode ()
+  "Customize editor look and feel to make it easy for the person on the other side of the network."
+  (interactive)
+  (set-face-attribute 'default nil :height 120)
+  (global-linum-mode 0))
+
 (provide 'editor)
 ;;; editor.el ends here
