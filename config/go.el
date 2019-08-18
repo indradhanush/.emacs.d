@@ -38,7 +38,8 @@
     (set-register ?e "if err != nil {
 		return err
 	}")
-    (set-fill-column 100))
+    (set-fill-column 100)
+    (yafolding-mode t))
 
   (add-hook 'go-mode-hook 'go-mode-setup))
 
