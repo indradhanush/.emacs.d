@@ -47,13 +47,18 @@
 ;;; Commentary:
 
 ;;; Code:
-;; (use-package company
-;;   :ensure t
-;;   )
+(use-package company
+  :ensure t
+  :defer t
+  :config
+  (setq company-idle-delay 0)
+  (setq company-minimum-prefix-length 1)
+  (setq company-selection-wrap-around t))
+
 
 ;; (add-hook 'after-init-hook 'global-company-mode)
 
-;; (provide 'company)
+(provide 'company)
 ;;; company.el ends here
 ;; ############################################################################
 
@@ -189,6 +194,18 @@
 (set-face-attribute 'default nil :width 'normal)
 (set-face-attribute 'default nil :weight 'normal)
 
+(defun pairing-mode ()
+  "Customize editor look and feel to make it easy for the person on the other side of the network."
+  (interactive)
+  (set-face-attribute 'default nil :height 200)
+  (global-linum-mode))
+
+(defun unpairing-mode ()
+  "Customize editor look and feel to make it easy for the person on the other side of the network."
+  (interactive)
+  (set-face-attribute 'default nil :height 120)
+  (global-linum-mode 0))
+
 (provide 'editor)
 ;;; editor.el ends here
 ;; ############################################################################
@@ -259,7 +276,8 @@
     (set-register ?e "if err != nil {
 		return err
 	}")
-    (set-fill-column 100))
+    (set-fill-column 100)
+    (yafolding-mode t))
 
   (add-hook 'go-mode-hook 'go-mode-setup))
 
@@ -449,6 +467,8 @@
   :bind (("C-c i" . magit-status))
   :config
   (setq magit-diff-refine-hunk t)
+  ;; Highlight whitespace changes in diffs
+  (setq smerge-refine-ignore-whitespace nil)
   )
 
 ;;; magit.el ends here
@@ -809,6 +829,39 @@
 
 (provide 'python)
 ;;; python.el ends here
+;; ############################################################################
+
+
+;; ############################################################################
+;; Config file: ~/.emacs.d/config/rust.el
+;;; rust --- configuration for rust
+
+;;; Commentary:
+
+;;; Code:
+(use-package rust-mode
+  :ensure t
+  :defer t)
+
+(use-package racer
+  :ensure t
+  :defer t
+  :config
+  (require 'rust-mode)
+  (add-hook 'rust-mode-hook #'racer-mode)
+  (add-hook 'racer-mode-hook #'eldoc-mode)
+  (add-hook 'racer-mode-hook #'company-mode)
+  (define-key rust-mode-map (kbd "TAB") #'company-indent-or-complete-common)
+  (define-key rust-mode-map (kbd "C-.") #'racer-find-definition)
+  (define-key rust-mode-map (kbd "C-,") #'pop-tag-mark)
+
+  (define-key rust-mode-map (kbd "M-.") nil)
+  (define-key rust-mode-map (kbd "M-,") nil)
+
+  (setq company-tooltip-align-annotations t))
+
+(provide 'rust)
+;;; rust.el ends here
 ;; ############################################################################
 
 
