@@ -190,7 +190,7 @@
 
 (global-set-key (kbd "M-;") 'comment-or-uncomment-region-or-line)
 
-(set-face-attribute 'default nil :height 115)
+(set-face-attribute 'default nil :height 120)
 (set-face-attribute 'default nil :width 'normal)
 (set-face-attribute 'default nil :weight 'normal)
 
@@ -472,6 +472,26 @@
   )
 
 ;;; magit.el ends here
+;; ############################################################################
+
+
+;; ############################################################################
+;; Config file: ~/.emacs.d/config/markdown.el
+;;; markdown --- configuration for markdown
+
+;;; Commentary:
+
+;;; Code:
+
+(defun markdown-mode-setup ()
+  "Enable configurations for markdown mode."
+  (set-fill-column 80))
+
+(add-hook 'markdown-mode-hook 'markdown-mode-setup)
+
+(provide 'markdown)
+;;; markdown.el ends here
+  
 ;; ############################################################################
 
 
