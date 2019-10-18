@@ -123,7 +123,7 @@
 
 (global-set-key (kbd "M-;") 'comment-or-uncomment-region-or-line)
 
-(set-face-attribute 'default nil :height 115)
+(set-face-attribute 'default nil :height 120)
 (set-face-attribute 'default nil :width 'normal)
 (set-face-attribute 'default nil :weight 'normal)
 
