@@ -6,6 +6,10 @@
 
 (server-start)
 
+;; Make emacs frames opaque. This is required when running something like picom.
+(set-frame-parameter (selected-frame) 'alpha '(100 100))
+(add-to-list 'default-frame-alist '(alpha 100 100))
+
 (setq column-number-mode t)
 
 (blink-cursor-mode 0)
@@ -123,21 +127,60 @@
 
 (global-set-key (kbd "M-;") 'comment-or-uncomment-region-or-line)
 
-(set-face-attribute 'default nil :height 120)
-(set-face-attribute 'default nil :width 'normal)
-(set-face-attribute 'default nil :weight 'normal)
+(set-face-attribute 'default nil :height 110)
+;; (set-face-attribute 'default nil :width 'normal)
+;; (set-face-attribute 'default nil :weight 'normal)
 
 (defun pairing-mode ()
   "Customize editor look and feel to make it easy for the person on the other side of the network."
   (interactive)
-  (set-face-attribute 'default nil :height 200)
-  (global-linum-mode))
+  (set-face-attribute 'default (selected-frame) :height 200)
+  (linum-mode))
 
 (defun unpairing-mode ()
   "Customize editor look and feel to make it easy for the person on the other side of the network."
   (interactive)
-  (set-face-attribute 'default nil :height 120)
+  (set-face-attribute 'default nil :height 110)
   (global-linum-mode 0))
+
+(defun standalone-mode ()
+  "Customize editor look and feel when working only on the laptop."
+  (interactive)
+  (set-face-attribute 'default nil :height 90))
+
+(defun external-fhd-mode ()
+  "Customize editor look and feel when working with an external FHD screen."
+  (interactive)
+  (set-face-attribute 'default nil :height 60))
+
+(defun change-font-size-this-frame ()
+  "Customize editor look and feel of current frame."
+  (interactive)
+  (set-face-attribute 'default (selected-frame) :height 110))
+
+(defun ultra-hd-mode ()
+  "Customize editor look and feel of current frame."
+  (interactive)
+  (set-face-attribute 'default nil :height 110))
+
+(require 'framemove)
+(setq framemove-hook-into-windmove t)
+
+(require 'buffer-move)
+
+;; Run `M-x byte-compile RET ~/.emacs.d/lisp/workgroups.el` to speed things up.
+(require 'workgroups)
+(workgroups-mode 1)
+
+(use-package undo-tree
+  :ensure t
+  :config
+  (global-undo-tree-mode))
+;; (require 'undo-tree)
+;; (global-undo-tree-mode)
+
+(use-package emojify
+  :hook (after-init . global-emojify-mode))
 
 (provide 'editor)
 ;;; editor.el ends here
