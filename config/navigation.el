@@ -18,6 +18,18 @@
 (global-set-key (kbd "C-c p") 'previous-buffer)
 (global-set-key (kbd "s-u") 'revert-buffer)
 
+;; Keyboard shortcuts to move buffers
+;; https://www.emacswiki.org/emacs/buffer-move.el
+(global-set-key (kbd "C-c C-c <left>") 'buf-move-left)
+(global-set-key (kbd "C-c C-c <right>") 'buf-move-right)
+(global-set-key (kbd "C-c C-c <up>") 'buf-move-up)
+(global-set-key (kbd "C-c C-c <down>") 'buf-move-down)
+
+(global-set-key (kbd "C-c C-c b") 'buf-move-left)
+(global-set-key (kbd "C-c C-c f") 'buf-move-right)
+(global-set-key (kbd "C-c C-c n") 'buf-move-up)
+(global-set-key (kbd "C-c C-c p") 'buf-move-down)
+
 ;; Custom key-bindings for switching between frames to match OSX
 ;; shortcut of switching between windows of the same application.
 (global-set-key (kbd "M-`") 'ns-next-frame)
@@ -50,6 +62,30 @@
   (global-set-key (kbd "C-c s") 'yafolding-show-element)
   (global-set-key (kbd "C-c M-h") 'yafolding-hide-all)
   (global-set-key (kbd "C-c M-s") 'yafolding-show-all))
+
+;; hs-minor-mode
+;; (setq hs-minor-mode-map
+;;       (let ((map (make-sparse-keymap)))
+;;         ;; These bindings roughly imitate those used by Outline mode.
+;;         ;; (define-key map (kbd "C-c h C-h") 'hs-hide-block)
+;;         ;; (define-key map (kbd "C-c h C-s") 'hs-show-block)
+;;         ;; (define-key map (kbd "C-c h M-h") 'hs-hide-all)
+;;         ;; (define-key map (kbd "C-c h M-s") 'hs-show-all)
+;;         ;; (define-key map (kbd "C-c h C-l") 'hs-hide-level)
+;;         (define-key map (kbd "<C-return>") 'hs-toggle-hiding)
+;;         ;; (define-key map [(shift mouse-2)] 'hs-mouse-toggle-hiding)
+;;         map))
+
+
+;; (global-set-key (kbd "<C-return>") 'nil)
+;; (add-hook 'prog-mode-hook
+;;           (local-set-key (kbd "C-\t") 'hs-toggle-hiding))
+
+(add-hook 'hs-minor-mode-hook (lambda ()
+  ;; (define-key hs-minor-mode-map (kbd "C-c @ C-c") nil) ;; Unmap complicated shortcut
+  (define-key hs-minor-mode-map (kbd "<C-return>") 'hs-toggle-hiding))) ;; Map to Ctrl-Return for easy access
+
+(add-hook 'prog-mode-hook #'hs-minor-mode)
 
 ;; Multiple Line Edit mode.
 (require 'multiple-line-edit)
