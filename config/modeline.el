@@ -57,6 +57,10 @@
     "] "
 
     '(vc-mode vc-mode)
+    ;; I would have liked to display currently active workgroup but this remains the same across all frames. :(
+    ;; " "
+    ;; (wg-echo-current-workgroup)
+    ;; (wg-mode-line-string)
     ;; add uptime
     " "
     ;; '(:eval (propertize (emacs-uptime "Uptime:%d days")
