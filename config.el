@@ -73,6 +73,10 @@
 
 (server-start)
 
+;; Make emacs frames opaque. This is required when running something like picom.
+(set-frame-parameter (selected-frame) 'alpha '(100 100))
+(add-to-list 'default-frame-alist '(alpha 100 100))
+
 (setq column-number-mode t)
 
 (blink-cursor-mode 0)
@@ -190,21 +194,60 @@
 
 (global-set-key (kbd "M-;") 'comment-or-uncomment-region-or-line)
 
-(set-face-attribute 'default nil :height 120)
-(set-face-attribute 'default nil :width 'normal)
-(set-face-attribute 'default nil :weight 'normal)
+(set-face-attribute 'default nil :height 110)
+;; (set-face-attribute 'default nil :width 'normal)
+;; (set-face-attribute 'default nil :weight 'normal)
 
 (defun pairing-mode ()
   "Customize editor look and feel to make it easy for the person on the other side of the network."
   (interactive)
-  (set-face-attribute 'default nil :height 200)
-  (global-linum-mode))
+  (set-face-attribute 'default (selected-frame) :height 200)
+  (linum-mode))
 
 (defun unpairing-mode ()
   "Customize editor look and feel to make it easy for the person on the other side of the network."
   (interactive)
-  (set-face-attribute 'default nil :height 120)
+  (set-face-attribute 'default nil :height 110)
   (global-linum-mode 0))
+
+(defun standalone-mode ()
+  "Customize editor look and feel when working only on the laptop."
+  (interactive)
+  (set-face-attribute 'default nil :height 90))
+
+(defun external-fhd-mode ()
+  "Customize editor look and feel when working with an external FHD screen."
+  (interactive)
+  (set-face-attribute 'default nil :height 60))
+
+(defun change-font-size-this-frame ()
+  "Customize editor look and feel of current frame."
+  (interactive)
+  (set-face-attribute 'default (selected-frame) :height 110))
+
+(defun ultra-hd-mode ()
+  "Customize editor look and feel of current frame."
+  (interactive)
+  (set-face-attribute 'default nil :height 110))
+
+(require 'framemove)
+(setq framemove-hook-into-windmove t)
+
+(require 'buffer-move)
+
+;; Run `M-x byte-compile RET ~/.emacs.d/lisp/workgroups.el` to speed things up.
+(require 'workgroups)
+(workgroups-mode 1)
+
+(use-package undo-tree
+  :ensure t
+  :config
+  (global-undo-tree-mode))
+;; (require 'undo-tree)
+;; (global-undo-tree-mode)
+
+(use-package emojify
+  :hook (after-init . global-emojify-mode))
 
 (provide 'editor)
 ;;; editor.el ends here
@@ -242,70 +285,89 @@
 
 ;;; Code:
 
-(use-package exec-path-from-shell
-  :ensure t
-  :defer t
-  :functions exec-path-from-shell-copy-env
-  :config
-  (when (memq window-system '(mac ns))
-    (exec-path-from-shell-copy-env "GOROOT")
-    (exec-path-from-shell-copy-env "GOPATH")))
+;; (use-package exec-path-from-shell
+;;   :ensure t
+;;   :defer t
+;;   :functions exec-path-from-shell-copy-env
+;;   :config
+;;   (when (memq window-system '(mac ns))
+;;     (exec-path-from-shell-copy-env "GOROOT")
+;;     (exec-path-from-shell-copy-env "GOPATH")))
 
+;; (use-package go-mode
+;;   :ensure t
+;;   :defer t
+;;   :config
+;;   (autoload 'go-mode "go-mode" nil t)
+;;   (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
+;;   (add-hook 'go-mode-hook 'lsp-deferred))
 
 (use-package go-mode
-  :ensure t
-  :defer t
-  :mode "\\.go\\'"
-  :config
-  (setq gofmt-command "gofmt")
+  :hook ((go-mode . lsp-deferred)
+         (before-save . lsp-format-buffer)
+         (before-save . lsp-organize-imports)))
 
-  (defun goimports-fmt ()
-    "Hack to use goimports to auto add/remove unsued imports."
-    (interactive)
-    (setq gofmt-command "goimports")
-    (gofmt)
-    (setq gofmt-command "gofmt"))
-
-  (defun go-mode-setup ()
-    "Enable configurations for go."
-    (add-hook 'before-save-hook 'gofmt-before-save)
-    (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "C-.") 'godef-jump)))
-    (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "C-u C-.") 'godef-jump-other-window)))
-    (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "C-,") 'xref-pop-marker-stack)))
-    (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "C-c v") 'goimports-fmt)))
-    (set-register ?e "if err != nil {
-		return err
-	}")
-    (set-fill-column 100)
-    (yafolding-mode t))
-
-  (add-hook 'go-mode-hook 'go-mode-setup))
-
-(use-package go-eldoc
-  :ensure t
-  :defer t
-  :config
-  (go-eldoc-setup))
+;; (use-package go-mode
+;;   :ensure t
+;;   :defer t
+;;   :mode "\\.go\\'"
+;;   :config
+;;   (autoload 'go-mode "go-mode" nil t)
+;;   (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
 
 
-(use-package go-autocomplete
-  :ensure t
-  :defer t
-  :config
-  (require 'auto-complete-config)
-  (ac-config-default))
+;;   (setq gofmt-command "gofmt")
 
-(use-package golint
-  :ensure t
-  :defer t)
+;;   (defun goimports-fmt ()
+;;     "Hack to use goimports to auto add/remove unsued imports."
+;;     (interactive)
+;;     (setq gofmt-command "goimports")
+;;     (gofmt)
+;;     (setq gofmt-command "gofmt"))
 
-(use-package go-guru
-  :ensure t
-  :defer t)
+;;   (defun go-mode-setup ()
+;;     "Enable configurations for go."
+;;     (setq gofmt-command "goimports")
+;;     (add-hook 'before-save-hook 'gofmt-before-save)
+;;     ;; (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "C-.") 'godef-jump)))
+;;     (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "C-u C-.") 'godef-jump-other-window)))
+;;     (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "C-,") 'xref-pop-marker-stack)))
+;;     (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "C-c v") 'goimports-fmt)))
+;;     (set-register ?e "if err != nil {zE
+;; 		return err
+;; 	}")
+;;     (set-fill-column 100)
+;;     (add-hook 'go-mode-hook #'hs-minor-mode)
+;;     ;; (local-set-key (kbd "<C-return>") 'hs-toggle-hiding)
 
-(use-package go-playground
-  :ensure t
-  :defer t)
+;;     (local-set-key (kbd "C-.") 'godef-jump)
+;;     (add-hook 'go-mode-hook 'go-mode-setup)))
+
+;; (use-package go-eldoc
+;;   :ensure t
+;;   :defer t
+;;   :config
+;;   (go-eldoc-setup))
+
+
+;; (use-package go-autocomplete
+;;   :ensure t
+;;   :defer t
+;;   :config
+;;   (require 'auto-complete-config)
+;;   (ac-config-default))
+
+;; (use-package golint
+;;   :ensure t
+;;   :defer t)
+
+;; (use-package go-guru
+;;   :ensure t
+;;   :defer t)
+
+;; (use-package go-playground
+;;   :ensure t
+;;   :defer t)
 
 
 (provide 'go)
@@ -454,6 +516,146 @@
 
 
 ;; ############################################################################
+;; Config file: ~/.emacs.d/config/lsp.el
+;;; lsp --- configuration for lsp-mode
+
+;;; Commentary:
+
+;;; Code:
+
+;; (use-package lsp-mode
+;;   :ensure t
+;;   :commands (lsp lsp-deferred)
+;;   :hook (go-mode . lsp-deferred)
+;;   :config
+;;   (setq gc-cons-threshold 400000000)
+;;   (setq read-process-output-max (* 1024 1024)) ;; 1mb
+;;   (setq lsp-idle-delay 0.500)
+;;   (setq lsp-log-io nil) ; if set to true can cause a performance hit
+;;   )
+
+;; flycheck syntax checker
+;; (use-package flycheck
+;;   :init (global-flycheck-mode))
+
+;; ;; LSP
+;; (use-package lsp-mode
+;;   :init
+;;   (setq lsp-keymap-prefix "C-c l")
+;;   :hook ((python-mode . lsp-deferred)
+;;          (go-mode . lsp-deferred)
+;;          (rust-mode . lsp-deferred)
+;;          (typescript-mode . lsp-deferred)
+;;          (lsp-mode . lsp-enable-which-key-integration))
+;;   :config
+;;   (setq gc-cons-threshold 400000000)
+;;   (setq read-process-output-max (* 1024 1024)) ;; 1mb
+;;   (setq lsp-idle-delay 0.500)
+;;   (setq lsp-log-io nil) ; if set to true can cause a performance hit
+;;   :commands (lsp lsp-deferred))
+
+;; (use-package lsp-ui
+;;   :hook (lsp-mode . lsp-ui-mode)
+;;   :custom
+;;   (lsp-ui-doc-position 'bottom))
+
+;; (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+
+;; (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+
+;; (use-package company-lsp
+;;   :commands company-lsp)
+
+;; ;;Optional - provides snippet support.
+
+;; (use-package yasnippet
+;;   :commands yas-minor-mode
+;;   :hook (
+;;          (go-mode . yas-minor-mode)
+;;          (python-mode . yas-minor-mode)
+;;          ))
+
+;; (setq lsp-ui-doc-enable t
+;;       lsp-ui-peek-enable t
+;;       lsp-ui-sideline-enable t
+;;       lsp-ui-imenu-enable t
+;;       lsp-ui-flycheck-enable t)
+
+;; ;; DAP
+;; (use-package dap-mode
+;;   ;; Uncomment the config below if you want all UI panes to be hidden by default!
+;;   ;; :custom
+;;   ;; (lsp-enable-dap-auto-configure nil)
+;;   ;; :config
+;;   ;; (dap-ui-mode 1)
+;;   :commands dap-debug
+;;   :config
+;;   ;; Set up Node debugging
+;;   (require 'dap-node)
+;;   (dap-node-setup) ;; Automatically installs Node debug adapter if needed
+;;   (require 'dap-go)
+;;   (dap-go-setup)
+;;   (require 'dap-hydra)
+;;   (require 'dap-gdb-lldb)
+;;   (dap-gdb-lldb-setup)
+
+;;   ;; Bind `C-c l d` to `dap-hydra` for easy access
+;;   (general-define-key
+;;     :keymaps 'lsp-mode-map
+;;     :prefix lsp-keymap-prefix
+;;     "d" '(dap-hydra t :wk "debugger")))
+
+
+
+
+
+;; ;; ;; Set up before-save hooks to format buffer and add/delete imports.
+;; ;; ;; Make sure you don't have other gofmt/goimports hooks enabled.
+;; ;; (defun lsp-go-install-save-hooks ()
+;; ;;   (add-hook 'before-save-hook #'lsp-format-buffer t t)
+;; ;;   (add-hook 'before-save-hook #'lsp-organize-imports t t))
+;; ;; (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
+
+;; ;; ;; Optional - provides fancier overlays.
+;; ;; (use-package lsp-ui
+;; ;;   :ensure t
+;; ;;   :commands lsp-ui-mode)
+
+;; ;; ;; Company mode is a standard completion package that works well with lsp-mode.
+;; ;; (use-package company
+;; ;;   :ensure t
+;; ;;   :config
+;; ;;   ;; Optionally enable completion-as-you-type behavior.
+;; ;;   (setq company-idle-delay 0)
+;; ;;   (setq company-minimum-prefix-length 1))
+
+;; ;; ;; Optional - provides snippet support.
+;; ;; (use-package yasnippet
+;; ;;   :ensure t
+;; ;;   :commands yas-minor-mode
+;; ;;   :hook (go-mode . yas-minor-mode))
+
+
+;; Company mode
+(setq company-idle-delay 0)
+(setq company-minimum-prefix-length 1)
+
+;; Go - lsp-mode
+;; Set up before-save hooks to format buffer and add/delete imports.
+(defun lsp-go-install-save-hooks ()
+  (add-hook 'before-save-hook #'lsp-format-buffer t t)
+  (add-hook 'before-save-hook #'lsp-organize-imports t t))
+(add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
+
+;; Start LSP Mode and YASnippet mode
+(add-hook 'go-mode-hook #'lsp-deferred)
+(add-hook 'go-mode-hook #'yas-minor-mode)
+
+;; ;;; lsp.el ends here
+;; ############################################################################
+
+
+;; ############################################################################
 ;; Config file: ~/.emacs.d/config/magit.el
 ;;; magit ---- configuratio for magit
 
@@ -491,7 +693,6 @@
 
 (provide 'markdown)
 ;;; markdown.el ends here
-  
 ;; ############################################################################
 
 
@@ -638,6 +839,10 @@
     "] "
 
     '(vc-mode vc-mode)
+    ;; I would have liked to display currently active workgroup but this remains the same across all frames. :(
+    ;; " "
+    ;; (wg-echo-current-workgroup)
+    ;; (wg-mode-line-string)
     ;; add uptime
     " "
     ;; '(:eval (propertize (emacs-uptime "Uptime:%d days")
@@ -678,6 +883,18 @@
 (global-set-key (kbd "C-c p") 'previous-buffer)
 (global-set-key (kbd "s-u") 'revert-buffer)
 
+;; Keyboard shortcuts to move buffers
+;; https://www.emacswiki.org/emacs/buffer-move.el
+(global-set-key (kbd "C-c C-c <left>") 'buf-move-left)
+(global-set-key (kbd "C-c C-c <right>") 'buf-move-right)
+(global-set-key (kbd "C-c C-c <up>") 'buf-move-up)
+(global-set-key (kbd "C-c C-c <down>") 'buf-move-down)
+
+(global-set-key (kbd "C-c C-c b") 'buf-move-left)
+(global-set-key (kbd "C-c C-c f") 'buf-move-right)
+(global-set-key (kbd "C-c C-c n") 'buf-move-up)
+(global-set-key (kbd "C-c C-c p") 'buf-move-down)
+
 ;; Custom key-bindings for switching between frames to match OSX
 ;; shortcut of switching between windows of the same application.
 (global-set-key (kbd "M-`") 'ns-next-frame)
@@ -710,6 +927,30 @@
   (global-set-key (kbd "C-c s") 'yafolding-show-element)
   (global-set-key (kbd "C-c M-h") 'yafolding-hide-all)
   (global-set-key (kbd "C-c M-s") 'yafolding-show-all))
+
+;; hs-minor-mode
+;; (setq hs-minor-mode-map
+;;       (let ((map (make-sparse-keymap)))
+;;         ;; These bindings roughly imitate those used by Outline mode.
+;;         ;; (define-key map (kbd "C-c h C-h") 'hs-hide-block)
+;;         ;; (define-key map (kbd "C-c h C-s") 'hs-show-block)
+;;         ;; (define-key map (kbd "C-c h M-h") 'hs-hide-all)
+;;         ;; (define-key map (kbd "C-c h M-s") 'hs-show-all)
+;;         ;; (define-key map (kbd "C-c h C-l") 'hs-hide-level)
+;;         (define-key map (kbd "<C-return>") 'hs-toggle-hiding)
+;;         ;; (define-key map [(shift mouse-2)] 'hs-mouse-toggle-hiding)
+;;         map))
+
+
+;; (global-set-key (kbd "<C-return>") 'nil)
+;; (add-hook 'prog-mode-hook
+;;           (local-set-key (kbd "C-\t") 'hs-toggle-hiding))
+
+(add-hook 'hs-minor-mode-hook (lambda ()
+  ;; (define-key hs-minor-mode-map (kbd "C-c @ C-c") nil) ;; Unmap complicated shortcut
+  (define-key hs-minor-mode-map (kbd "<C-return>") 'hs-toggle-hiding))) ;; Map to Ctrl-Return for easy access
+
+(add-hook 'prog-mode-hook #'hs-minor-mode)
 
 ;; Multiple Line Edit mode.
 (require 'multiple-line-edit)
@@ -923,7 +1164,8 @@
   :config
   (add-hook 'terraform-mode-hook 'terraform-format-on-save-mode)
   (add-hook 'terraform-mode-hook
-            (lambda () (local-set-key (kbd "C-M-\\") 'terraform-format-buffer))))
+            (lambda () (local-set-key (kbd "C-M-\\") 'terraform-format-buffer)))
+  (local-set-key (kbd "<C-return>") 'hs-toggle-hiding))
 
 ;;; terraform.el ends here
 ;; ############################################################################
