@@ -4,132 +4,137 @@
 
 ;;; Code:
 
-;; (use-package lsp-mode
-;;   :ensure t
-;;   :commands (lsp lsp-deferred)
-;;   :hook (go-mode . lsp-deferred)
-;;   :config
-;;   (setq gc-cons-threshold 400000000)
-;;   (setq read-process-output-max (* 1024 1024)) ;; 1mb
-;;   (setq lsp-idle-delay 0.500)
-;;   (setq lsp-log-io nil) ; if set to true can cause a performance hit
-;;   )
 
-;; flycheck syntax checker
-;; (use-package flycheck
-;;   :init (global-flycheck-mode))
+;; A modern list API for Emacs. No 'cl required. Used here by lsp-mode.
+(use-package dash
+  :ensure t)
 
-;; ;; LSP
+(use-package company
+  :ensure t
+  :config
+  ;; don't add any delay before trying to complete thing being typed
+  ;; the call/response to gopls is asynchronous so this should have little
+  ;; to no affect on edit latency
+  (setq company-idle-delay 0)
+  ;; start completing after a single character instead of 3
+  (setq company-minimum-prefix-length 1)
+  ;; align fields in completions
+  (setq company-tooltip-align-annotations t)
+
+  (add-hook 'after-init-hook 'global-company-mode)
+
+  )
+
+
 ;; (use-package lsp-mode
 ;;   :init
+;;   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
 ;;   (setq lsp-keymap-prefix "C-c l")
-;;   :hook ((python-mode . lsp-deferred)
+;;   :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
 ;;          (go-mode . lsp-deferred)
-;;          (rust-mode . lsp-deferred)
-;;          (typescript-mode . lsp-deferred)
-;;          (lsp-mode . lsp-enable-which-key-integration))
+;;          ;; if you want which-key integration
+;;          ;; (lsp-mode . lsp-enable-which-key-integration))
 ;;   :config
-;;   (setq gc-cons-threshold 400000000)
-;;   (setq read-process-output-max (* 1024 1024)) ;; 1mb
-;;   (setq lsp-idle-delay 0.500)
-;;   (setq lsp-log-io nil) ; if set to true can cause a performance hit
-;;   :commands (lsp lsp-deferred))
+;;   ;; (setq gc-cons-threshold 100000000)
+;;   ;; (setq read-process-output-max (* 1024 1024)) ;; 1mb
+;;   ;; (setq lsp-idle-delay 1)
+;;   ;; (setq lsp-log-io nil) ; if set to true can cause a performance hit
+;;   :commands lsp lsp-deferred))
 
-;; (use-package lsp-ui
-;;   :hook (lsp-mode . lsp-ui-mode)
-;;   :custom
-;;   (lsp-ui-doc-position 'bottom))
-
-;; (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
-
-;; (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
-
-;; (use-package company-lsp
-;;   :commands company-lsp)
-
-;; ;;Optional - provides snippet support.
-
-;; (use-package yasnippet
-;;   :commands yas-minor-mode
-;;   :hook (
-;;          (go-mode . yas-minor-mode)
-;;          (python-mode . yas-minor-mode)
-;;          ))
-
-;; (setq lsp-ui-doc-enable t
-;;       lsp-ui-peek-enable t
-;;       lsp-ui-sideline-enable t
-;;       lsp-ui-imenu-enable t
-;;       lsp-ui-flycheck-enable t)
-
-;; ;; DAP
-;; (use-package dap-mode
-;;   ;; Uncomment the config below if you want all UI panes to be hidden by default!
-;;   ;; :custom
-;;   ;; (lsp-enable-dap-auto-configure nil)
-;;   ;; :config
-;;   ;; (dap-ui-mode 1)
-;;   :commands dap-debug
-;;   :config
-;;   ;; Set up Node debugging
-;;   (require 'dap-node)
-;;   (dap-node-setup) ;; Automatically installs Node debug adapter if needed
-;;   (require 'dap-go)
-;;   (dap-go-setup)
-;;   (require 'dap-hydra)
-;;   (require 'dap-gdb-lldb)
-;;   (dap-gdb-lldb-setup)
-
-;;   ;; Bind `C-c l d` to `dap-hydra` for easy access
-;;   (general-define-key
-;;     :keymaps 'lsp-mode-map
-;;     :prefix lsp-keymap-prefix
-;;     "d" '(dap-hydra t :wk "debugger")))
+(use-package lsp-mode
+  :ensure t
+  :commands (lsp lsp-deferred)
+  :hook (go-mode . lsp-deferred)
+  :init
+  (setq lsp-keymap-prefix "s-g")
+  ;; :bind (("s-g" . lsp-keymap-prefix))
+  :config
+  ;; (setq lsp-gopls-staticcheck t)
+  ;; (setq lsp-eldoc-render-all t)
+  ;; (setq lsp-gopls-complete-unimported t)
+  (setq lsp-enable-file-watchers nil)
+  ;; (setq lsp-enable-snippet nil)
+  )
 
 
+;; (add-hook 'go-mode-hook #'lsp-deferred)
 
-
-
-;; ;; ;; Set up before-save hooks to format buffer and add/delete imports.
-;; ;; ;; Make sure you don't have other gofmt/goimports hooks enabled.
-;; ;; (defun lsp-go-install-save-hooks ()
-;; ;;   (add-hook 'before-save-hook #'lsp-format-buffer t t)
-;; ;;   (add-hook 'before-save-hook #'lsp-organize-imports t t))
-;; ;; (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
-
-;; ;; ;; Optional - provides fancier overlays.
-;; ;; (use-package lsp-ui
-;; ;;   :ensure t
-;; ;;   :commands lsp-ui-mode)
-
-;; ;; ;; Company mode is a standard completion package that works well with lsp-mode.
-;; ;; (use-package company
-;; ;;   :ensure t
-;; ;;   :config
-;; ;;   ;; Optionally enable completion-as-you-type behavior.
-;; ;;   (setq company-idle-delay 0)
-;; ;;   (setq company-minimum-prefix-length 1))
-
-;; ;; ;; Optional - provides snippet support.
-;; ;; (use-package yasnippet
-;; ;;   :ensure t
-;; ;;   :commands yas-minor-mode
-;; ;;   :hook (go-mode . yas-minor-mode))
-
-
-;; Company mode
-(setq company-idle-delay 0)
-(setq company-minimum-prefix-length 1)
-
-;; Go - lsp-mode
 ;; Set up before-save hooks to format buffer and add/delete imports.
+;; Make sure you don't have other gofmt/goimports hooks enabled.
 (defun lsp-go-install-save-hooks ()
   (add-hook 'before-save-hook #'lsp-format-buffer t t)
   (add-hook 'before-save-hook #'lsp-organize-imports t t))
 (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
 
-;; Start LSP Mode and YASnippet mode
-(add-hook 'go-mode-hook #'lsp-deferred)
-(add-hook 'go-mode-hook #'yas-minor-mode)
+(setq gc-cons-threshold 100000000)
+(setq read-process-output-max (* 1024 1024)) ;; 1mb
+(setq lsp-idle-delay 1)
+(setq lsp-log-io nil) ; if set to true can cause a performance hit
 
-;; ;;; lsp.el ends here
+(use-package lsp-ui
+  :ensure t
+  :commands lsp-ui-mode
+  :init
+  :config
+  (setq lsp-ui-doc-enable nil)
+  (setq lsp-ui-doc-position 'top)
+  (setq lsp-ui-doc-alignment 'window)
+  (setq lsp-ui-peek-enable t)
+  (setq lsp-ui-sideline-enable t)
+  (setq lsp-ui-imenu-enable t)
+  (setq lsp-ui-imenu-auto-refresh t)
+  ;; (lsp-ui-sideline-show-diagnostics t)
+  ;; (lsp-ui-sideline-show-hover t)
+  ;; (lsp-ui-sideline-show-code-actions t)
+  ;; (lsp-ui-sideline-update-mode t)
+  (setq lsp-ui-doc-delay 0.1)
+  (setq lsp-ui-sideline-delay 1)
+
+  :bind (("C-c f" . lsp-ui-flycheck-list))
+  
+
+  ;; :bind
+  ;; (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
+  ;; (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
+  )
+
+(require 'lsp-ui)
+(define-key lsp-ui-mode-map (kbd "M-i") #'lsp-ui-imenu)
+(define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
+(define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
+
+
+
+
+;; (define-key lsp-ui-mode-map (kbd "ESC ESC") #'lsp-ui-doc-hide)
+;; (define-key lsp-ui-mode-map (kbd ""
+
+;; (setq lsp-ui-doc-enable nil)
+;; (setq lsp-ui-peek-enable t)
+;; (setq lsp-ui-sideline-enable t)
+;; (setq lsp-ui-imenu-enable t)
+
+;; (use-package company-lsp
+
+;;   :ensure t
+;;   :config
+;;   :commands company-lsp)
+
+;; (require 'company-lsp)
+;; (push 'company-lsp company-backends)
+
+;; (use-package company-lsp
+;;   :load-path "lisp/company-lsp"
+;;   :ensure t
+;;   :config
+;;   :commands company-lsp)
+
+;; (company-lsp)
+
+(use-package yasnippet
+  :ensure t
+  :commands yas-minor-mode
+  :hook (go-mode . yas-minor-mode))
+
+(provide 'lsp)
+;;; lsp.el ends here

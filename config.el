@@ -14,28 +14,28 @@
 ;;; Commentary:
 
 ;;; Code:
-(use-package auto-complete
-  :ensure t
-  :defer t
-  :config
-  (ac-config-default)
+;; (use-package auto-complete
+;;   :ensure t
+;;   :defer t
+;;   :config
+;;   (ac-config-default)
 
-  (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
+;;   (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
 
-  (add-to-list 'ac-modes 'terraform-mode)
+;;   (add-to-list 'ac-modes 'terraform-mode)
 
-  (setq ac-use-menu-map t)
-  (setq ac-menu-height 20)
-  (setq ac-auto-show-menu 0.3)
-  (setq ac-use-fuzzy t)
-  (setq ac-disable-faces nil)
-  )
+;;   (setq ac-use-menu-map t)
+;;   (setq ac-menu-height 20)
+;;   (setq ac-auto-show-menu 0.3)
+;;   (setq ac-use-fuzzy t)
+;;   (setq ac-disable-faces nil)
+;;   )
 
 ;; Hack. ac-dabbrev.el is placed at lisp/ac-dabbrev.el
-(require 'ac-dabbrev)
-(add-to-list 'ac-sources 'ac-source-dabbrev)
+;; (require 'ac-dabbrev)
+;; (add-to-list 'ac-sources 'ac-source-dabbrev)
 
-(provide 'autocomplete)
+;; (provide 'autocomplete)
 ;;; autocomplete.el ends here
 ;; ############################################################################
 
@@ -47,18 +47,25 @@
 ;;; Commentary:
 
 ;;; Code:
-(use-package company
-  :ensure t
-  :defer t
-  :config
-  (setq company-idle-delay 0)
-  (setq company-minimum-prefix-length 1)
-  (setq company-selection-wrap-around t))
+;; (use-package company
+;;   :ensure t
+;;   :config
+;;   ;; don't add any delay before trying to complete thing being typed
+;;   ;; the call/response to gopls is asynchronous so this should have little
+;;   ;; to no affect on edit latency
+;;   (setq company-idle-delay 0)
+;;   ;; start completing after a single character instead of 3
+;;   (setq company-minimum-prefix-length 1)
+;;   ;; align fields in completions
+;;   (setq company-tooltip-align-annotations t)
 
+;;   (add-hook 'after-init-hook 'global-company-mode)
+
+;;   )
 
 ;; (add-hook 'after-init-hook 'global-company-mode)
 
-(provide 'company)
+;; (provide 'company)
 ;;; company.el ends here
 ;; ############################################################################
 
@@ -118,16 +125,9 @@
 (menu-bar-mode -1)
 
 ;; Colour theme
-;; (use-package darktooth-theme
-;;   :ensure t
-;;   :config
-;;   (load-theme 'darktooth))
-
-(use-package material-theme
-  :ensure t
+(use-package doom-themes
   :config
-  (load-theme 'material t))
-
+  (load-theme 'doom-gruvbox t))
 
 ;; #################################################
 ;; Custom key bindings
@@ -142,7 +142,8 @@
 ;; Backspace settings
 (global-set-key (kbd "C-?") 'help-command)
 ;; (global-set-key (kbd "M-?") 'mark-paragraph)
-(global-set-key (kbd "C-h") 'delete-backward-char)
+
+(global-set-key (kbd "C-h") 'backward-delete-char)
 (global-set-key (kbd "M-h") 'backward-kill-word)
 
 
@@ -175,12 +176,17 @@
   :defer t
   :config
   (setq fci-rule-column 120)
-  (turn-on-fci-mode))
+  ;; (turn-on-fci-mode)
+  )
 
 (setq visible-bell 'nil)
 (setq ring-bell-function 'ignore)
 
 (toggle-truncate-lines 1)
+
+(global-hl-line-mode 1)
+(global-visual-line-mode 1)
+(toggle-word-wrap nil)
 
 (defun comment-or-uncomment-region-or-line ()
     "Comments or uncomments the region or the current line if there's no active region."
@@ -194,7 +200,7 @@
 
 (global-set-key (kbd "M-;") 'comment-or-uncomment-region-or-line)
 
-(set-face-attribute 'default nil :height 110)
+(set-face-attribute 'default nil :height 115)
 ;; (set-face-attribute 'default nil :width 'normal)
 ;; (set-face-attribute 'default nil :weight 'normal)
 
@@ -236,18 +242,21 @@
 (require 'buffer-move)
 
 ;; Run `M-x byte-compile RET ~/.emacs.d/lisp/workgroups.el` to speed things up.
-(require 'workgroups)
-(workgroups-mode 1)
+;; (require 'workgroups)
+;; (use-package workgroups
+;;   :ensure t
+;;   :init
+;;   (workgroups-mode 1))
 
-(use-package undo-tree
-  :ensure t
-  :config
-  (global-undo-tree-mode))
+;; (use-package undo-tree
+;;   :ensure t
+;;   :config
+;;   (global-undo-tree-mode))
 ;; (require 'undo-tree)
 ;; (global-undo-tree-mode)
 
-(use-package emojify
-  :hook (after-init . global-emojify-mode))
+;; (use-package emojify
+;;   :hook (after-init . global-emojify-mode))
 
 (provide 'editor)
 ;;; editor.el ends here
@@ -262,16 +271,16 @@
 
 ;;; Code:
 
-(setq-default erlang-root-dir "/usr/local/bin")
+;; (setq-default erlang-root-dir "/usr/local/bin")
 
 
-(add-hook 'erlang-mode-hook (lambda () (electric-indent-local-mode -1)))
+;; (add-hook 'erlang-mode-hook (lambda () (electric-indent-local-mode -1)))
 
-(add-hook 'erlang-mode-hook 'erlang-setup
-          (defun erlang-setup ()
-            'auto-complete-mode 1
-            (setq-default erlang-electric-semicolon-insert-blank-lines 1)
-            (setq-default erlang-argument-indent 4)))
+;; (add-hook 'erlang-mode-hook 'erlang-setup
+;;           (defun erlang-setup ()
+;;             'auto-complete-mode 1
+;;             (setq-default erlang-electric-semicolon-insert-blank-lines 1)
+;;             (setq-default erlang-argument-indent 4)))
 
 ;;; erlang.el ends here
 ;; ############################################################################
@@ -294,81 +303,24 @@
 ;;     (exec-path-from-shell-copy-env "GOROOT")
 ;;     (exec-path-from-shell-copy-env "GOPATH")))
 
-;; (use-package go-mode
-;;   :ensure t
-;;   :defer t
-;;   :config
-;;   (autoload 'go-mode "go-mode" nil t)
-;;   (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
-;;   (add-hook 'go-mode-hook 'lsp-deferred))
+
+(add-hook 'go-mode-hook (lambda () (auto-complete-mode -1)))
 
 (use-package go-mode
-  :hook ((go-mode . lsp-deferred)
-         (before-save . lsp-format-buffer)
-         (before-save . lsp-organize-imports)))
+  :ensure t
+  :config
+  (add-hook 'go-mode-hook (lambda()
+                            (global-visual-line-mode nil)
+                            (setq tab-width 4)
+                            ))
 
-;; (use-package go-mode
-;;   :ensure t
-;;   :defer t
-;;   :mode "\\.go\\'"
-;;   :config
-;;   (autoload 'go-mode "go-mode" nil t)
-;;   (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
+  (setenv "GOROOT" (string-trim (shell-command-to-string "go env GOROOT")))
+  (setenv "GOPATH" (string-trim (shell-command-to-string "go env GOPATH"))))
 
 
-;;   (setq gofmt-command "gofmt")
-
-;;   (defun goimports-fmt ()
-;;     "Hack to use goimports to auto add/remove unsued imports."
-;;     (interactive)
-;;     (setq gofmt-command "goimports")
-;;     (gofmt)
-;;     (setq gofmt-command "gofmt"))
-
-;;   (defun go-mode-setup ()
-;;     "Enable configurations for go."
-;;     (setq gofmt-command "goimports")
-;;     (add-hook 'before-save-hook 'gofmt-before-save)
-;;     ;; (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "C-.") 'godef-jump)))
-;;     (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "C-u C-.") 'godef-jump-other-window)))
-;;     (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "C-,") 'xref-pop-marker-stack)))
-;;     (add-hook 'go-mode-hook (lambda () (local-set-key (kbd "C-c v") 'goimports-fmt)))
-;;     (set-register ?e "if err != nil {zE
-;; 		return err
-;; 	}")
-;;     (set-fill-column 100)
-;;     (add-hook 'go-mode-hook #'hs-minor-mode)
-;;     ;; (local-set-key (kbd "<C-return>") 'hs-toggle-hiding)
-
-;;     (local-set-key (kbd "C-.") 'godef-jump)
-;;     (add-hook 'go-mode-hook 'go-mode-setup)))
-
-;; (use-package go-eldoc
-;;   :ensure t
-;;   :defer t
-;;   :config
-;;   (go-eldoc-setup))
-
-
-;; (use-package go-autocomplete
-;;   :ensure t
-;;   :defer t
-;;   :config
-;;   (require 'auto-complete-config)
-;;   (ac-config-default))
-
-;; (use-package golint
-;;   :ensure t
-;;   :defer t)
-
-;; (use-package go-guru
-;;   :ensure t
-;;   :defer t)
-
-;; (use-package go-playground
-;;   :ensure t
-;;   :defer t)
-
+  ;; :hook ((go-mode . lsp-deferred)
+  ;;        (before-save . lsp-format-buffer)
+  ;;        (before-save . lsp-organize-imports)))
 
 (provide 'go)
 ;;; go.el ends here
@@ -447,7 +399,7 @@
     (interactive)
     (if (looking-back "/" 1)
         (call-interactively 'helm-find-files-up-one-level)
-      (delete-backward-char 1)))
+      (backward-delete-char 1)))
 
   (defun dwim-helm-find-files-navigate-forward (orig-fun &rest args)
     "Adjust how helm-execute-persistent actions behaves, depending on context"
@@ -523,135 +475,140 @@
 
 ;;; Code:
 
-;; (use-package lsp-mode
-;;   :ensure t
-;;   :commands (lsp lsp-deferred)
-;;   :hook (go-mode . lsp-deferred)
-;;   :config
-;;   (setq gc-cons-threshold 400000000)
-;;   (setq read-process-output-max (* 1024 1024)) ;; 1mb
-;;   (setq lsp-idle-delay 0.500)
-;;   (setq lsp-log-io nil) ; if set to true can cause a performance hit
-;;   )
 
-;; flycheck syntax checker
-;; (use-package flycheck
-;;   :init (global-flycheck-mode))
+;; A modern list API for Emacs. No 'cl required. Used here by lsp-mode.
+(use-package dash
+  :ensure t)
 
-;; ;; LSP
+(use-package company
+  :ensure t
+  :config
+  ;; don't add any delay before trying to complete thing being typed
+  ;; the call/response to gopls is asynchronous so this should have little
+  ;; to no affect on edit latency
+  (setq company-idle-delay 0)
+  ;; start completing after a single character instead of 3
+  (setq company-minimum-prefix-length 1)
+  ;; align fields in completions
+  (setq company-tooltip-align-annotations t)
+
+  (add-hook 'after-init-hook 'global-company-mode)
+
+  )
+
+
 ;; (use-package lsp-mode
 ;;   :init
+;;   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
 ;;   (setq lsp-keymap-prefix "C-c l")
-;;   :hook ((python-mode . lsp-deferred)
+;;   :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
 ;;          (go-mode . lsp-deferred)
-;;          (rust-mode . lsp-deferred)
-;;          (typescript-mode . lsp-deferred)
-;;          (lsp-mode . lsp-enable-which-key-integration))
+;;          ;; if you want which-key integration
+;;          ;; (lsp-mode . lsp-enable-which-key-integration))
 ;;   :config
-;;   (setq gc-cons-threshold 400000000)
-;;   (setq read-process-output-max (* 1024 1024)) ;; 1mb
-;;   (setq lsp-idle-delay 0.500)
-;;   (setq lsp-log-io nil) ; if set to true can cause a performance hit
-;;   :commands (lsp lsp-deferred))
+;;   ;; (setq gc-cons-threshold 100000000)
+;;   ;; (setq read-process-output-max (* 1024 1024)) ;; 1mb
+;;   ;; (setq lsp-idle-delay 1)
+;;   ;; (setq lsp-log-io nil) ; if set to true can cause a performance hit
+;;   :commands lsp lsp-deferred))
 
-;; (use-package lsp-ui
-;;   :hook (lsp-mode . lsp-ui-mode)
-;;   :custom
-;;   (lsp-ui-doc-position 'bottom))
-
-;; (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
-
-;; (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
-
-;; (use-package company-lsp
-;;   :commands company-lsp)
-
-;; ;;Optional - provides snippet support.
-
-;; (use-package yasnippet
-;;   :commands yas-minor-mode
-;;   :hook (
-;;          (go-mode . yas-minor-mode)
-;;          (python-mode . yas-minor-mode)
-;;          ))
-
-;; (setq lsp-ui-doc-enable t
-;;       lsp-ui-peek-enable t
-;;       lsp-ui-sideline-enable t
-;;       lsp-ui-imenu-enable t
-;;       lsp-ui-flycheck-enable t)
-
-;; ;; DAP
-;; (use-package dap-mode
-;;   ;; Uncomment the config below if you want all UI panes to be hidden by default!
-;;   ;; :custom
-;;   ;; (lsp-enable-dap-auto-configure nil)
-;;   ;; :config
-;;   ;; (dap-ui-mode 1)
-;;   :commands dap-debug
-;;   :config
-;;   ;; Set up Node debugging
-;;   (require 'dap-node)
-;;   (dap-node-setup) ;; Automatically installs Node debug adapter if needed
-;;   (require 'dap-go)
-;;   (dap-go-setup)
-;;   (require 'dap-hydra)
-;;   (require 'dap-gdb-lldb)
-;;   (dap-gdb-lldb-setup)
-
-;;   ;; Bind `C-c l d` to `dap-hydra` for easy access
-;;   (general-define-key
-;;     :keymaps 'lsp-mode-map
-;;     :prefix lsp-keymap-prefix
-;;     "d" '(dap-hydra t :wk "debugger")))
+(use-package lsp-mode
+  :ensure t
+  :commands (lsp lsp-deferred)
+  :hook (go-mode . lsp-deferred)
+  :init
+  (setq lsp-keymap-prefix "s-g")
+  ;; :bind (("s-g" . lsp-keymap-prefix))
+  :config
+  ;; (setq lsp-gopls-staticcheck t)
+  ;; (setq lsp-eldoc-render-all t)
+  ;; (setq lsp-gopls-complete-unimported t)
+  (setq lsp-enable-file-watchers nil)
+  ;; (setq lsp-enable-snippet nil)
+  )
 
 
+;; (add-hook 'go-mode-hook #'lsp-deferred)
 
-
-
-;; ;; ;; Set up before-save hooks to format buffer and add/delete imports.
-;; ;; ;; Make sure you don't have other gofmt/goimports hooks enabled.
-;; ;; (defun lsp-go-install-save-hooks ()
-;; ;;   (add-hook 'before-save-hook #'lsp-format-buffer t t)
-;; ;;   (add-hook 'before-save-hook #'lsp-organize-imports t t))
-;; ;; (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
-
-;; ;; ;; Optional - provides fancier overlays.
-;; ;; (use-package lsp-ui
-;; ;;   :ensure t
-;; ;;   :commands lsp-ui-mode)
-
-;; ;; ;; Company mode is a standard completion package that works well with lsp-mode.
-;; ;; (use-package company
-;; ;;   :ensure t
-;; ;;   :config
-;; ;;   ;; Optionally enable completion-as-you-type behavior.
-;; ;;   (setq company-idle-delay 0)
-;; ;;   (setq company-minimum-prefix-length 1))
-
-;; ;; ;; Optional - provides snippet support.
-;; ;; (use-package yasnippet
-;; ;;   :ensure t
-;; ;;   :commands yas-minor-mode
-;; ;;   :hook (go-mode . yas-minor-mode))
-
-
-;; Company mode
-(setq company-idle-delay 0)
-(setq company-minimum-prefix-length 1)
-
-;; Go - lsp-mode
 ;; Set up before-save hooks to format buffer and add/delete imports.
+;; Make sure you don't have other gofmt/goimports hooks enabled.
 (defun lsp-go-install-save-hooks ()
   (add-hook 'before-save-hook #'lsp-format-buffer t t)
   (add-hook 'before-save-hook #'lsp-organize-imports t t))
 (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
 
-;; Start LSP Mode and YASnippet mode
-(add-hook 'go-mode-hook #'lsp-deferred)
-(add-hook 'go-mode-hook #'yas-minor-mode)
+(setq gc-cons-threshold 100000000)
+(setq read-process-output-max (* 1024 1024)) ;; 1mb
+(setq lsp-idle-delay 1)
+(setq lsp-log-io nil) ; if set to true can cause a performance hit
 
-;; ;;; lsp.el ends here
+(use-package lsp-ui
+  :ensure t
+  :commands lsp-ui-mode
+  :init
+  :config
+  (setq lsp-ui-doc-enable nil)
+  (setq lsp-ui-doc-position 'top)
+  (setq lsp-ui-doc-alignment 'window)
+  (setq lsp-ui-peek-enable t)
+  (setq lsp-ui-sideline-enable t)
+  (setq lsp-ui-imenu-enable t)
+  (setq lsp-ui-imenu-auto-refresh t)
+  ;; (lsp-ui-sideline-show-diagnostics t)
+  ;; (lsp-ui-sideline-show-hover t)
+  ;; (lsp-ui-sideline-show-code-actions t)
+  ;; (lsp-ui-sideline-update-mode t)
+  (setq lsp-ui-doc-delay 0.1)
+  (setq lsp-ui-sideline-delay 1)
+
+  :bind (("C-c f" . lsp-ui-flycheck-list))
+  
+
+  ;; :bind
+  ;; (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
+  ;; (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
+  )
+
+(require 'lsp-ui)
+(define-key lsp-ui-mode-map (kbd "M-i") #'lsp-ui-imenu)
+(define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
+(define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
+
+
+
+
+;; (define-key lsp-ui-mode-map (kbd "ESC ESC") #'lsp-ui-doc-hide)
+;; (define-key lsp-ui-mode-map (kbd ""
+
+;; (setq lsp-ui-doc-enable nil)
+;; (setq lsp-ui-peek-enable t)
+;; (setq lsp-ui-sideline-enable t)
+;; (setq lsp-ui-imenu-enable t)
+
+;; (use-package company-lsp
+
+;;   :ensure t
+;;   :config
+;;   :commands company-lsp)
+
+;; (require 'company-lsp)
+;; (push 'company-lsp company-backends)
+
+;; (use-package company-lsp
+;;   :load-path "lisp/company-lsp"
+;;   :ensure t
+;;   :config
+;;   :commands company-lsp)
+
+;; (company-lsp)
+
+(use-package yasnippet
+  :ensure t
+  :commands yas-minor-mode
+  :hook (go-mode . yas-minor-mode))
+
+(provide 'lsp)
+;;; lsp.el ends here
 ;; ############################################################################
 
 
@@ -770,7 +727,7 @@
       ;; Common words and phrases used in day to day programming
       ("8hw" "Hello, World!")
       ("8emacs" "/home/dhanush/.emacs.d/")
-      ("8volk" "/home/dhanush/kinvolk/")
+      ;; ("8volk" "/home/dhanush/kinvolk/")
       ("8godev" "/home/dhanush/go/src/github.com/"))))
 
 (provide 'misc)
@@ -989,6 +946,12 @@
   :ensure t
   :defer t)
 
+(use-package which-key
+  :ensure t
+  :config
+  (which-key-mode))
+
+
 (provide 'navigation)
 ;;; navigation.el ends here
 ;; ############################################################################
@@ -1026,6 +989,17 @@
 
 
 ;; ############################################################################
+;; Config file: ~/.emacs.d/config/package.el
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+;; Comment/uncomment this line to enable MELPA Stable if desired.  See `package-archive-priorities`
+;; and `package-pinned-packages`. Most users will not need or want to do this.
+(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(package-initialize)
+;; ############################################################################
+
+
+;; ############################################################################
 ;; Config file: ~/.emacs.d/config/python.el
 ;;; python --- configuration for python
 
@@ -1033,62 +1007,62 @@
 
 ;;; Code:
 
-(use-package python-mode
-  :ensure t
-  :defer t
-  :config
-  (require 'python-mode))
+;; (use-package python-mode
+;;   :ensure t
+;;   :defer t
+;;   :config
+;;   (require 'python-mode))
 
-(use-package virtualenv
-  :ensure t
-  :defer t)
+;; (use-package virtualenv
+;;   :ensure t
+;;   :defer t)
 
-(use-package jedi
-  :ensure t
-  :defer t
-  :config
-  (add-hook 'python-mode-hook 'jedi:setup)
-  (setq jedi:complete-on-dot t)
-  ;; (jedi:install-server)
+;; (use-package jedi
+;;   :ensure t
+;;   :defer t
+;;   :config
+;;   (add-hook 'python-mode-hook 'jedi:setup)
+;;   (setq jedi:complete-on-dot t)
+;;   ;; (jedi:install-server)
 
-  ;; redefine jedi's C-. (jedi:goto-definition)
-  ;; to remember position, and set C-, to jump back
-  (add-hook 'python-mode-hook
-            '(lambda ()
-               (local-set-key (kbd "C-.") 'jedi:goto-definition)
-               (local-set-key (kbd "C-,") 'jedi:goto-definition-pop-marker)
-               ;; (local-set-key (kbd "C-c d") 'jedi:show-doc)
-               (local-set-key (kbd "C-<tab>") 'jedi:complete)))
-  )
+;;   ;; redefine jedi's C-. (jedi:goto-definition)
+;;   ;; to remember position, and set C-, to jump back
+;;   (add-hook 'python-mode-hook
+;;             '(lambda ()
+;;                (local-set-key (kbd "C-.") 'jedi:goto-definition)
+;;                (local-set-key (kbd "C-,") 'jedi:goto-definition-pop-marker)
+;;                ;; (local-set-key (kbd "C-c d") 'jedi:show-doc)
+;;                (local-set-key (kbd "C-<tab>") 'jedi:complete)))
+;;   )
 
-(use-package virtualenvwrapper
-  :ensure t
-  :defer t
-  :defines eshell-prompt-function project-venv-name
-  :config
-  (venv-initialize-interactive-shells)
-  (venv-initialize-eshell)
-  (setq venv-location "~/.venv/")
-  (setq eshell-prompt-function
-        (lambda ()
-          (concat venv-current-name " $ ")))
+;; (use-package virtualenvwrapper
+;;   :ensure t
+;;   :defer t
+;;   :defines eshell-prompt-function project-venv-name
+;;   :config
+;;   (venv-initialize-interactive-shells)
+;;   (venv-initialize-eshell)
+;;   (setq venv-location "~/.venv/")
+;;   (setq eshell-prompt-function
+;;         (lambda ()
+;;           (concat venv-current-name " $ ")))
 
-  (add-hook 'python-mode-hook
-            (lambda () (hack-local-variables)
-              (venv-workon project-venv-name)))
-  )
-
-
-(set-register ?i "import ipdb; ipdb.set_trace()")
+;;   (add-hook 'python-mode-hook
+;;             (lambda () (hack-local-variables)
+;;               (venv-workon project-venv-name)))
+;;   )
 
 
-(use-package pip-requirements
-  :ensure t
-  :defer t
-  :config
-  (add-hook 'pip-requirements-mode-hook #'pip-requirements-auto-complete-setup))
+;; (set-register ?i "import ipdb; ipdb.set_trace()")
 
-(provide 'python)
+
+;; (use-package pip-requirements
+;;   :ensure t
+;;   :defer t
+;;   :config
+;;   (add-hook 'pip-requirements-mode-hook #'pip-requirements-auto-complete-setup)
+;; )
+;; (provide 'python)
 ;;; python.el ends here
 ;; ############################################################################
 
@@ -1100,28 +1074,28 @@
 ;;; Commentary:
 
 ;;; Code:
-(use-package rust-mode
-  :ensure t
-  :defer t)
+;; (use-package rust-mode
+;;   :ensure t
+;;   :defer t)
 
-(use-package racer
-  :ensure t
-  :defer t
-  :config
-  (require 'rust-mode)
-  (add-hook 'rust-mode-hook #'racer-mode)
-  (add-hook 'racer-mode-hook #'eldoc-mode)
-  (add-hook 'racer-mode-hook #'company-mode)
-  (define-key rust-mode-map (kbd "TAB") #'company-indent-or-complete-common)
-  (define-key rust-mode-map (kbd "C-.") #'racer-find-definition)
-  (define-key rust-mode-map (kbd "C-,") #'pop-tag-mark)
+;; (use-package racer
+;;   :ensure t
+;;   :defer t
+;;   :config
+;;   (require 'rust-mode)
+;;   (add-hook 'rust-mode-hook #'racer-mode)
+;;   (add-hook 'racer-mode-hook #'eldoc-mode)
+;;   (add-hook 'racer-mode-hook #'company-mode)
+;;   (define-key rust-mode-map (kbd "TAB") #'company-indent-or-complete-common)
+;;   (define-key rust-mode-map (kbd "C-.") #'racer-find-definition)
+;;   (define-key rust-mode-map (kbd "C-,") #'pop-tag-mark)
 
-  (define-key rust-mode-map (kbd "M-.") nil)
-  (define-key rust-mode-map (kbd "M-,") nil)
+;;   (define-key rust-mode-map (kbd "M-.") nil)
+;;   (define-key rust-mode-map (kbd "M-,") nil)
 
-  (setq company-tooltip-align-annotations t))
+;;   (setq company-tooltip-align-annotations t))
 
-(provide 'rust)
+;; (provide 'rust)
 ;;; rust.el ends here
 ;; ############################################################################
 
@@ -1134,7 +1108,7 @@
 
 ;;; Code:
 
-(server-start)
+;; (server-start)
 
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
@@ -1158,14 +1132,14 @@
 
 ;;; Code:
 
-(use-package terraform-mode
-  :ensure t
-  :defer t
-  :config
-  (add-hook 'terraform-mode-hook 'terraform-format-on-save-mode)
-  (add-hook 'terraform-mode-hook
-            (lambda () (local-set-key (kbd "C-M-\\") 'terraform-format-buffer)))
-  (local-set-key (kbd "<C-return>") 'hs-toggle-hiding))
+;; (use-package terraform-mode
+;;   :ensure t
+;;   :defer t
+;;   :config
+;;   (add-hook 'terraform-mode-hook 'terraform-format-on-save-mode)
+;;   (add-hook 'terraform-mode-hook
+;;             (lambda () (local-set-key (kbd "C-M-\\") 'terraform-format-buffer)))
+;;   (local-set-key (kbd "<C-return>") 'hs-toggle-hiding))
 
 ;;; terraform.el ends here
 ;; ############################################################################

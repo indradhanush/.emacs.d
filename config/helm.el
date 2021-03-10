@@ -68,7 +68,7 @@
     (interactive)
     (if (looking-back "/" 1)
         (call-interactively 'helm-find-files-up-one-level)
-      (delete-backward-char 1)))
+      (backward-delete-char 1)))
 
   (defun dwim-helm-find-files-navigate-forward (orig-fun &rest args)
     "Adjust how helm-execute-persistent actions behaves, depending on context"

@@ -70,7 +70,7 @@
       ;; Common words and phrases used in day to day programming
       ("8hw" "Hello, World!")
       ("8emacs" "/home/dhanush/.emacs.d/")
-      ("8volk" "/home/dhanush/kinvolk/")
+      ;; ("8volk" "/home/dhanush/kinvolk/")
       ("8godev" "/home/dhanush/go/src/github.com/"))))
 
 (provide 'misc)

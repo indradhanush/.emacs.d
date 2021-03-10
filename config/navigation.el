@@ -124,5 +124,11 @@
   :ensure t
   :defer t)
 
+(use-package which-key
+  :ensure t
+  :config
+  (which-key-mode))
+
+
 (provide 'navigation)
 ;;; navigation.el ends here

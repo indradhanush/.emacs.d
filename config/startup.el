@@ -4,7 +4,7 @@
 
 ;;; Code:
 
-(server-start)
+;; (server-start)
 
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 

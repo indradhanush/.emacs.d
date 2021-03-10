@@ -51,16 +51,9 @@
 (menu-bar-mode -1)
 
 ;; Colour theme
-;; (use-package darktooth-theme
-;;   :ensure t
-;;   :config
-;;   (load-theme 'darktooth))
-
-(use-package material-theme
-  :ensure t
+(use-package doom-themes
   :config
-  (load-theme 'material t))
-
+  (load-theme 'doom-gruvbox t))
 
 ;; #################################################
 ;; Custom key bindings
@@ -75,7 +68,8 @@
 ;; Backspace settings
 (global-set-key (kbd "C-?") 'help-command)
 ;; (global-set-key (kbd "M-?") 'mark-paragraph)
-(global-set-key (kbd "C-h") 'delete-backward-char)
+
+(global-set-key (kbd "C-h") 'backward-delete-char)
 (global-set-key (kbd "M-h") 'backward-kill-word)
 
 
@@ -108,12 +102,17 @@
   :defer t
   :config
   (setq fci-rule-column 120)
-  (turn-on-fci-mode))
+  ;; (turn-on-fci-mode)
+  )
 
 (setq visible-bell 'nil)
 (setq ring-bell-function 'ignore)
 
 (toggle-truncate-lines 1)
+
+(global-hl-line-mode 1)
+(global-visual-line-mode 1)
+(toggle-word-wrap nil)
 
 (defun comment-or-uncomment-region-or-line ()
     "Comments or uncomments the region or the current line if there's no active region."
@@ -127,7 +126,7 @@
 
 (global-set-key (kbd "M-;") 'comment-or-uncomment-region-or-line)
 
-(set-face-attribute 'default nil :height 110)
+(set-face-attribute 'default nil :height 115)
 ;; (set-face-attribute 'default nil :width 'normal)
 ;; (set-face-attribute 'default nil :weight 'normal)
 
@@ -169,18 +168,21 @@
 (require 'buffer-move)
 
 ;; Run `M-x byte-compile RET ~/.emacs.d/lisp/workgroups.el` to speed things up.
-(require 'workgroups)
-(workgroups-mode 1)
+;; (require 'workgroups)
+;; (use-package workgroups
+;;   :ensure t
+;;   :init
+;;   (workgroups-mode 1))
 
-(use-package undo-tree
-  :ensure t
-  :config
-  (global-undo-tree-mode))
+;; (use-package undo-tree
+;;   :ensure t
+;;   :config
+;;   (global-undo-tree-mode))
 ;; (require 'undo-tree)
 ;; (global-undo-tree-mode)
 
-(use-package emojify
-  :hook (after-init . global-emojify-mode))
+;; (use-package emojify
+;;   :hook (after-init . global-emojify-mode))
 
 (provide 'editor)
 ;;; editor.el ends here
