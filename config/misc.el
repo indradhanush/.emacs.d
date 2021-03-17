@@ -39,7 +39,7 @@
       ("8inr" "₹")
       ("8lam" "λ")
       ("8lar" "←")
-      ("8luv" ":hearts:")
+      ("8luv" "❤️ ")
       ("8meh" "¯\\_(ツ)_/¯")
       ("8nin" "∉")
       ("8no" ":x:")
@@ -47,10 +47,11 @@
       ("8rar" "→")
       ("8rs" "₹")
       ("8sig" "σ")
-      ("8smly" ":relaxed:")
+      ("8smly" "☺️")
       ("8star" "★")
       ("8t" "#+TITLE:")
       ("8tau" "τ")
+      ("8sec" "🚨")
 
       ;; email
       ("8me" "indradhanush.gupta@gmail.com")

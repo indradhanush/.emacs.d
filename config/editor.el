@@ -111,7 +111,7 @@
 (toggle-truncate-lines 1)
 
 (global-hl-line-mode 1)
-(global-visual-line-mode 1)
+;; (global-visual-line-mode 1)
 (toggle-word-wrap nil)
 
 (defun comment-or-uncomment-region-or-line ()
@@ -167,6 +167,10 @@
 
 (require 'buffer-move)
 
+(global-set-key (kbd "C-c l") 'display-line-numbers-mode)
+(global-display-line-numbers-mode -1)
+
+
 ;; Run `M-x byte-compile RET ~/.emacs.d/lisp/workgroups.el` to speed things up.
 ;; (require 'workgroups)
 ;; (use-package workgroups
@@ -175,7 +179,7 @@
 ;;   (workgroups-mode 1))
 
 ;; (use-package undo-tree
-;;   :ensure t
+;   :ensure t
 ;;   :config
 ;;   (global-undo-tree-mode))
 ;; (require 'undo-tree)
@@ -183,6 +187,11 @@
 
 ;; (use-package emojify
 ;;   :hook (after-init . global-emojify-mode))
+
+(set-fontset-font t 'symbol "Apple Color Emoji")
+(set-fontset-font t 'symbol "Noto Color Emoji" nil 'append)
+(set-fontset-font t 'symbol "Segoe UI Emoji" nil 'append)
+(set-fontset-font t 'symbol "Symbola" nil 'append)
 
 (provide 'editor)
 ;;; editor.el ends here

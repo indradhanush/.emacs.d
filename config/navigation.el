@@ -113,12 +113,18 @@
   :ensure t
   :defer t)
 
-(use-package counsel
+;; (use-package counsel
+;;   :ensure t
+;;   :defer t
+;;   :config
+;;   (setq-default ivy-calling "c")
+;;   :bind ("C-c g" . counsel-git-grep))
+
+(use-package helm-rg
   :ensure t
   :defer t
-  :config
-  (setq-default ivy-calling "c")
-  :bind ("C-c g" . counsel-git-grep))
+  :bind ("C-c g" . helm-rg)
+  )
 
 (use-package rotate
   :ensure t

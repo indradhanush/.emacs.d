@@ -47,21 +47,22 @@
 ;;; Commentary:
 
 ;;; Code:
-;; (use-package company
-;;   :ensure t
-;;   :config
-;;   ;; don't add any delay before trying to complete thing being typed
-;;   ;; the call/response to gopls is asynchronous so this should have little
-;;   ;; to no affect on edit latency
-;;   (setq company-idle-delay 0)
-;;   ;; start completing after a single character instead of 3
-;;   (setq company-minimum-prefix-length 1)
-;;   ;; align fields in completions
-;;   (setq company-tooltip-align-annotations t)
+(use-package company
+  :ensure t
+  :config
+  ;; don't add any delay before trying to complete thing being typed
+  ;; the call/response to gopls is asynchronous so this should have little
+  ;; to no affect on edit latency
+  (setq company-idle-delay 0)
+  ;; start completing after a single character instead of 3
+  (setq company-minimum-prefix-length 1)
+  ;; align fields in completions
+  (setq company-tooltip-align-annotations t)
 
-;;   (add-hook 'after-init-hook 'global-company-mode)
+  (add-hook 'after-init-hook 'global-company-mode)
+  )
 
-;;   )
+
 
 ;; (add-hook 'after-init-hook 'global-company-mode)
 
@@ -185,7 +186,7 @@
 (toggle-truncate-lines 1)
 
 (global-hl-line-mode 1)
-(global-visual-line-mode 1)
+;; (global-visual-line-mode 1)
 (toggle-word-wrap nil)
 
 (defun comment-or-uncomment-region-or-line ()
@@ -241,6 +242,10 @@
 
 (require 'buffer-move)
 
+(global-set-key (kbd "C-c l") 'display-line-numbers-mode)
+(global-display-line-numbers-mode -1)
+
+
 ;; Run `M-x byte-compile RET ~/.emacs.d/lisp/workgroups.el` to speed things up.
 ;; (require 'workgroups)
 ;; (use-package workgroups
@@ -249,7 +254,7 @@
 ;;   (workgroups-mode 1))
 
 ;; (use-package undo-tree
-;;   :ensure t
+;   :ensure t
 ;;   :config
 ;;   (global-undo-tree-mode))
 ;; (require 'undo-tree)
@@ -257,6 +262,11 @@
 
 ;; (use-package emojify
 ;;   :hook (after-init . global-emojify-mode))
+
+(set-fontset-font t 'symbol "Apple Color Emoji")
+(set-fontset-font t 'symbol "Noto Color Emoji" nil 'append)
+(set-fontset-font t 'symbol "Segoe UI Emoji" nil 'append)
+(set-fontset-font t 'symbol "Symbola" nil 'append)
 
 (provide 'editor)
 ;;; editor.el ends here
@@ -287,6 +297,26 @@
 
 
 ;; ############################################################################
+;; Config file: ~/.emacs.d/config/eshell.el
+;;; eshell --- configuration for eshell-mode
+
+;;; Commentary:
+
+;;; Code:
+
+
+(add-hook 'eshell-mode-hook
+          (defun eshelshell-mode-setup ()
+            (remove-hook 'eshell-output-filter-functions
+                         'eshell-postoutput-scroll-to-bottom)
+            (company-mode -1))
+          )
+
+;;; eshell.el ends here
+;; ############################################################################
+
+
+;; ############################################################################
 ;; Config file: ~/.emacs.d/config/go.el
 ;;; go --- configuration for golang
 
@@ -311,6 +341,7 @@
   :config
   (add-hook 'go-mode-hook (lambda()
                             (global-visual-line-mode nil)
+                            (yafolding-mode t)
                             (setq tab-width 4)
                             ))
 
@@ -324,6 +355,42 @@
 
 (provide 'go)
 ;;; go.el ends here
+;; ############################################################################
+
+
+;; ############################################################################
+;; Config file: ~/.emacs.d/config/golden-ratio.el
+;;; golden-ratio --- configuration for golden-ratio-mode
+
+;;; Commentary:
+
+;;; Code:
+
+(use-package golden-ratio
+  :defer
+  :config
+  (setq golden-ratio-adjust 0.65)
+  )
+
+;;; golden-ratio.el ends here
+;; ############################################################################
+
+
+;; ############################################################################
+;; Config file: ~/.emacs.d/config/graphql.el
+;;; graphql --- configuration for graphql-mode
+
+;;; Commentary:
+
+;;; Code:
+
+(use-package graphql-mode
+  :ensure t
+  :defer
+  )
+
+(provide 'graphql)
+;;; graphql.el ends here
 ;; ############################################################################
 
 
@@ -431,7 +498,6 @@
 ;;         helm-swoop-use-fuzzy-match t)
 ;;   )
 
-
 (use-package ag
   :ensure t
   :defer t)
@@ -480,23 +546,6 @@
 (use-package dash
   :ensure t)
 
-(use-package company
-  :ensure t
-  :config
-  ;; don't add any delay before trying to complete thing being typed
-  ;; the call/response to gopls is asynchronous so this should have little
-  ;; to no affect on edit latency
-  (setq company-idle-delay 0)
-  ;; start completing after a single character instead of 3
-  (setq company-minimum-prefix-length 1)
-  ;; align fields in completions
-  (setq company-tooltip-align-annotations t)
-
-  (add-hook 'after-init-hook 'global-company-mode)
-
-  )
-
-
 ;; (use-package lsp-mode
 ;;   :init
 ;;   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
@@ -525,6 +574,10 @@
   ;; (setq lsp-gopls-complete-unimported t)
   (setq lsp-enable-file-watchers nil)
   ;; (setq lsp-enable-snippet nil)
+  (setq gc-cons-threshold 100000000)
+  (setq read-process-output-max (* 1024 1024)) ;; 1mb
+  (setq lsp-idle-delay 1)
+  (setq lsp-log-io nil) ; if set to true can cause a performance hit
   )
 
 
@@ -537,10 +590,6 @@
   (add-hook 'before-save-hook #'lsp-organize-imports t t))
 (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
 
-(setq gc-cons-threshold 100000000)
-(setq read-process-output-max (* 1024 1024)) ;; 1mb
-(setq lsp-idle-delay 1)
-(setq lsp-log-io nil) ; if set to true can cause a performance hit
 
 (use-package lsp-ui
   :ensure t
@@ -548,7 +597,7 @@
   :init
   :config
   (setq lsp-ui-doc-enable nil)
-  (setq lsp-ui-doc-position 'top)
+  (setq lsp-ui-doc-position 'at-point)
   (setq lsp-ui-doc-alignment 'window)
   (setq lsp-ui-peek-enable t)
   (setq lsp-ui-sideline-enable t)
@@ -561,18 +610,32 @@
   (setq lsp-ui-doc-delay 0.1)
   (setq lsp-ui-sideline-delay 1)
 
-  :bind (("C-c f" . lsp-ui-flycheck-list))
-  
+  :bind (
+         ("C-c f" . lsp-ui-flycheck-list)
+         (:map lsp-ui-flycheck-list-mode-map
+               ;; Swap keybindings for view and visit. Since I am most
+               ;; likely to visit the error from flycheck, binding the visit
+               ;; function to <return> makes more conventional sense for me
+               ;; personally.
+               ("<return>" . lsp-ui-flycheck-list--visit)
+               ("M-<return>" . lsp-ui-flycheck-list--view)
+               ("C-g" . lsp-ui-flycheck-list--quit))
+         (:map lsp-ui-mode-map
+               ("M-i" . lsp-ui-imenu)
+               ("s-g d" . lsp-ui-doc-mode)
+               ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
+               ([remap xref-find-references]  . lsp-ui-peek-find-references))))
 
-  ;; :bind
-  ;; (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
-  ;; (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
-  )
 
-(require 'lsp-ui)
-(define-key lsp-ui-mode-map (kbd "M-i") #'lsp-ui-imenu)
-(define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
-(define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
+;; :bind
+;; (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
+;; (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
+
+
+;; (require 'lsp-ui)
+;; (define-key lsp-ui-mode-map (kbd "M-i") #'lsp-ui-imenu)
+;; (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
+;; (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
 
 
 
@@ -696,7 +759,7 @@
       ("8inr" "₹")
       ("8lam" "λ")
       ("8lar" "←")
-      ("8luv" ":hearts:")
+      ("8luv" "❤️ ")
       ("8meh" "¯\\_(ツ)_/¯")
       ("8nin" "∉")
       ("8no" ":x:")
@@ -704,10 +767,11 @@
       ("8rar" "→")
       ("8rs" "₹")
       ("8sig" "σ")
-      ("8smly" ":relaxed:")
+      ("8smly" "☺️")
       ("8star" "★")
       ("8t" "#+TITLE:")
       ("8tau" "τ")
+      ("8sec" "🚨")
 
       ;; email
       ("8me" "indradhanush.gupta@gmail.com")
@@ -935,12 +999,18 @@
   :ensure t
   :defer t)
 
-(use-package counsel
+;; (use-package counsel
+;;   :ensure t
+;;   :defer t
+;;   :config
+;;   (setq-default ivy-calling "c")
+;;   :bind ("C-c g" . counsel-git-grep))
+
+(use-package helm-rg
   :ensure t
   :defer t
-  :config
-  (setq-default ivy-calling "c")
-  :bind ("C-c g" . counsel-git-grep))
+  :bind ("C-c g" . helm-rg)
+  )
 
 (use-package rotate
   :ensure t
@@ -985,17 +1055,6 @@
 
 (provide 'osx)
 ;;; osx.el ends here
-;; ############################################################################
-
-
-;; ############################################################################
-;; Config file: ~/.emacs.d/config/package.el
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-;; Comment/uncomment this line to enable MELPA Stable if desired.  See `package-archive-priorities`
-;; and `package-pinned-packages`. Most users will not need or want to do this.
-(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
-(package-initialize)
 ;; ############################################################################
 
 

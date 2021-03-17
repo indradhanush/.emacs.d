@@ -21,6 +21,7 @@
   :config
   (add-hook 'go-mode-hook (lambda()
                             (global-visual-line-mode nil)
+                            (yafolding-mode t)
                             (setq tab-width 4)
                             ))
 

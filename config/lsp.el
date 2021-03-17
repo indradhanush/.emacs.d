@@ -9,23 +9,6 @@
 (use-package dash
   :ensure t)
 
-(use-package company
-  :ensure t
-  :config
-  ;; don't add any delay before trying to complete thing being typed
-  ;; the call/response to gopls is asynchronous so this should have little
-  ;; to no affect on edit latency
-  (setq company-idle-delay 0)
-  ;; start completing after a single character instead of 3
-  (setq company-minimum-prefix-length 1)
-  ;; align fields in completions
-  (setq company-tooltip-align-annotations t)
-
-  (add-hook 'after-init-hook 'global-company-mode)
-
-  )
-
-
 ;; (use-package lsp-mode
 ;;   :init
 ;;   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
@@ -54,6 +37,10 @@
   ;; (setq lsp-gopls-complete-unimported t)
   (setq lsp-enable-file-watchers nil)
   ;; (setq lsp-enable-snippet nil)
+  (setq gc-cons-threshold 100000000)
+  (setq read-process-output-max (* 1024 1024)) ;; 1mb
+  (setq lsp-idle-delay 1)
+  (setq lsp-log-io nil) ; if set to true can cause a performance hit
   )
 
 
@@ -66,10 +53,6 @@
   (add-hook 'before-save-hook #'lsp-organize-imports t t))
 (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
 
-(setq gc-cons-threshold 100000000)
-(setq read-process-output-max (* 1024 1024)) ;; 1mb
-(setq lsp-idle-delay 1)
-(setq lsp-log-io nil) ; if set to true can cause a performance hit
 
 (use-package lsp-ui
   :ensure t
@@ -77,7 +60,7 @@
   :init
   :config
   (setq lsp-ui-doc-enable nil)
-  (setq lsp-ui-doc-position 'top)
+  (setq lsp-ui-doc-position 'at-point)
   (setq lsp-ui-doc-alignment 'window)
   (setq lsp-ui-peek-enable t)
   (setq lsp-ui-sideline-enable t)
@@ -90,18 +73,32 @@
   (setq lsp-ui-doc-delay 0.1)
   (setq lsp-ui-sideline-delay 1)
 
-  :bind (("C-c f" . lsp-ui-flycheck-list))
-  
+  :bind (
+         ("C-c f" . lsp-ui-flycheck-list)
+         (:map lsp-ui-flycheck-list-mode-map
+               ;; Swap keybindings for view and visit. Since I am most
+               ;; likely to visit the error from flycheck, binding the visit
+               ;; function to <return> makes more conventional sense for me
+               ;; personally.
+               ("<return>" . lsp-ui-flycheck-list--visit)
+               ("M-<return>" . lsp-ui-flycheck-list--view)
+               ("C-g" . lsp-ui-flycheck-list--quit))
+         (:map lsp-ui-mode-map
+               ("M-i" . lsp-ui-imenu)
+               ("s-g d" . lsp-ui-doc-mode)
+               ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
+               ([remap xref-find-references]  . lsp-ui-peek-find-references))))
 
-  ;; :bind
-  ;; (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
-  ;; (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
-  )
 
-(require 'lsp-ui)
-(define-key lsp-ui-mode-map (kbd "M-i") #'lsp-ui-imenu)
-(define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
-(define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
+;; :bind
+;; (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
+;; (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
+
+
+;; (require 'lsp-ui)
+;; (define-key lsp-ui-mode-map (kbd "M-i") #'lsp-ui-imenu)
+;; (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
+;; (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references)
 
 
 

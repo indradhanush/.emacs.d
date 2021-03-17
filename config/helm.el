@@ -100,7 +100,6 @@
 ;;         helm-swoop-use-fuzzy-match t)
 ;;   )
 
-
 (use-package ag
   :ensure t
   :defer t)
