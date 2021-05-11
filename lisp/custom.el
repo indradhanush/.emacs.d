@@ -22,7 +22,7 @@
  '(lsp-completion-provider :capf)
  '(objed-cursor-color "#cc6666")
  '(package-selected-packages
-   '(graphql-mode deadgrep ripgrep company-emoji perspective window-purpose doom-themes which-key company-lsp lsp-mode undo-tree csv-mode immaterial-theme zenburn-theme helm-dash flymake-shellcheck reformatter toml-mode hs-minor-mode protobuf-mode emojify dracula-theme swiper-helm helm-rg forge fixmee racer racket-mode rust-playground rust-mode fontawesome fic-mode elpy terraform-mode python-mode multiple-cursors go-playground floobits rotate edts auto-complete-auctex auctex ggtags helm-gtags intero llvm-mode ledger-mode flycheck-tip erlang helm-flyspell ac-ispell flyspell-correct keyfreq nginx-mode vlf auto-highlight-symbol sql-indent php-mode dockerfile-mode pip-requirements ag helm-ag ac-dabbrev go-guru golint go-autocomplete go-eldoc fci markdown-mode counsel-git-grep ssh-config-mode virtualenvwrapper exec-path-from-shell virtualenv jedi ace-jump-mode helm-swoop find-file-in-repository smex find-file-in-respository helm-flycheck helm-config yafolding smartparens darktooth-theme smexz smexh darktooth restart-emacs))
+   '(eyebrowse treemacs workgroups2 all-the-icons graphql-mode deadgrep ripgrep company-emoji perspective window-purpose doom-themes which-key company-lsp lsp-mode undo-tree csv-mode immaterial-theme zenburn-theme helm-dash flymake-shellcheck reformatter toml-mode hs-minor-mode protobuf-mode emojify dracula-theme swiper-helm helm-rg forge fixmee racer racket-mode rust-playground rust-mode fontawesome fic-mode elpy terraform-mode python-mode multiple-cursors go-playground floobits rotate edts auto-complete-auctex auctex ggtags helm-gtags intero llvm-mode ledger-mode flycheck-tip erlang helm-flyspell ac-ispell flyspell-correct keyfreq nginx-mode vlf auto-highlight-symbol sql-indent php-mode dockerfile-mode pip-requirements ag helm-ag ac-dabbrev go-guru golint go-autocomplete go-eldoc fci markdown-mode counsel-git-grep ssh-config-mode virtualenvwrapper exec-path-from-shell virtualenv jedi ace-jump-mode helm-swoop find-file-in-repository smex find-file-in-respository helm-flycheck helm-config yafolding smartparens darktooth-theme smexz smexh darktooth restart-emacs))
  '(pdf-view-midnight-colors (cons "#c5c8c6" "#1d1f21"))
  '(pos-tip-background-color "#36473A")
  '(pos-tip-foreground-color "#FFFFC8")
@@ -64,4 +64,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((t (:background "gray13")))))

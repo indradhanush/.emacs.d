@@ -243,6 +243,7 @@
 (require 'buffer-move)
 
 (global-set-key (kbd "C-c l") 'display-line-numbers-mode)
+(global-set-key (kbd "C-c L") 'global-display-line-numbers-mode)
 (global-display-line-numbers-mode -1)
 
 
@@ -341,8 +342,9 @@
   :config
   (add-hook 'go-mode-hook (lambda()
                             (global-visual-line-mode nil)
-                            (yafolding-mode t)
+                            ;; (yafolding-mode t)
                             (setq tab-width 4)
+                            (setq fill-column 100)
                             ))
 
   (setenv "GOROOT" (string-trim (shell-command-to-string "go env GOROOT")))
@@ -792,7 +794,15 @@
       ("8hw" "Hello, World!")
       ("8emacs" "/home/dhanush/.emacs.d/")
       ;; ("8volk" "/home/dhanush/kinvolk/")
-      ("8godev" "/home/dhanush/go/src/github.com/"))))
+      ("8godev" "/home/dhanush/go/src/github.com/")
+
+      ;; Co-authored-by
+      ("8alan" "Co-authored-by: ")
+      ("8asdine" "Co-authored-by: Asdine El Hrychy <asdine.elhrychy@gmail.com>")
+      ("8joe" "Co-authored-by: ᴜɴᴋɴᴡᴏɴ <joe@sourcegraph.com>")
+      ("8ryan" "Co-authored-by: Ryan Slade <ryanslade@gmail.com>")
+      ("8tomas" "Co-authored-by: Tomás Senart <tomas@sourcegraph.com>")
+      )))
 
 (provide 'misc)
 ;;; misc.el ends here

@@ -168,6 +168,7 @@
 (require 'buffer-move)
 
 (global-set-key (kbd "C-c l") 'display-line-numbers-mode)
+(global-set-key (kbd "C-c L") 'global-display-line-numbers-mode)
 (global-display-line-numbers-mode -1)
 
 

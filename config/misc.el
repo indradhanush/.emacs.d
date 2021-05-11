@@ -72,7 +72,15 @@
       ("8hw" "Hello, World!")
       ("8emacs" "/home/dhanush/.emacs.d/")
       ;; ("8volk" "/home/dhanush/kinvolk/")
-      ("8godev" "/home/dhanush/go/src/github.com/"))))
+      ("8godev" "/home/dhanush/go/src/github.com/")
+
+      ;; Co-authored-by
+      ("8alan" "Co-authored-by: ")
+      ("8asdine" "Co-authored-by: Asdine El Hrychy <asdine.elhrychy@gmail.com>")
+      ("8joe" "Co-authored-by: ᴜɴᴋɴᴡᴏɴ <joe@sourcegraph.com>")
+      ("8ryan" "Co-authored-by: Ryan Slade <ryanslade@gmail.com>")
+      ("8tomas" "Co-authored-by: Tomás Senart <tomas@sourcegraph.com>")
+      )))
 
 (provide 'misc)
 ;;; misc.el ends here

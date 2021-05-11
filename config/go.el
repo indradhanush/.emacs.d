@@ -21,8 +21,9 @@
   :config
   (add-hook 'go-mode-hook (lambda()
                             (global-visual-line-mode nil)
-                            (yafolding-mode t)
+                            ;; (yafolding-mode t)
                             (setq tab-width 4)
+                            (setq fill-column 100)
                             ))
 
   (setenv "GOROOT" (string-trim (shell-command-to-string "go env GOROOT")))
