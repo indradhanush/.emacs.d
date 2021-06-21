@@ -152,7 +152,7 @@
 ;; source: http://steve.yegge.googlepages.com/my-dot-emacs-file
 (defun rename-file-and-buffer (new-name)
   "Renames both current buffer and file it's visiting to NEW-NAME."
-  (interactive "sNew name: ")
+  (interactive "New name: ")
   (let ((name (buffer-name))
         (filename (buffer-file-name)))
     (if (not filename)
@@ -201,20 +201,20 @@
 
 (global-set-key (kbd "M-;") 'comment-or-uncomment-region-or-line)
 
-(set-face-attribute 'default nil :height 115)
+(set-face-attribute 'default nil :height 90)
 ;; (set-face-attribute 'default nil :width 'normal)
 ;; (set-face-attribute 'default nil :weight 'normal)
 
 (defun pairing-mode ()
   "Customize editor look and feel to make it easy for the person on the other side of the network."
   (interactive)
-  (set-face-attribute 'default (selected-frame) :height 200)
+  (set-face-attribute 'default (selected-frame) :height 120)
   (linum-mode))
 
 (defun unpairing-mode ()
   "Customize editor look and feel to make it easy for the person on the other side of the network."
   (interactive)
-  (set-face-attribute 'default nil :height 110)
+  (set-face-attribute 'default nil :height 95)
   (global-linum-mode 0))
 
 (defun standalone-mode ()
