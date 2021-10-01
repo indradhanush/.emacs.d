@@ -87,7 +87,9 @@
                ("M-i" . lsp-ui-imenu)
                ("s-g d" . lsp-ui-doc-mode)
                ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
-               ([remap xref-find-references]  . lsp-ui-peek-find-references))))
+               ([remap xref-find-references]  . lsp-ui-peek-find-references)
+               ("s-g n" . lsp-ui-find-next-reference)
+               ("s-g p" . lsp-ui-find-prev-reference))))
 
 
 ;; :bind

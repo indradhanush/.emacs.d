@@ -201,26 +201,51 @@
 
 (global-set-key (kbd "M-;") 'comment-or-uncomment-region-or-line)
 
-(set-face-attribute 'default nil :height 90)
+(set-face-attribute 'default nil :height 95)
 ;; (set-face-attribute 'default nil :width 'normal)
 ;; (set-face-attribute 'default nil :weight 'normal)
 
 (defun pairing-mode ()
   "Customize editor look and feel to make it easy for the person on the other side of the network."
   (interactive)
-  (set-face-attribute 'default (selected-frame) :height 120)
+  (set-face-attribute 'default (selected-frame) :height 140)
   (linum-mode))
 
 (defun unpairing-mode ()
   "Customize editor look and feel to make it easy for the person on the other side of the network."
   (interactive)
-  (set-face-attribute 'default nil :height 95)
+  (set-face-attribute 'default nil :height 105)
   (global-linum-mode 0))
 
 (defun standalone-mode ()
   "Customize editor look and feel when working only on the laptop."
   (interactive)
+  (set-face-attribute 'default nil :height 100))
+
+(defun font-size-90 ()
+  "Set font size 90."
+  (interactive)
   (set-face-attribute 'default nil :height 90))
+
+(defun font-size-95 ()
+  "Set font size 95."
+  (interactive)
+  (set-face-attribute 'default nil :height 95))
+
+(defun font-size-100 ()
+  "Set font size 100."
+  (interactive)
+  (set-face-attribute 'default nil :height 100))
+
+(defun font-size-105 ()
+  "Set font size 100."
+  (interactive)
+  (set-face-attribute 'default nil :height 105))
+
+(defun font-size-110 ()
+  "Set font size 100."
+  (interactive)
+  (set-face-attribute 'default nil :height 110))
 
 (defun external-fhd-mode ()
   "Customize editor look and feel when working with an external FHD screen."
@@ -626,7 +651,9 @@
                ("M-i" . lsp-ui-imenu)
                ("s-g d" . lsp-ui-doc-mode)
                ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
-               ([remap xref-find-references]  . lsp-ui-peek-find-references))))
+               ([remap xref-find-references]  . lsp-ui-peek-find-references)
+               ("s-g n" . lsp-ui-find-next-reference)
+               ("s-g p" . lsp-ui-find-prev-reference))))
 
 
 ;; :bind
@@ -738,6 +765,10 @@
   :ensure t
   :defer t)
 
+(use-package journalctl-mode
+  :ensure t
+  :defer t)
+
 (setq-default js-indent-level 2)
 
 (use-package abbrev
@@ -793,15 +824,21 @@
       ;; Common words and phrases used in day to day programming
       ("8hw" "Hello, World!")
       ("8emacs" "/home/dhanush/.emacs.d/")
-      ;; ("8volk" "/home/dhanush/kinvolk/")
       ("8godev" "/home/dhanush/go/src/github.com/")
 
       ;; Co-authored-by
-      ("8alan" "Co-authored-by: ")
+
+      ("8alan" "Co-authored-by: flying-robot <71571391+flying-robot@users.noreply.github.com>")
       ("8asdine" "Co-authored-by: Asdine El Hrychy <asdine.elhrychy@gmail.com>")
       ("8joe" "Co-authored-by: ᴜɴᴋɴᴡᴏɴ <joe@sourcegraph.com>")
       ("8ryan" "Co-authored-by: Ryan Slade <ryanslade@gmail.com>")
       ("8tomas" "Co-authored-by: Tomás Senart <tomas@sourcegraph.com>")
+
+      ;; ("8alan" "Co-authored-by: ")
+      ;; ("8asdine" "Co-authored-by: Asdine El Hrychy <asdine.elhrychy@gmail.com>")
+      ;; ("8joe" "Co-authored-by: ᴜɴᴋɴᴡᴏɴ <joe@sourcegraph.com>")
+      ;; ("8ryan" "Co-authored-by: Ryan Slade <ryanslade@gmail.com>")
+      ;; ("8tomas" "Co-authored-by: Tomás Senart <tomas@sourcegraph.com>")
       )))
 
 (provide 'misc)
@@ -1019,7 +1056,7 @@
 (use-package helm-rg
   :ensure t
   :defer t
-  :bind ("C-c g" . helm-rg)
+  ;; :bind ("C-c g" . helm-rg)
   )
 
 (use-package rotate
@@ -1030,6 +1067,17 @@
   :ensure t
   :config
   (which-key-mode))
+
+
+(use-package deadgrep
+  :ensure t
+  :defer t
+  :bind ("C-c g" . deadgrep)
+  )
+
+(use-package fzf
+  :ensure t
+  :defer t)
 
 
 (provide 'navigation)

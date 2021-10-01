@@ -126,26 +126,51 @@
 
 (global-set-key (kbd "M-;") 'comment-or-uncomment-region-or-line)
 
-(set-face-attribute 'default nil :height 90)
+(set-face-attribute 'default nil :height 95)
 ;; (set-face-attribute 'default nil :width 'normal)
 ;; (set-face-attribute 'default nil :weight 'normal)
 
 (defun pairing-mode ()
   "Customize editor look and feel to make it easy for the person on the other side of the network."
   (interactive)
-  (set-face-attribute 'default (selected-frame) :height 120)
+  (set-face-attribute 'default (selected-frame) :height 140)
   (linum-mode))
 
 (defun unpairing-mode ()
   "Customize editor look and feel to make it easy for the person on the other side of the network."
   (interactive)
-  (set-face-attribute 'default nil :height 95)
+  (set-face-attribute 'default nil :height 105)
   (global-linum-mode 0))
 
 (defun standalone-mode ()
   "Customize editor look and feel when working only on the laptop."
   (interactive)
+  (set-face-attribute 'default nil :height 100))
+
+(defun font-size-90 ()
+  "Set font size 90."
+  (interactive)
   (set-face-attribute 'default nil :height 90))
+
+(defun font-size-95 ()
+  "Set font size 95."
+  (interactive)
+  (set-face-attribute 'default nil :height 95))
+
+(defun font-size-100 ()
+  "Set font size 100."
+  (interactive)
+  (set-face-attribute 'default nil :height 100))
+
+(defun font-size-105 ()
+  "Set font size 100."
+  (interactive)
+  (set-face-attribute 'default nil :height 105))
+
+(defun font-size-110 ()
+  "Set font size 100."
+  (interactive)
+  (set-face-attribute 'default nil :height 110))
 
 (defun external-fhd-mode ()
   "Customize editor look and feel when working with an external FHD screen."

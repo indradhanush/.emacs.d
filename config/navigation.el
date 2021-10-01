@@ -123,7 +123,7 @@
 (use-package helm-rg
   :ensure t
   :defer t
-  :bind ("C-c g" . helm-rg)
+  ;; :bind ("C-c g" . helm-rg)
   )
 
 (use-package rotate
@@ -134,6 +134,17 @@
   :ensure t
   :config
   (which-key-mode))
+
+
+(use-package deadgrep
+  :ensure t
+  :defer t
+  :bind ("C-c g" . deadgrep)
+  )
+
+(use-package fzf
+  :ensure t
+  :defer t)
 
 
 (provide 'navigation)

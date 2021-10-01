@@ -16,6 +16,10 @@
   :ensure t
   :defer t)
 
+(use-package journalctl-mode
+  :ensure t
+  :defer t)
+
 (setq-default js-indent-level 2)
 
 (use-package abbrev
@@ -71,15 +75,21 @@
       ;; Common words and phrases used in day to day programming
       ("8hw" "Hello, World!")
       ("8emacs" "/home/dhanush/.emacs.d/")
-      ;; ("8volk" "/home/dhanush/kinvolk/")
       ("8godev" "/home/dhanush/go/src/github.com/")
 
       ;; Co-authored-by
-      ("8alan" "Co-authored-by: ")
+
+      ("8alan" "Co-authored-by: flying-robot <71571391+flying-robot@users.noreply.github.com>")
       ("8asdine" "Co-authored-by: Asdine El Hrychy <asdine.elhrychy@gmail.com>")
       ("8joe" "Co-authored-by: ᴜɴᴋɴᴡᴏɴ <joe@sourcegraph.com>")
       ("8ryan" "Co-authored-by: Ryan Slade <ryanslade@gmail.com>")
       ("8tomas" "Co-authored-by: Tomás Senart <tomas@sourcegraph.com>")
+
+      ;; ("8alan" "Co-authored-by: ")
+      ;; ("8asdine" "Co-authored-by: Asdine El Hrychy <asdine.elhrychy@gmail.com>")
+      ;; ("8joe" "Co-authored-by: ᴜɴᴋɴᴡᴏɴ <joe@sourcegraph.com>")
+      ;; ("8ryan" "Co-authored-by: Ryan Slade <ryanslade@gmail.com>")
+      ;; ("8tomas" "Co-authored-by: Tomás Senart <tomas@sourcegraph.com>")
       )))
 
 (provide 'misc)
