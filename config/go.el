@@ -34,5 +34,7 @@
   ;;        (before-save . lsp-format-buffer)
   ;;        (before-save . lsp-organize-imports)))
 
+(use-package dap-mode)
+
 (provide 'go)
 ;;; go.el ends here

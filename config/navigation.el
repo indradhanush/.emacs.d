@@ -16,6 +16,10 @@
 ;; Buffer navigation.
 (global-set-key (kbd "C-c n") 'next-buffer)
 (global-set-key (kbd "C-c p") 'previous-buffer)
+;; Toggle between two recent buffers. 
+;; https://emacs.stackexchange.com/a/62504/10245
+(global-set-key (kbd "C-c t") 'mode-line-other-buffer)
+
 (global-set-key (kbd "s-u") 'revert-buffer)
 
 ;; Keyboard shortcuts to move buffers
@@ -146,6 +150,39 @@
   :ensure t
   :defer t)
 
+;; (use-package centaur-tabs
+;;   :ensure t
+;;   :defer t
+;;   :config
+
+;;   (setq centaur-tabs-style "alternate")
+
+;;   (setq centaur-tabs-set-icons t)
+;;   (setq centaur-tabs-gray-out-icons 'buffer)
+
+;;   ;; (setq centaur-tabs-plain-icons t)
+;;   (setq centaur-tabs-set-bar 'left)
+;;   (setq centaur-tabs-set-bar 'over)
+;;   (setq centaur-tabs-set-modified-marker t)
+;;   (setq centaur-tabs-modified-marker "*")
+
+;;   ;; (setq centaur-tabs--buffer-show-groups t)
+  
+;;   (setq centaur-tabs-cycle-scope 'groups)
+
+;;   (centaur-tabs-headline-match)
+;;   (centaur-tabs-enable-buffer-reordering)
+
+;;   (setq centaur-tabs-adjust-buffer-order 'left)
+
+;;   (centaur-tabs-mode t)
+
+;;   :bind
+;;   ("C-c p" . centaur-tabs-backward-tab)
+;;   ("C-c n" . centaur-tabs-forward-tab)
+;;   ("C-<prior>" . centaur-tabs-backward-group)
+;;   ("C-<next>" . centaur-tabs-forward-group)
+;;   )
 
 (provide 'navigation)
 ;;; navigation.el ends here

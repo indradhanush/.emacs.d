@@ -117,7 +117,9 @@
       scroll-down-aggressively 0.01)
 
 ;; Hide Scroll Bar
-(scroll-bar-mode -1)
+;; Update: 2022-03-29: Do not hide scroll bar mode if centaur-mode is used.
+;; https://github.com/ema2159/centaur-tabs/issues/110
+;; (scroll-bar-mode -1)
 
 ;; Hide Tool Bar
 (tool-bar-mode -1)
@@ -221,6 +223,32 @@
   "Customize editor look and feel when working only on the laptop."
   (interactive)
   (set-face-attribute 'default nil :height 100))
+
+(defun set-font-size (size)
+  "Set font SIZE."
+  (interactive "nSet font size: ")
+  (set-face-attribute 'default nil :height size))
+
+
+(defun font-size-50 ()
+  "Set font size 50."
+  (interactive)
+  (set-face-attribute 'default nil :height 50))
+
+(defun font-size-60 ()
+  "Set font size 60."
+  (interactive)
+  (set-face-attribute 'default nil :height 60))
+
+(defun font-size-70 ()
+  "Set font size 70."
+  (interactive)
+  (set-face-attribute 'default nil :height 70))
+
+(defun font-size-80 ()
+  "Set font size 80."
+  (interactive)
+  (set-face-attribute 'default nil :height 80))
 
 (defun font-size-90 ()
   "Set font size 90."
@@ -379,6 +407,8 @@
   ;; :hook ((go-mode . lsp-deferred)
   ;;        (before-save . lsp-format-buffer)
   ;;        (before-save . lsp-organize-imports)))
+
+(use-package dap-mode)
 
 (provide 'go)
 ;;; go.el ends here
@@ -588,24 +618,24 @@
 ;;   ;; (setq lsp-log-io nil) ; if set to true can cause a performance hit
 ;;   :commands lsp lsp-deferred))
 
-(use-package lsp-mode
-  :ensure t
-  :commands (lsp lsp-deferred)
-  :hook (go-mode . lsp-deferred)
-  :init
-  (setq lsp-keymap-prefix "s-g")
-  ;; :bind (("s-g" . lsp-keymap-prefix))
-  :config
-  ;; (setq lsp-gopls-staticcheck t)
-  ;; (setq lsp-eldoc-render-all t)
-  ;; (setq lsp-gopls-complete-unimported t)
-  (setq lsp-enable-file-watchers nil)
-  ;; (setq lsp-enable-snippet nil)
-  (setq gc-cons-threshold 100000000)
-  (setq read-process-output-max (* 1024 1024)) ;; 1mb
-  (setq lsp-idle-delay 1)
-  (setq lsp-log-io nil) ; if set to true can cause a performance hit
-  )
+;; (use-package lsp-mode
+;;   :ensure t
+;;   :commands (lsp lsp-deferred)
+;;   :hook (go-mode . lsp-deferred)
+;;   :init
+;;   (setq lsp-keymap-prefix "s-g")
+;;   ;; :bind (("s-g" . lsp-keymap-prefix))
+;;   :config
+;;   ;; (setq lsp-gopls-staticcheck t)
+;;   ;; (setq lsp-eldoc-render-all t)
+;;   ;; (setq lsp-gopls-complete-unimported t)
+;;   (setq lsp-enable-file-watchers nil)
+;;   ;; (setq lsp-enable-snippet nil)
+;;   (setq gc-cons-threshold 100000000)
+;;   (setq read-process-output-max (* 1024 1024)) ;; 1mb
+;;   (setq lsp-idle-delay 1)
+;;   (setq lsp-log-io nil) ; if set to true can cause a performance hit
+;;   )
 
 
 ;; (add-hook 'go-mode-hook #'lsp-deferred)
@@ -826,6 +856,14 @@
       ("8emacs" "/home/dhanush/.emacs.d/")
       ("8godev" "/home/dhanush/go/src/github.com/")
 
+      ;; Go
+      ("ife" "if err != nil {
+    return err
+}")
+      ("ifne" "if err != nil {
+    return nil, err
+}")
+
       ;; Co-authored-by
 
       ("8alan" "Co-authored-by: flying-robot <71571391+flying-robot@users.noreply.github.com>")
@@ -949,6 +987,10 @@
 ;; Buffer navigation.
 (global-set-key (kbd "C-c n") 'next-buffer)
 (global-set-key (kbd "C-c p") 'previous-buffer)
+;; Toggle between two recent buffers. 
+;; https://emacs.stackexchange.com/a/62504/10245
+(global-set-key (kbd "C-c t") 'mode-line-other-buffer)
+
 (global-set-key (kbd "s-u") 'revert-buffer)
 
 ;; Keyboard shortcuts to move buffers
@@ -1079,6 +1121,39 @@
   :ensure t
   :defer t)
 
+;; (use-package centaur-tabs
+;;   :ensure t
+;;   :defer t
+;;   :config
+
+;;   (setq centaur-tabs-style "alternate")
+
+;;   (setq centaur-tabs-set-icons t)
+;;   (setq centaur-tabs-gray-out-icons 'buffer)
+
+;;   ;; (setq centaur-tabs-plain-icons t)
+;;   (setq centaur-tabs-set-bar 'left)
+;;   (setq centaur-tabs-set-bar 'over)
+;;   (setq centaur-tabs-set-modified-marker t)
+;;   (setq centaur-tabs-modified-marker "*")
+
+;;   ;; (setq centaur-tabs--buffer-show-groups t)
+  
+;;   (setq centaur-tabs-cycle-scope 'groups)
+
+;;   (centaur-tabs-headline-match)
+;;   (centaur-tabs-enable-buffer-reordering)
+
+;;   (setq centaur-tabs-adjust-buffer-order 'left)
+
+;;   (centaur-tabs-mode t)
+
+;;   :bind
+;;   ("C-c p" . centaur-tabs-backward-tab)
+;;   ("C-c n" . centaur-tabs-forward-tab)
+;;   ("C-<prior>" . centaur-tabs-backward-group)
+;;   ("C-<next>" . centaur-tabs-forward-group)
+;;   )
 
 (provide 'navigation)
 ;;; navigation.el ends here

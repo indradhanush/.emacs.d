@@ -42,7 +42,9 @@
       scroll-down-aggressively 0.01)
 
 ;; Hide Scroll Bar
-(scroll-bar-mode -1)
+;; Update: 2022-03-29: Do not hide scroll bar mode if centaur-mode is used.
+;; https://github.com/ema2159/centaur-tabs/issues/110
+;; (scroll-bar-mode -1)
 
 ;; Hide Tool Bar
 (tool-bar-mode -1)
@@ -146,6 +148,32 @@
   "Customize editor look and feel when working only on the laptop."
   (interactive)
   (set-face-attribute 'default nil :height 100))
+
+(defun set-font-size (size)
+  "Set font SIZE."
+  (interactive "nSet font size: ")
+  (set-face-attribute 'default nil :height size))
+
+
+(defun font-size-50 ()
+  "Set font size 50."
+  (interactive)
+  (set-face-attribute 'default nil :height 50))
+
+(defun font-size-60 ()
+  "Set font size 60."
+  (interactive)
+  (set-face-attribute 'default nil :height 60))
+
+(defun font-size-70 ()
+  "Set font size 70."
+  (interactive)
+  (set-face-attribute 'default nil :height 70))
+
+(defun font-size-80 ()
+  "Set font size 80."
+  (interactive)
+  (set-face-attribute 'default nil :height 80))
 
 (defun font-size-90 ()
   "Set font size 90."

@@ -24,24 +24,24 @@
 ;;   ;; (setq lsp-log-io nil) ; if set to true can cause a performance hit
 ;;   :commands lsp lsp-deferred))
 
-(use-package lsp-mode
-  :ensure t
-  :commands (lsp lsp-deferred)
-  :hook (go-mode . lsp-deferred)
-  :init
-  (setq lsp-keymap-prefix "s-g")
-  ;; :bind (("s-g" . lsp-keymap-prefix))
-  :config
-  ;; (setq lsp-gopls-staticcheck t)
-  ;; (setq lsp-eldoc-render-all t)
-  ;; (setq lsp-gopls-complete-unimported t)
-  (setq lsp-enable-file-watchers nil)
-  ;; (setq lsp-enable-snippet nil)
-  (setq gc-cons-threshold 100000000)
-  (setq read-process-output-max (* 1024 1024)) ;; 1mb
-  (setq lsp-idle-delay 1)
-  (setq lsp-log-io nil) ; if set to true can cause a performance hit
-  )
+;; (use-package lsp-mode
+;;   :ensure t
+;;   :commands (lsp lsp-deferred)
+;;   :hook (go-mode . lsp-deferred)
+;;   :init
+;;   (setq lsp-keymap-prefix "s-g")
+;;   ;; :bind (("s-g" . lsp-keymap-prefix))
+;;   :config
+;;   ;; (setq lsp-gopls-staticcheck t)
+;;   ;; (setq lsp-eldoc-render-all t)
+;;   ;; (setq lsp-gopls-complete-unimported t)
+;;   (setq lsp-enable-file-watchers nil)
+;;   ;; (setq lsp-enable-snippet nil)
+;;   (setq gc-cons-threshold 100000000)
+;;   (setq read-process-output-max (* 1024 1024)) ;; 1mb
+;;   (setq lsp-idle-delay 1)
+;;   (setq lsp-log-io nil) ; if set to true can cause a performance hit
+;;   )
 
 
 ;; (add-hook 'go-mode-hook #'lsp-deferred)

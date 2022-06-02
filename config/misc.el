@@ -77,6 +77,14 @@
       ("8emacs" "/home/dhanush/.emacs.d/")
       ("8godev" "/home/dhanush/go/src/github.com/")
 
+      ;; Go
+      ("ife" "if err != nil {
+    return err
+}")
+      ("ifne" "if err != nil {
+    return nil, err
+}")
+
       ;; Co-authored-by
 
       ("8alan" "Co-authored-by: flying-robot <71571391+flying-robot@users.noreply.github.com>")
