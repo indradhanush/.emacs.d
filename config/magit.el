@@ -7,7 +7,10 @@
 (use-package magit
   :ensure t
   :defer t
-  :bind (("C-c i" . magit-status))
+  :bind (
+         ("C-c i" . magit-status)
+         ("C-c b" . magit-blame)
+         )
   :config
   (setq magit-diff-refine-hunk t)
   ;; Highlight whitespace changes in diffs

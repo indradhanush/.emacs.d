@@ -31,8 +31,8 @@
 
 (global-set-key (kbd "C-c C-c b") 'buf-move-left)
 (global-set-key (kbd "C-c C-c f") 'buf-move-right)
-(global-set-key (kbd "C-c C-c n") 'buf-move-up)
-(global-set-key (kbd "C-c C-c p") 'buf-move-down)
+(global-set-key (kbd "C-c C-c p") 'buf-move-up)
+(global-set-key (kbd "C-c C-c n") 'buf-move-down)
 
 ;; Custom key-bindings for switching between frames to match OSX
 ;; shortcut of switching between windows of the same application.

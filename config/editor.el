@@ -44,7 +44,7 @@
 ;; Hide Scroll Bar
 ;; Update: 2022-03-29: Do not hide scroll bar mode if centaur-mode is used.
 ;; https://github.com/ema2159/centaur-tabs/issues/110
-;; (scroll-bar-mode -1)
+(scroll-bar-mode -1)
 
 ;; Hide Tool Bar
 (tool-bar-mode -1)
@@ -52,10 +52,31 @@
 ;; Hide Menu Bar
 (menu-bar-mode -1)
 
+;; Disable the annoying list-buffers function which gets enabled when I accidentally hit C-x C-b instead of C-x b multiple times a day.
+(global-unset-key (kbd "C-x C-b"))
+
 ;; Colour theme
 (use-package doom-themes
   :config
-  (load-theme 'doom-gruvbox t))
+  (load-theme 'doom-vibrant t))
+
+;; Auto switch between light / dark modes based on OS preferences. Works on OSX.
+(use-package auto-dark)
+
+;; Manually toggle between light / dark themes.
+(use-package heaven-and-hell
+  :ensure t
+  :init
+  (setq heaven-and-hell-theme-type 'dark) ;; Omit to use light by default
+  (setq heaven-and-hell-themes
+        '((light . doom-solarized-light)
+          (dark . doom-vibrant))) ;; Themes can be the list: (dark . (tsdh-dark wombat))
+  ;; Optionall, load themes without asking for confirmation.
+  (setq heaven-and-hell-load-theme-no-confirm t)
+  :hook (after-init . heaven-and-hell-init-hook)
+  ;; :bind (("C-c <f6>" . heaven-and-hell-load-default-theme)
+         ;; ("<f6>" . heaven-and-hell-toggle-theme))
+)
 
 ;; #################################################
 ;; Custom key bindings
@@ -117,7 +138,8 @@
 (toggle-word-wrap nil)
 
 (defun comment-or-uncomment-region-or-line ()
-    "Comments or uncomments the region or the current line if there's no active region."
+  "Comments or uncomments the region or the current line if there's no active
+region."
     (interactive)
     (let (beg end)
         (if (region-active-p)
@@ -133,13 +155,15 @@
 ;; (set-face-attribute 'default nil :weight 'normal)
 
 (defun pairing-mode ()
-  "Customize editor look and feel to make it easy for the person on the other side of the network."
+  "Customize editor look and feel to make it easy for the person on the other
+side of the network."
   (interactive)
   (set-face-attribute 'default (selected-frame) :height 140)
   (linum-mode))
 
 (defun unpairing-mode ()
-  "Customize editor look and feel to make it easy for the person on the other side of the network."
+  "Customize editor look and feel to make it easy for the person on the other
+side of the network."
   (interactive)
   (set-face-attribute 'default nil :height 105)
   (global-linum-mode 0))
@@ -224,6 +248,8 @@
 (global-set-key (kbd "C-c L") 'global-display-line-numbers-mode)
 (global-display-line-numbers-mode -1)
 
+(require 'multi-scratch)
+
 
 ;; Run `M-x byte-compile RET ~/.emacs.d/lisp/workgroups.el` to speed things up.
 ;; (require 'workgroups)
@@ -246,6 +272,12 @@
 (set-fontset-font t 'symbol "Noto Color Emoji" nil 'append)
 (set-fontset-font t 'symbol "Segoe UI Emoji" nil 'append)
 (set-fontset-font t 'symbol "Symbola" nil 'append)
+
+(use-package flycheck
+  :ensure t
+  :config
+  (add-hook 'after-init-hook #'global-flycheck-mode))
+
 
 (provide 'editor)
 ;;; editor.el ends here

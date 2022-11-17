@@ -61,3 +61,19 @@
 ;; )
 ;; (provide 'python)
 ;;; python.el ends here
+
+(use-package elpy
+  :ensure t
+  :config
+  (elpy-enable)
+  (setq elpy-rpc-python-command "python3")
+
+  (add-hook 'python-mode-hook
+            (setq tab-width 4))
+)
+
+;; TODO: Insert python-mode-hook
+
+
+
+

@@ -11,10 +11,13 @@
   ("-n256" "--graph" "--decorate"))
  (magit-merge
   ("--ff-only"))
- (magit-push
-  ("--force-with-lease"))
- (magit-rebase nil
-               ("--autosquash"))
+ (magit-push nil
+             ("--force-with-lease"))
+ (magit-rebase
+  ("--autostash")
+  nil
+  ("--autosquash"))
  (magit-revert
   ("--edit"))
+ (magit-show-refs nil)
  (magit-stash nil))

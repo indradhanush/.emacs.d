@@ -119,7 +119,7 @@
 ;; Hide Scroll Bar
 ;; Update: 2022-03-29: Do not hide scroll bar mode if centaur-mode is used.
 ;; https://github.com/ema2159/centaur-tabs/issues/110
-;; (scroll-bar-mode -1)
+(scroll-bar-mode -1)
 
 ;; Hide Tool Bar
 (tool-bar-mode -1)
@@ -127,10 +127,31 @@
 ;; Hide Menu Bar
 (menu-bar-mode -1)
 
+;; Disable the annoying list-buffers function which gets enabled when I accidentally hit C-x C-b instead of C-x b multiple times a day.
+(global-unset-key (kbd "C-x C-b"))
+
 ;; Colour theme
 (use-package doom-themes
   :config
-  (load-theme 'doom-gruvbox t))
+  (load-theme 'doom-vibrant t))
+
+;; Auto switch between light / dark modes based on OS preferences. Works on OSX.
+(use-package auto-dark)
+
+;; Manually toggle between light / dark themes.
+(use-package heaven-and-hell
+  :ensure t
+  :init
+  (setq heaven-and-hell-theme-type 'dark) ;; Omit to use light by default
+  (setq heaven-and-hell-themes
+        '((light . doom-solarized-light)
+          (dark . doom-vibrant))) ;; Themes can be the list: (dark . (tsdh-dark wombat))
+  ;; Optionall, load themes without asking for confirmation.
+  (setq heaven-and-hell-load-theme-no-confirm t)
+  :hook (after-init . heaven-and-hell-init-hook)
+  ;; :bind (("C-c <f6>" . heaven-and-hell-load-default-theme)
+         ;; ("<f6>" . heaven-and-hell-toggle-theme))
+)
 
 ;; #################################################
 ;; Custom key bindings
@@ -192,7 +213,8 @@
 (toggle-word-wrap nil)
 
 (defun comment-or-uncomment-region-or-line ()
-    "Comments or uncomments the region or the current line if there's no active region."
+  "Comments or uncomments the region or the current line if there's no active
+region."
     (interactive)
     (let (beg end)
         (if (region-active-p)
@@ -208,13 +230,15 @@
 ;; (set-face-attribute 'default nil :weight 'normal)
 
 (defun pairing-mode ()
-  "Customize editor look and feel to make it easy for the person on the other side of the network."
+  "Customize editor look and feel to make it easy for the person on the other
+side of the network."
   (interactive)
   (set-face-attribute 'default (selected-frame) :height 140)
   (linum-mode))
 
 (defun unpairing-mode ()
-  "Customize editor look and feel to make it easy for the person on the other side of the network."
+  "Customize editor look and feel to make it easy for the person on the other
+side of the network."
   (interactive)
   (set-face-attribute 'default nil :height 105)
   (global-linum-mode 0))
@@ -299,6 +323,8 @@
 (global-set-key (kbd "C-c L") 'global-display-line-numbers-mode)
 (global-display-line-numbers-mode -1)
 
+(require 'multi-scratch)
+
 
 ;; Run `M-x byte-compile RET ~/.emacs.d/lisp/workgroups.el` to speed things up.
 ;; (require 'workgroups)
@@ -321,6 +347,12 @@
 (set-fontset-font t 'symbol "Noto Color Emoji" nil 'append)
 (set-fontset-font t 'symbol "Segoe UI Emoji" nil 'append)
 (set-fontset-font t 'symbol "Symbola" nil 'append)
+
+(use-package flycheck
+  :ensure t
+  :config
+  (add-hook 'after-init-hook #'global-flycheck-mode))
+
 
 (provide 'editor)
 ;;; editor.el ends here
@@ -378,14 +410,14 @@
 
 ;;; Code:
 
-;; (use-package exec-path-from-shell
-;;   :ensure t
-;;   :defer t
-;;   :functions exec-path-from-shell-copy-env
-;;   :config
-;;   (when (memq window-system '(mac ns))
-;;     (exec-path-from-shell-copy-env "GOROOT")
-;;     (exec-path-from-shell-copy-env "GOPATH")))
+(use-package exec-path-from-shell
+  :ensure t
+  :defer t
+  :functions exec-path-from-shell-copy-env
+  :config
+  (when (memq window-system '(mac ns))
+    (exec-path-from-shell-copy-env "GOROOT")
+    (exec-path-from-shell-copy-env "GOPATH")))
 
 
 (add-hook 'go-mode-hook (lambda () (auto-complete-mode -1)))
@@ -397,11 +429,11 @@
                             (global-visual-line-mode nil)
                             ;; (yafolding-mode t)
                             (setq tab-width 4)
-                            (setq fill-column 100)
-                            ))
+                            (setq fill-column 90)
+                            )))
 
-  (setenv "GOROOT" (string-trim (shell-command-to-string "go env GOROOT")))
-  (setenv "GOPATH" (string-trim (shell-command-to-string "go env GOPATH"))))
+  ;; (setenv "GOROOT" (string-trim (shell-command-to-string "go env GOROOT")))
+  ;; (setenv "GOPATH" (string-trim (shell-command-to-string "go env GOPATH"))))
 
 
   ;; :hook ((go-mode . lsp-deferred)
@@ -423,11 +455,11 @@
 
 ;;; Code:
 
-(use-package golden-ratio
-  :defer
-  :config
-  (setq golden-ratio-adjust 0.65)
-  )
+;; (use-package golden-ratio
+;;   :defer
+;;   :config
+;;   (setq golden-ratio-adjust 0.65)
+;;   )
 
 ;;; golden-ratio.el ends here
 ;; ############################################################################
@@ -745,7 +777,10 @@
 (use-package magit
   :ensure t
   :defer t
-  :bind (("C-c i" . magit-status))
+  :bind (
+         ("C-c i" . magit-status)
+         ("C-c b" . magit-blame)
+         )
   :config
   (setq magit-diff-refine-hunk t)
   ;; Highlight whitespace changes in diffs
@@ -1002,8 +1037,8 @@
 
 (global-set-key (kbd "C-c C-c b") 'buf-move-left)
 (global-set-key (kbd "C-c C-c f") 'buf-move-right)
-(global-set-key (kbd "C-c C-c n") 'buf-move-up)
-(global-set-key (kbd "C-c C-c p") 'buf-move-down)
+(global-set-key (kbd "C-c C-c p") 'buf-move-up)
+(global-set-key (kbd "C-c C-c n") 'buf-move-down)
 
 ;; Custom key-bindings for switching between frames to match OSX
 ;; shortcut of switching between windows of the same application.
@@ -1170,23 +1205,26 @@
 
 (use-package exec-path-from-shell
   :ensure t
-  :defines mac-option-key-is-meta mac-command-key-is-meta mac-command-modifier mac-option-modifier
   :functions exec-path-from-shell-copy-env
-  :defer t
   :config
-  (when (memq window-system '(mac ns))
-    (exec-path-from-shell-copy-env "PATH")
+  ;; (when (memq window-system '(mac ns))
+    ;; (exec-path-from-shell-copy-env "PATH")
 
     ;; Bugfix for Kill a line on OSX; Comment out on Linux.
-    (setq save-interprogram-paste-before-kill nil)
+    ;; (setq save-interprogram-paste-before-kill nil)
 
     ;; Remap command to behave as Meta and Option as Super.
-    (setq mac-option-key-is-meta nil)
-    (setq mac-command-key-is-meta t)
-    (setq mac-command-modifier 'meta)
-    (setq mac-option-modifier 'super)))
+
+    )
+
+(exec-path-from-shell-copy-env "PATH")
+(setq mac-command-modifier 'meta)
+(setq mac-option-modifier 'super)
+
 
 (provide 'osx)
+
+
 ;;; osx.el ends here
 ;; ############################################################################
 
@@ -1256,6 +1294,22 @@
 ;; )
 ;; (provide 'python)
 ;;; python.el ends here
+
+(use-package elpy
+  :ensure t
+  :config
+  (elpy-enable)
+  (setq elpy-rpc-python-command "python3")
+
+  (add-hook 'python-mode-hook
+            (setq tab-width 4))
+)
+
+;; TODO: Insert python-mode-hook
+
+
+
+
 ;; ############################################################################
 
 
