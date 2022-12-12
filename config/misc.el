@@ -100,5 +100,8 @@
       ;; ("8tomas" "Co-authored-by: Tomás Senart <tomas@sourcegraph.com>")
       )))
 
+(use-package json-mode
+  :ensure t)
+
 (provide 'misc)
 ;;; misc.el ends here
